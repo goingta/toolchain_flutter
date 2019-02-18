@@ -2,9 +2,9 @@ import './../server/server.dart';
 
 class PGYNetwork {
   //蒲公英
-  var pgyerHealthAppKey = "6ab0025e60ff0cc7333594cc961ebcf2";
-  var pgyerHealthApiKey = "87a96feb51f5ecdfafc2bc4c9eeb045a";
-  var pgyerHealthUserKey = "dad6308763eece8035c49ea33e676138";
+  var pgyerHealthAppKey = "35b60c374269ee0f9ffff517b1b47c9b";
+  var pgyerHealthApiKey = "811e984eb5e760bb7f2885484c6c4edb";
+  var pgyerHealthUserKey = "15943af593e531aef0b1f7d6c70d4131";
 
   getList(void callback(data, response)) {
     var server = new Server();

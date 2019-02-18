@@ -18,9 +18,33 @@ class _ListPageState extends State<ListPage> {
 
   @override
   void initState() {
-    print('ListContentView initState');
+    print('ListPage initState');
     super.initState();
     _loadData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    print('ListPage didChangeDependencies');
+    super.didChangeDependencies();
+  }
+
+  @override
+  void didUpdateWidget(ListPage oldWidget) {
+    print('ListPage didUpdateWidget');
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void deactivate() {
+    print('ListPage deactivate');
+    super.deactivate();
+  }
+
+  @override
+  void dispose() {
+    print('ListPage dispose');
+    super.dispose();
   }
 
   @override
@@ -34,19 +58,29 @@ class _ListPageState extends State<ListPage> {
         ),
         body: _list.length == 0
             ? new Center(child: CircularProgressIndicator())
-            : ListView.builder(
-                itemCount: _list.length,
-                itemBuilder: (context, index) {
-                  ItemModel model = _list[index];
-                  return new ListViewItem(model: model);
-                }),
+            : new RefreshIndicator(
+                onRefresh: _refresh,
+                child: ListView.builder(
+                    key: _refreshIndicatorKey,
+                    itemCount: _list.length,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      ItemModel model = _list[index];
+                      return new ListViewItem(model: model);
+                    }),
+              ),
       ),
     );
   }
 
+  Future<Null> _refresh() async {
+    _list.clear();
+    _loadData();
+    return null;
+  }
+
   void _loadData() {
     PGYNetwork network = new PGYNetwork();
-
     network.getList((data, response) {
       List<ItemModel> arr = [];
       List list = data["list"];

@@ -25,48 +25,64 @@ class TabPage extends StatefulWidget {
   _TabPageState createState() => _TabPageState();
 }
 
+PageController pageController;
+
 class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
   //属性
-  TabController _tabController;
+  int _tabindex;
+  List<Widget> _pages;
+  Widget _listPage;
+  Widget _appletPage;
 
   @override
   void initState() {
+    print("tabController");
     super.initState();
-    _tabController = new TabController(vsync: this, length: 2);
+    pageController = new PageController();
+    _tabindex = 0;
+    _listPage = new ListPage();
+    _appletPage = new AppletPage();
+    _pages = [_listPage, _appletPage];
   }
 
   //当整个页面dispose时，记得把控制器也dispose掉，释放内存
   @override
   void dispose() {
-    _tabController.dispose();
+    pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(_tabindex);
     return Scaffold(
-      body: new TabBarView(
-        controller: _tabController,
-        children: <Widget>[new ListPage(), new AppletPage()],
+      body: new PageView(
+        children: _pages,
+        controller: pageController,
+        physics: new NeverScrollableScrollPhysics(),
+        onPageChanged: onPageChanged,
       ),
-      bottomNavigationBar: new Material(
-        color: Colors.white,
-        child: new TabBar(
-          controller: _tabController,
-          labelColor: Colors.blue,
-          unselectedLabelColor: Colors.black26,
-          tabs: <Widget>[
-            new Tab(
-              text: "工具链",
-              icon: new Icon(Icons.brightness_5),
-            ),
-            new Tab(
-              text: "小程序",
-              icon: new Icon(Icons.map),
-            )
-          ],
-        ),
+      bottomNavigationBar: new BottomNavigationBar(
+        onTap: navigationTapped,
+        currentIndex: _tabindex,
+        items: <BottomNavigationBarItem>[
+          new BottomNavigationBarItem(
+              icon: new Icon(Icons.brightness_5), title: new Text("工具链")),
+          new BottomNavigationBarItem(
+              icon: new Icon(Icons.map), title: new Text("小程序"))
+        ],
       ),
     );
+  }
+
+  void navigationTapped(int page) {
+    //Animating Page
+    pageController.jumpToPage(page);
+  }
+
+  void onPageChanged(int page) {
+    setState(() {
+      this._tabindex = page;
+    });
   }
 }
