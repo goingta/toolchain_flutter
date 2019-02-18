@@ -1,0 +1,42 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+fastlane_version "2.62.0"
+default_platform(:ios)
+
+platform :ios do
+  
+	desc "发布 测试版本 到 蒲公英"
+  	lane :pgy do    
+
+	  	git_log = sh("git log --no-merges -1 --pretty=format:'# %ai%n# %B by %an'")
+
+	    gym(
+	    	scheme: "iospgy", 
+	    	export_method: "enterprise",
+	    	output_directory: "output",
+	    	configuration: "Release"
+	    )
+
+  		pgyer(
+  			api_key: "811e984eb5e760bb7f2885484c6c4edb",
+  		 	user_key: "15943af593e531aef0b1f7d6c70d4131",
+  		 	update_description: git_log
+  		 )
+		   
+	end
+
+end
+
+
