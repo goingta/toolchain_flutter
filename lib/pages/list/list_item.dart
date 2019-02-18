@@ -83,15 +83,18 @@ class ListViewItem extends StatelessWidget {
   }
 
   void launchURL(String buildKey) {
+    var url;
     if (isIOS) {
-      print("ios install");
-      String url =
+      print("iOS install");
+      url =
           "itms-services://?action=download-manifest&url=https://www.pgyer.com/app/plist/$buildKey";
-      print("url=" + url);
-      launch(url);
     } else {
-      print("Android包地址");
+      print("Android install");
+      url =
+          "https://www.pgyer.com/apiv2/app/install?_api_key=811e984eb5e760bb7f2885484c6c4edb&buildKey=$buildKey";
     }
+    print("url=" + url);
+    launch(url);
   }
 
   void openWebUrl(String buildKey) {

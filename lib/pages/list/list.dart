@@ -32,18 +32,21 @@ class _ListPageState extends State<ListPage> {
           backgroundColor: Colors.blue, //设置appbar背景颜色
           centerTitle: true, //设置标题是否局中
         ),
-        body: ListView.builder(
-            itemCount: _list.length,
-            itemBuilder: (context, index) {
-              ItemModel model = _list[index];
-              return new ListViewItem(model: model);
-            }),
+        body: _list.length == 0
+            ? new Center(child: CircularProgressIndicator())
+            : ListView.builder(
+                itemCount: _list.length,
+                itemBuilder: (context, index) {
+                  ItemModel model = _list[index];
+                  return new ListViewItem(model: model);
+                }),
       ),
     );
   }
 
   void _loadData() {
     PGYNetwork network = new PGYNetwork();
+
     network.getList((data, response) {
       List<ItemModel> arr = [];
       List list = data["list"];
