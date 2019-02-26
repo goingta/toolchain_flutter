@@ -119,7 +119,7 @@ class ListPageHeader extends StatelessWidget {
 
   void _build(BuildContext context) async {
     PGYNetwork network = new PGYNetwork();
-    Map<String, dynamic> data = await network.jenkinsBuild();
+    // Map<String, dynamic> data = await network.jenkinsBuild();
     Toast.show("触发成功！", context);
   }
 }

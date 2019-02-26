@@ -66,6 +66,7 @@ class ListViewItem extends StatelessWidget {
   void openWebUrl(BuildContext context, String buildKey) {
     String webUrl = "https://www.pgyer.com/$buildKey";
     // launch(webUrl);
+    print("webUrl: $webUrl");
     Navigator.push(
         context,
         MaterialPageRoute(
