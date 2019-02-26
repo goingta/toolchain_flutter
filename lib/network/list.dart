@@ -1,5 +1,5 @@
 import './../server/server.dart';
-import './../model/itemModel.dart';
+import './../model/item_model.dart';
 
 class PGYNetwork {
   //蒲公英

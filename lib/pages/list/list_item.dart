@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
-import '../../model/itemModel.dart';
+import '../../model/item_model.dart';
 
 class ListViewItem extends StatelessWidget {
   //属性

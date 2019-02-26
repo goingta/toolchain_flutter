@@ -1,4 +1,4 @@
-import '../model/itemModel.dart';
+import '../model/item_model.dart';
 
 class ListModel {
   int page;

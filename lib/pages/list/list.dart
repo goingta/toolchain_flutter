@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 //项目内的库
 import 'list_item.dart';
 import '../../network/list.dart';
-import '../../model/itemModel.dart';
+import '../../model/item_model.dart';
 import '../../components/loadMore.dart';
 
 class ListPage extends StatefulWidget {
