@@ -29,12 +29,14 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
   //属性
   int _tabindex;
   PageController _pageController;
+  TabController _tabController;
 
   @override
   void initState() {
     print("tabController");
     super.initState();
     _pageController = new PageController();
+    _tabController = new TabController(vsync: this, length: 2);
     _tabindex = 0;
   }
 
@@ -55,6 +57,9 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
         physics: new NeverScrollableScrollPhysics(),
         onPageChanged: onPageChanged,
       ),
+      // body: TabBarView(
+      //     controller: _tabController,
+      //     children: [new ListPage(), new AppletPage()]),
       bottomNavigationBar: new BottomNavigationBar(
         onTap: navigationTapped,
         currentIndex: _tabindex,
@@ -71,6 +76,7 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
   void navigationTapped(int page) {
     //Animating Page
     _pageController.jumpToPage(page);
+    // _tabController.index = page;
   }
 
   void onPageChanged(int page) {

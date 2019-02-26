@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+
 import '../../model/itemModel.dart';
 
 class ListViewItem extends StatelessWidget {
   //属性
   final ItemModel model;
-  bool isIOS;
 
   //构造函数
   ListViewItem({Key key, @required this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    isIOS = Theme.of(context).platform == TargetPlatform.iOS;
     return new Container(
         height: 150.0,
         child: new Stack(children: <Widget>[
@@ -31,14 +31,14 @@ class ListViewItem extends StatelessWidget {
                   children: <Widget>[
                     new FlatButton(
                         onPressed: () {
-                          openWebUrl(model.buildKey);
+                          openWebUrl(context, model.buildKey);
                         },
                         child: new Text("分享二维码",
                             style: TextStyle(color: Colors.lightBlue))),
                     const SizedBox(width: 10.0),
                     new RaisedButton(
                         onPressed: () {
-                          launchURL(model.buildKey);
+                          launchURL(context, model.buildKey);
                         },
                         child: new Text("安装",
                             style: TextStyle(color: Colors.white)),
@@ -47,8 +47,9 @@ class ListViewItem extends StatelessWidget {
         ]));
   }
 
-  void launchURL(String buildKey) {
+  void launchURL(BuildContext context, String buildKey) {
     var url;
+    bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
     if (isIOS) {
       print("iOS install");
       url =
@@ -62,8 +63,13 @@ class ListViewItem extends StatelessWidget {
     launch(url);
   }
 
-  void openWebUrl(String buildKey) {
+  void openWebUrl(BuildContext context, String buildKey) {
     String webUrl = "https://www.pgyer.com/$buildKey";
-    launch(webUrl);
+    // launch(webUrl);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => new WebviewScaffold(
+                url: webUrl, appBar: new AppBar(title: new Text("二维码")))));
   }
 }

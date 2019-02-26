@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 //项目内的库
 import 'list_item.dart';
 import '../../network/list.dart';
@@ -53,15 +55,13 @@ class _ListPageState extends State<ListPage>
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      home: new Scaffold(
-        appBar: new AppBar(
-            title: new Text("goingta’s工具链"),
-            backgroundColor: Colors.blue, //设置appbar背景颜色
-            centerTitle: true //设置标题是否局
-            ),
-        body: new ListPageContainer(),
-      ),
+    return new Scaffold(
+      appBar: new AppBar(
+          title: new Text("goingta’s工具链"),
+          backgroundColor: Colors.blue, //设置appbar背景颜色
+          centerTitle: true //设置标题是否局
+          ),
+      body: new ListPageContainer(),
     );
   }
 }
