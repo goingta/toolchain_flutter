@@ -8,7 +8,11 @@ class AppletPage extends StatefulWidget {
   _AppletPageState createState() => _AppletPageState();
 }
 
-class _AppletPageState extends State<AppletPage> {
+class _AppletPageState extends State<AppletPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true; // 返回true
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(

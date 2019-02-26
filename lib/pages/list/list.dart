@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'list_item.dart';
 import '../../network/list.dart';
+import 'package:toast/toast.dart';
+import '../../model/itemModel.dart';
 
 class ListPage extends StatefulWidget {
   //构造函数
@@ -10,17 +12,15 @@ class ListPage extends StatefulWidget {
   _ListPageState createState() => _ListPageState();
 }
 
-class _ListPageState extends State<ListPage> {
-  //数据源
-  List<ItemModel> _list = [];
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      new GlobalKey<RefreshIndicatorState>();
+class _ListPageState extends State<ListPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true; // 返回true
 
   @override
   void initState() {
     print('ListPage initState');
     super.initState();
-    _loadData();
   }
 
   @override
@@ -52,46 +52,146 @@ class _ListPageState extends State<ListPage> {
     return new MaterialApp(
       home: new Scaffold(
         appBar: new AppBar(
-          title: new Text("goingta’s工具链"),
-          backgroundColor: Colors.blue, //设置appbar背景颜色
-          centerTitle: true, //设置标题是否局中
-        ),
-        body: _list.length == 0
-            ? new Center(child: CircularProgressIndicator())
-            : new RefreshIndicator(
-                onRefresh: _refresh,
-                child: ListView.builder(
-                    key: _refreshIndicatorKey,
-                    itemCount: _list.length,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      ItemModel model = _list[index];
-                      return new ListViewItem(model: model);
-                    }),
-              ),
+            title: new Text("goingta’s工具链"),
+            backgroundColor: Colors.blue, //设置appbar背景颜色
+            centerTitle: true //设置标题是否局
+            ),
+        body: new ListPageContainer(),
       ),
+    );
+  }
+}
+
+class ListPageHeader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: 120,
+        padding: EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 0.0),
+        decoration: new BoxDecoration(
+          color: Colors.white,
+          boxShadow: <BoxShadow>[
+            new BoxShadow(
+              color: Colors.grey[200],
+              offset: new Offset(0.0, 2.0),
+              blurRadius: 4.0,
+            )
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween, //子组件的排列方式为主轴两端对齐
+          children: <Widget>[
+            new Material(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image.asset("images/logo.png", height: 88.0)),
+            new Expanded(
+                flex: 2,
+                child: Padding(
+                    padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        new Text("工具链", style: TextStyle(fontSize: 24.0)),
+                        new FlatButton(
+                            onPressed: () {
+                              _build(context);
+                            },
+                            child: new Text("构建新版本",
+                                style: TextStyle(color: Colors.white)),
+                            color: Colors.blue)
+                      ],
+                    ))),
+            new Container(
+                child: Container(
+                    width: 90.0,
+                    height: 30,
+                    child: new Text("历史版本"),
+                    alignment: Alignment.center,
+                    color: Colors.grey[200]),
+                alignment: Alignment.bottomCenter)
+          ],
+        ));
+  }
+
+  void _build(BuildContext context) async {
+    PGYNetwork network = new PGYNetwork();
+    Map<String, dynamic> data = await network.jenkinsBuild();
+    Toast.show("触发成功！", context);
+  }
+}
+
+class ListPageContainer extends StatefulWidget {
+  @override
+  _ListPageContainerState createState() => _ListPageContainerState();
+}
+
+class _ListPageContainerState extends State<ListPageContainer> {
+  //数据源
+  List<ItemModel> _list = [];
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
+  final ScrollController _scrollController = new ScrollController();
+
+  void initState() {
+    print('ListPageContainer initState');
+    super.initState();
+    _loadData();
+
+    ///增加滑动监听
+    _scrollController.addListener(() {
+      ///判断当前滑动位置是不是到达底部，触发加载更多回调
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        print("加载更多!");
+        // if (this.onLoadMore != null && this.control.needLoadMore) {
+        //   this.onLoadMore();
+        // }
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Column(
+      children: <Widget>[
+        ListPageHeader(),
+        Container(
+            height: 1.0,
+            decoration: new BoxDecoration(
+                border: new Border.all(color: Colors.grey[200]))),
+        Flexible(
+            child: _list.length == 0
+                ? new Center(child: CircularProgressIndicator())
+                : new RefreshIndicator(
+                    onRefresh: _refresh,
+                    child: ListView.builder(
+                        key: _refreshIndicatorKey,
+                        itemCount: _list.length,
+
+                        ///保持ListView任何情况都能滚动，解决在RefreshIndicator的兼容问题。
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          ItemModel model = _list[index];
+                          return new ListViewItem(model: model);
+                        },
+                        controller: _scrollController)))
+      ],
     );
   }
 
   Future<Null> _refresh() async {
     _list.clear();
-    _loadData();
+    await _loadData();
     return null;
   }
 
-  void _loadData() {
+  Future<Null> _loadData() async {
     PGYNetwork network = new PGYNetwork();
-    network.getList((data, response) {
-      List<ItemModel> arr = [];
-      List list = data["list"];
-      for (var item in list) {
-        ItemModel model = new ItemModel.fromJson(item);
-        arr.add(model);
-      }
-
-      setState(() {
-        _list = arr;
-      });
+    List<ItemModel> arr = await network.getList();
+    print("数据加载完毕!");
+    setState(() {
+      _list = arr;
     });
   }
 }

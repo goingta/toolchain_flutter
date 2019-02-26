@@ -1,23 +1,25 @@
 import 'package:dio/dio.dart';
 
 class Server {
-  var host = 'https://www.pgyer.com/';
+  static const pgyHost = 'https://www.pgyer.com/';
 
-  getUrl(String url, Map params, void callback(data)) async {
+  Future<Map<String, dynamic>> getUrl(String url, Map params,
+      {String host = pgyHost}) async {
     Response response;
     Dio dio = new Dio();
     response = await dio.get(host + url, queryParameters: params);
     // print("get data=" + response.data.toString());
-    callback(response.data);
+    Map<String, dynamic> data = response.data["data"];
+    return data;
   }
 
-  post(String url, Map<String, dynamic> params,
-      void callback(data, response)) async {
+  Future<Map<String, dynamic>> post(String url, Map<String, dynamic> params,
+      {String host = pgyHost}) async {
     FormData formData = new FormData.from(params);
     Dio dio = new Dio();
     Response response = await dio.post(host + url, data: formData);
     // print("post data=" + response.data.toString());
-    var data = response.data["data"];
-    callback(data, response.data);
+    Map<String, dynamic> data = response.data["data"];
+    return data;
   }
 }

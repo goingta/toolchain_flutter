@@ -25,40 +25,33 @@ class TabPage extends StatefulWidget {
   _TabPageState createState() => _TabPageState();
 }
 
-PageController pageController;
-
 class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
   //属性
   int _tabindex;
-  List<Widget> _pages;
-  Widget _listPage;
-  Widget _appletPage;
+  PageController _pageController;
 
   @override
   void initState() {
     print("tabController");
     super.initState();
-    pageController = new PageController();
+    _pageController = new PageController();
     _tabindex = 0;
-    _listPage = new ListPage();
-    _appletPage = new AppletPage();
-    _pages = [_listPage, _appletPage];
   }
 
   //当整个页面dispose时，记得把控制器也dispose掉，释放内存
   @override
   void dispose() {
-    pageController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(_tabindex);
+    print("tabIndex $_tabindex");
     return Scaffold(
       body: new PageView(
-        children: _pages,
-        controller: pageController,
+        children: [new ListPage(), new AppletPage()],
+        controller: _pageController,
         physics: new NeverScrollableScrollPhysics(),
         onPageChanged: onPageChanged,
       ),
@@ -77,7 +70,7 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
 
   void navigationTapped(int page) {
     //Animating Page
-    pageController.jumpToPage(page);
+    _pageController.jumpToPage(page);
   }
 
   void onPageChanged(int page) {

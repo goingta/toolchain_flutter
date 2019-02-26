@@ -23,7 +23,7 @@ platform :ios do
 	  	git_log = sh("git log --no-merges -1 --pretty=format:'# %ai%n# %B by %an'")
 
 	    gym(
-	    	scheme: "iospgy", 
+	    	scheme: "Runner", 
 	    	export_method: "enterprise",
 	    	output_directory: "output",
 	    	configuration: "Release"
