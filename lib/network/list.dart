@@ -7,12 +7,12 @@ class PGYNetwork {
   var pgyerHealthApiKey = "811e984eb5e760bb7f2885484c6c4edb";
   var pgyerHealthUserKey = "15943af593e531aef0b1f7d6c70d4131";
 
-  Future<List<ItemModel>> getList() async {
+  Future<List<ItemModel>> getList({int page = 1}) async {
     var server = new Server();
     Map<String, dynamic> data = await server.post("apiv2/app/builds", {
       "_api_key": pgyerHealthApiKey,
       "appKey": pgyerHealthAppKey,
-      "page": "1"
+      "page": page
     });
 
     List<ItemModel> arr = [];

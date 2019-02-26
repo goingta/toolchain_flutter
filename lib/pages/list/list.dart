@@ -1,8 +1,12 @@
+//package
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+//项目内的库
 import 'list_item.dart';
 import '../../network/list.dart';
-import 'package:toast/toast.dart';
 import '../../model/itemModel.dart';
+import '../../components/loadMore.dart';
 
 class ListPage extends StatefulWidget {
   //构造函数
@@ -81,7 +85,7 @@ class ListPageHeader extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween, //子组件的排列方式为主轴两端对齐
           children: <Widget>[
-            new Material(
+            new ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image.asset("images/logo.png", height: 88.0)),
             new Expanded(
@@ -129,6 +133,8 @@ class ListPageContainer extends StatefulWidget {
 class _ListPageContainerState extends State<ListPageContainer> {
   //数据源
   List<ItemModel> _list = [];
+  bool _needLoadMore = true;
+  int _page = 1;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
   final ScrollController _scrollController = new ScrollController();
@@ -136,17 +142,17 @@ class _ListPageContainerState extends State<ListPageContainer> {
   void initState() {
     print('ListPageContainer initState');
     super.initState();
-    _loadData();
+    _refresh();
 
     ///增加滑动监听
     _scrollController.addListener(() {
       ///判断当前滑动位置是不是到达底部，触发加载更多回调
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        print("加载更多!");
-        // if (this.onLoadMore != null && this.control.needLoadMore) {
-        //   this.onLoadMore();
-        // }
+        if (_needLoadMore) {
+          print("加载更多!");
+          this._loadData(++_page);
+        }
       }
     });
   }
@@ -162,7 +168,7 @@ class _ListPageContainerState extends State<ListPageContainer> {
                 border: new Border.all(color: Colors.grey[200]))),
         Flexible(
             child: _list.length == 0
-                ? new Center(child: CircularProgressIndicator())
+                ? new Center(child: SpinKitWave(color: Colors.blue))
                 : new RefreshIndicator(
                     onRefresh: _refresh,
                     child: ListView.builder(
@@ -172,8 +178,7 @@ class _ListPageContainerState extends State<ListPageContainer> {
                         ///保持ListView任何情况都能滚动，解决在RefreshIndicator的兼容问题。
                         physics: const AlwaysScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          ItemModel model = _list[index];
-                          return new ListViewItem(model: model);
+                          return _getItem(index);
                         },
                         controller: _scrollController)))
       ],
@@ -182,16 +187,28 @@ class _ListPageContainerState extends State<ListPageContainer> {
 
   Future<Null> _refresh() async {
     _list.clear();
-    await _loadData();
+    _page = 1;
+    await _loadData(_page);
     return null;
   }
 
-  Future<Null> _loadData() async {
+  Future<Null> _loadData(int page) async {
+    print("page:$page");
     PGYNetwork network = new PGYNetwork();
-    List<ItemModel> arr = await network.getList();
+    List<ItemModel> arr = await network.getList(page: page);
+    _needLoadMore = arr.isNotEmpty;
     print("数据加载完毕!");
     setState(() {
-      _list = arr;
+      _list.addAll(arr);
     });
+  }
+
+  _getItem(int index) {
+    if (index == _list.length - 1) {
+      return _needLoadMore ? LoadMore() : Container();
+    } else {
+      ItemModel model = _list[index];
+      return new ListViewItem(model: model);
+    }
   }
 }
