@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:toast/toast.dart';
+import 'package:flutter/services.dart';
 
 import '../../model/item_model.dart';
 
@@ -31,7 +33,7 @@ class ListViewItem extends StatelessWidget {
                   children: <Widget>[
                     new FlatButton(
                         onPressed: () {
-                          openWebUrl(context, model.buildKey);
+                          openWebUrl(context, model.toJson());
                         },
                         child: new Text("分享二维码",
                             style: TextStyle(color: Colors.lightBlue))),
@@ -63,14 +65,22 @@ class ListViewItem extends StatelessWidget {
     launch(url);
   }
 
-  void openWebUrl(BuildContext context, String buildKey) {
-    String webUrl = "https://www.pgyer.com/$buildKey";
-    // launch(webUrl);
-    print("webUrl: $webUrl");
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => new WebviewScaffold(
-                url: webUrl, appBar: new AppBar(title: new Text("二维码")))));
+  void openWebUrl(BuildContext context, Map model) async {
+    // String webUrl = "https://www.pgyer.com/$buildKey";
+    // // launch(webUrl);
+    // print("webUrl: $webUrl");
+    // Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (_) => new WebviewScaffold(
+    //             url: webUrl, appBar: new AppBar(title: new Text("二维码")))));
+
+    const platform = const MethodChannel('goingta.flutter.io/share');
+    bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
+    if (isIOS) {
+      await platform.invokeMethod("shareToWechat", model);
+    } else {
+      Toast.show("Android版Native方法暂未实现！", context);
+    }
   }
 }

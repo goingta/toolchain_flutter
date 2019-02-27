@@ -33,6 +33,9 @@ def parse_KV_file(file, separator='=')
 end
 
 target 'Runner' do
+    
+  pod "WechatOpenSDK"
+    
   # Prepare symlinks folder. We use symlinks to avoid having Podfile.lock
   # referring to absolute paths on developers' machines.
   system('rm -rf .symlinks')
