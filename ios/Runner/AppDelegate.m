@@ -36,7 +36,7 @@
     WXLaunchMiniProgramReq *launchMiniProgramReq = [WXLaunchMiniProgramReq object];
     [launchMiniProgramReq setUserName:weappId];
     [launchMiniProgramReq setMiniProgramType:WXMiniProgramTypeRelease];
-    BOOL result = [WXApi sendReq:launchMiniProgramReq];
+    [WXApi sendReq:launchMiniProgramReq];
 }
 
 - (void)shareToWechat:(NSDictionary *)dic {
@@ -54,7 +54,7 @@
     req.message = message;
     req.bText = false;
     req.scene = WXSceneSession;
-    BOOL result = [WXApi sendReq:req];
+    [WXApi sendReq:req];
 }
 
 @end

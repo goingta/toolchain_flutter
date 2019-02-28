@@ -17,7 +17,17 @@ class Server {
       {String host = pgyHost}) async {
     FormData formData = new FormData.from(params);
     Dio dio = new Dio();
-    Response response = await dio.post(host + url, data: formData);
+    String webUrl = host + url;
+    // print("url: $webUrl");
+    Response response = await dio.post(webUrl, data: formData);
+    // Response response = await dio.post(
+    //   "http://www.dtworkroom.com/doris/1/2.0.0/test",
+    //   data: {"aa": "bb" * 22},
+    //   onSendProgress: (int sent, int total) {
+    //     print("$sent $total");
+    //   },
+    // );
+    // print("Response complete");
     // print("post data=" + response.data.toString());
     Map<String, dynamic> data = response.data["data"];
     return data;
