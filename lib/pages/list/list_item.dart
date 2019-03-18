@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:toast/toast.dart';
+// import 'package:toast/toast.dart';
 import 'package:flutter/services.dart';
 
 import '../../model/item_model.dart';
@@ -58,7 +58,7 @@ class ListViewItem extends StatelessWidget {
     } else {
       print("Android install");
       url =
-          "https://www.pgyer.com/apiv2/app/install?_api_key=811e984eb5e760bb7f2885484c6c4edb&buildKey=$buildKey";
+          "https://www.pgyer.com/apiv2/app/install?_api_key=87a96feb51f5ecdfafc2bc4c9eeb045a&buildKey=$buildKey";
     }
     print("url=" + url);
     launch(url);

@@ -217,7 +217,7 @@ class _ListPageContainerState extends State<ListPageContainer> {
     // print("page:$page,type:${this.widget.type},title:${this.widget.title}");
     PGYNetwork network = new PGYNetwork(type: this.widget.type);
     List<ItemModel> arr = await network.getList(page: page);
-    _needLoadMore = arr.isNotEmpty;
+    _needLoadMore = arr.length >= 20;
     print("数据加载完毕!");
     setState(() {
       _list.addAll(arr);
