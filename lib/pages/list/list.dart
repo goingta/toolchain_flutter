@@ -10,8 +10,11 @@ import '../../model/item_model.dart';
 import '../../components/loadMore.dart';
 
 class ListPage extends StatefulWidget {
+  final String title;
+  final int type;
+  final String logo;
   //构造函数
-  ListPage({Key key}) : super(key: key);
+  ListPage({Key key, this.title, this.type, this.logo}) : super(key: key);
 
   @override
   _ListPageState createState() => _ListPageState();
@@ -56,16 +59,25 @@ class _ListPageState extends State<ListPage>
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-          title: new Text("goingta’s工具链"),
+          title: new Text(this.widget.title),
           backgroundColor: Colors.blue, //设置appbar背景颜色
           centerTitle: true //设置标题是否局
           ),
-      body: new ListPageContainer(),
+      body: new ListPageContainer(
+          title: this.widget.title,
+          type: this.widget.type,
+          logo: this.widget.logo),
     );
   }
 }
 
 class ListPageHeader extends StatelessWidget {
+  final String title;
+  final String logo;
+  final int type;
+
+  ListPageHeader({this.title, this.type, this.logo}) : super();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -86,7 +98,7 @@ class ListPageHeader extends StatelessWidget {
           children: <Widget>[
             new ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Image.asset("images/logo.png", height: 88.0)),
+                child: Image.asset(this.logo, height: 88.0)),
             new Expanded(
                 flex: 2,
                 child: Padding(
@@ -95,14 +107,16 @@ class ListPageHeader extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        new Text("工具链", style: TextStyle(fontSize: 24.0)),
-                        new FlatButton(
-                            onPressed: () {
-                              _build(context);
-                            },
-                            child: new Text("构建新版本",
-                                style: TextStyle(color: Colors.white)),
-                            color: Colors.blue)
+                        new Text(this.title, style: TextStyle(fontSize: 24.0)),
+                        this.type == 1
+                            ? new FlatButton(
+                                onPressed: () {
+                                  _build(context);
+                                },
+                                child: new Text("构建新版本",
+                                    style: TextStyle(color: Colors.white)),
+                                color: Colors.blue)
+                            : new Container()
                       ],
                     ))),
             new Container(
@@ -120,11 +134,16 @@ class ListPageHeader extends StatelessWidget {
   void _build(BuildContext context) async {
     PGYNetwork network = new PGYNetwork();
     // Map<String, dynamic> data = await network.jenkinsBuild();
+    network.jenkinsBuild();
     Toast.show("触发成功！", context);
   }
 }
 
 class ListPageContainer extends StatefulWidget {
+  final String title;
+  final int type;
+  final String logo;
+  ListPageContainer({this.title, this.type, this.logo}) : super();
   @override
   _ListPageContainerState createState() => _ListPageContainerState();
 }
@@ -160,7 +179,10 @@ class _ListPageContainerState extends State<ListPageContainer> {
   Widget build(BuildContext context) {
     return new Column(
       children: <Widget>[
-        ListPageHeader(),
+        ListPageHeader(
+            title: this.widget.title,
+            type: this.widget.type,
+            logo: this.widget.logo),
         Container(
             height: 1.0,
             decoration: new BoxDecoration(
@@ -192,8 +214,8 @@ class _ListPageContainerState extends State<ListPageContainer> {
   }
 
   Future<Null> _loadData(int page) async {
-    print("page:$page");
-    PGYNetwork network = new PGYNetwork();
+    // print("page:$page,type:${this.widget.type},title:${this.widget.title}");
+    PGYNetwork network = new PGYNetwork(type: this.widget.type);
     List<ItemModel> arr = await network.getList(page: page);
     _needLoadMore = arr.isNotEmpty;
     print("数据加载完毕!");

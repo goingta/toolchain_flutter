@@ -52,7 +52,12 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
     print("tabIndex $_tabindex");
     return Scaffold(
       body: new PageView(
-        children: [new ListPage(), new AppletPage()],
+        children: [
+          new ListPage(title: "企鹅医生", type: 1, logo: "images/health_logo.png"),
+          new ListPage(
+              title: "工具链", type: 0, logo: "images/toolchain_logo.png"),
+          new AppletPage()
+        ],
         controller: _pageController,
         physics: new NeverScrollableScrollPhysics(),
         onPageChanged: onPageChanged,
@@ -64,6 +69,8 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
         onTap: navigationTapped,
         currentIndex: _tabindex,
         items: <BottomNavigationBarItem>[
+          new BottomNavigationBarItem(
+              icon: new Icon(Icons.group), title: new Text("企鹅医生")),
           new BottomNavigationBarItem(
               icon: new Icon(Icons.brightness_5), title: new Text("工具链")),
           new BottomNavigationBarItem(

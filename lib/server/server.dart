@@ -14,12 +14,15 @@ class Server {
   }
 
   Future<Map<String, dynamic>> post(String url, Map<String, dynamic> params,
-      {String host = pgyHost}) async {
+      {String host = pgyHost, Map<String, dynamic> headers}) async {
     FormData formData = new FormData.from(params);
     Dio dio = new Dio();
     String webUrl = host + url;
-    // print("url: $webUrl");
-    Response response = await dio.post(webUrl, data: formData);
+    // print("headers: $headers");
+    // print("formData: $formData");
+    Response response = await dio.post(webUrl,
+        data: formData,
+        options: headers.isEmpty ? Options() : Options(headers: headers));
     // Response response = await dio.post(
     //   "http://www.dtworkroom.com/doris/1/2.0.0/test",
     //   data: {"aa": "bb" * 22},
@@ -29,6 +32,10 @@ class Server {
     // );
     // print("Response complete");
     // print("post data=" + response.data.toString());
+    if (response.data.toString().isEmpty) {
+      print("empty data");
+      return {};
+    }
     Map<String, dynamic> data = response.data["data"];
     return data;
   }

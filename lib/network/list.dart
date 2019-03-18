@@ -2,16 +2,22 @@ import './../server/server.dart';
 import './../model/item_model.dart';
 
 class PGYNetwork {
-  //蒲公英
-  var pgyerHealthAppKey = "35b60c374269ee0f9ffff517b1b47c9b";
-  var pgyerHealthApiKey = "811e984eb5e760bb7f2885484c6c4edb";
-  var pgyerHealthUserKey = "15943af593e531aef0b1f7d6c70d4131";
+  int type; //0是工具链本身，1是企鹅APP
+  PGYNetwork({this.type});
+  //工具链 蒲公英配置
+  var pgyerToolChainAppKey = "6ccc42cf2f28f2b85ab16a46c0c1d044";
+  var pgyerToolChainApiKey = "87a96feb51f5ecdfafc2bc4c9eeb045a";
+  var pgyerToolChainUserKey = "dad6308763eece8035c49ea33e676138";
+
+  var pgyerHealthAppKey = "6ab0025e60ff0cc7333594cc961ebcf2";
+  var pgyerHealthApiKey = "87a96feb51f5ecdfafc2bc4c9eeb045a";
+  var pgyerHealthUserKey = "dad6308763eece8035c49ea33e676138";
 
   Future<List<ItemModel>> getList({int page = 1}) async {
     var server = new Server();
     Map<String, dynamic> data = await server.post("apiv2/app/builds", {
-      "_api_key": pgyerHealthApiKey,
-      "appKey": pgyerHealthAppKey,
+      "_api_key": type == 0 ? pgyerToolChainApiKey : pgyerHealthApiKey,
+      "appKey": type == 0 ? pgyerToolChainAppKey : pgyerHealthAppKey,
       "page": page
     });
 
@@ -26,9 +32,11 @@ class PGYNetwork {
 
   Future<Map<String, dynamic>> jenkinsBuild() async {
     var server = new Server();
-    Map<String, dynamic> data = await server.getUrl(
-        "buildByToken/build", {"job": "{job}", "token": "{token}"},
-        host: "http://{IP}:{端口号}");
+    Map<String, dynamic> data = await server.post(
+        "view/iOS/job/DoctorHealth/build?token=ab5ca6249862f5a60ac451599b5d9938",
+        {"1": "1"},
+        host: "http://jenkins.doctorwork.com/",
+        headers: {"Authorization": "Basic ZGV2OmRvY3Rvcndvcms="});
     return data;
   }
 }
