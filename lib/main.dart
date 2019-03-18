@@ -8,7 +8,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: '工具链',
+      title: '企鹅工具链',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -55,7 +55,7 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
         children: [
           new ListPage(title: "企鹅医生", type: 1, logo: "images/health_logo.png"),
           new ListPage(
-              title: "工具链", type: 0, logo: "images/toolchain_logo.png"),
+              title: "企鹅工具链", type: 0, logo: "images/toolchain_logo.png"),
           new AppletPage()
         ],
         controller: _pageController,
@@ -72,7 +72,7 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
           new BottomNavigationBarItem(
               icon: new Icon(Icons.group), title: new Text("企鹅医生")),
           new BottomNavigationBarItem(
-              icon: new Icon(Icons.brightness_5), title: new Text("工具链")),
+              icon: new Icon(Icons.brightness_5), title: new Text("企鹅工具链")),
           new BottomNavigationBarItem(
               icon: new Icon(Icons.map), title: new Text("小程序"))
         ],
