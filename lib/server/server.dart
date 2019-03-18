@@ -22,7 +22,9 @@ class Server {
     // print("formData: $formData");
     Response response = await dio.post(webUrl,
         data: formData,
-        options: headers.isEmpty ? Options() : Options(headers: headers));
+        options: (headers != null && headers.isNotEmpty)
+            ? Options(headers: headers)
+            : Options());
     // Response response = await dio.post(
     //   "http://www.dtworkroom.com/doris/1/2.0.0/test",
     //   data: {"aa": "bb" * 22},
