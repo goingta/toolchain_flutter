@@ -38,9 +38,10 @@ class PGYNetwork {
 
   Future<Map<String, dynamic>> jenkinsBuild() async {
     var server = new Server();
-    Map<String, dynamic> data = await server.post(
-        "view/iOS/job/DoctorHealth/build?token=ab5ca6249862f5a60ac451599b5d9938",
-        {"1": "1"},
+    String urlPath = isIOS
+        ? "view/iOS/job/DoctorHealth/build?token=ab5ca6249862f5a60ac451599b5d9938"
+        : "view/Android/job/android-health-rn/build?token=ab5ca6249862f5a60ac451599b5d9938";
+    Map<String, dynamic> data = await server.post(urlPath, {"1": "1"},
         host: "http://jenkins.doctorwork.com/",
         headers: {"Authorization": "Basic ZGV2OmRvY3Rvcndvcms="});
     return data;
