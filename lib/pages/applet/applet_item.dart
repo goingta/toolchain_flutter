@@ -23,15 +23,15 @@ class AppletViewItem extends StatelessWidget {
               new Text(model.title, style: TextStyle(fontSize: 22))
             ]),
             onTap: () {
-              launchURL(context);
+              launchURL(context, model);
             }),
         decoration: BoxDecoration(
             border: Border(
                 bottom: BorderSide(width: 1.0, color: Colors.grey[300]))));
   }
 
-  void launchURL(BuildContext context) async {
+  void launchURL(BuildContext context, AppletModel model) async {
     const platform = const MethodChannel('goingta.flutter.io/share');
-    await platform.invokeMethod("gotoWechat", "gh_3ebf96e60b74");
+    await platform.invokeMethod("gotoWechat", model.programName);
   }
 }

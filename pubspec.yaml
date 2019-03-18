@@ -44,7 +44,10 @@ flutter:
     - images/logo.png
     - images/health_logo.png
     - images/toolchain_logo.png
-    - images/tax.jpeg
+    - images/aboutus_healthLife.png
+    - images/aboutus_step.png
+    - images/aboutus_vaccine.png
+    - images/aboutus_terminal.png
   #  - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

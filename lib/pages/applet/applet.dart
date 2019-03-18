@@ -15,7 +15,13 @@ class _AppletPageState extends State<AppletPage>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true; // 返回true
-  List<AppletModel> _list = [new AppletModel("images/tax.jpeg", "个税小程序")];
+  List<AppletModel> _list = [
+    new AppletModel(
+        "images/aboutus_healthLife.png", "企鹅家庭医生", "gh_3734c6c0be0a"),
+    new AppletModel("images/aboutus_step.png", "乱步挑战", "gh_8fa9da3971e7"),
+    new AppletModel("images/aboutus_vaccine.png", "企鹅疫苗小助手", "gh_30479e47f009"),
+    new AppletModel("images/aboutus_terminal.png", "企鹅健康终端", "gh_eb1c9a3dc898"),
+  ];
 
   @override
   Widget build(BuildContext context) {
