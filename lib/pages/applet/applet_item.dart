@@ -32,11 +32,6 @@ class AppletViewItem extends StatelessWidget {
 
   void launchURL(BuildContext context) async {
     const platform = const MethodChannel('goingta.flutter.io/share');
-    bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-    if (isIOS) {
-      await platform.invokeMethod("gotoWechat", "gh_3ebf96e60b74");
-    } else {
-      Toast.show("Android版Native方法暂未实现！", context);
-    }
+    await platform.invokeMethod("gotoWechat", "gh_3ebf96e60b74");
   }
 }

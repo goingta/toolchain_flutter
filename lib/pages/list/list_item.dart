@@ -75,11 +75,7 @@ class ListViewItem extends StatelessWidget {
     //             url: webUrl, appBar: new AppBar(title: new Text("二维码")))));
 
     const platform = const MethodChannel('goingta.flutter.io/share');
-    bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-    if (isIOS) {
-      await platform.invokeMethod("shareToWechat", model);
-    } else {
-      Toast.show("Android版Native方法暂未实现！", context);
-    }
+    // bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
+    await platform.invokeMethod("shareToWechat", model);
   }
 }
