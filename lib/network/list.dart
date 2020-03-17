@@ -8,16 +8,16 @@ class PGYNetwork {
   PGYNetwork({this.type});
   //工具链 蒲公英配置
   var pgyerToolChainAppKey = isIOS
-      ? "6ccc42cf2f28f2b85ab16a46c0c1d044"
-      : "edf8d375c6dbd0b9873f720874ae37bb";
-  var pgyerToolChainApiKey = "87a96feb51f5ecdfafc2bc4c9eeb045a";
-  var pgyerToolChainUserKey = "dad6308763eece8035c49ea33e676138";
+      ? "df0fa62af1afe652c6cc881091d808fc"
+      : "aad7f7999b29743c6820c113e92bdb5a";
+  var pgyerToolChainApiKey = "01f1afe385c48954fd713ba5d533b62c";
+  var pgyerToolChainUserKey = "1355980667be03e4544e23214b5e8c14";
 
   var pgyerHealthAppKey = isIOS
-      ? "6ab0025e60ff0cc7333594cc961ebcf2"
+      ? "6f5f513de56605e2da0db3f3108f7911"
       : "bf323da6d0fd071c90d0b9a2ac44c20b";
-  var pgyerHealthApiKey = "87a96feb51f5ecdfafc2bc4c9eeb045a";
-  var pgyerHealthUserKey = "dad6308763eece8035c49ea33e676138";
+  var pgyerHealthApiKey = "01f1afe385c48954fd713ba5d533b62c";
+  var pgyerHealthUserKey = "1355980667be03e4544e23214b5e8c14";
 
   Future<List<ItemModel>> getList({int page = 1}) async {
     var server = new Server();
@@ -26,6 +26,8 @@ class PGYNetwork {
       "appKey": type == 0 ? pgyerToolChainAppKey : pgyerHealthAppKey,
       "page": page
     });
+
+    print("网络返回结果：" + data.toString());
 
     List<ItemModel> arr = [];
     List list = data["list"];

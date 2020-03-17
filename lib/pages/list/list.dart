@@ -225,7 +225,7 @@ class _ListPageContainerState extends State<ListPageContainer> {
   }
 
   _getItem(int index) {
-    if (index == _list.length - 1) {
+    if (index == _list.length - 1 && index != 0) {
       return _needLoadMore ? LoadMore() : Container();
     } else {
       ItemModel model = _list[index];
