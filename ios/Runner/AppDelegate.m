@@ -6,7 +6,7 @@
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [WXApi registerApp:@"wx906221748b3266dd"];
+    [WXApi registerApp:@"wx906221748b3266dd" universalLink:nil];
     FlutterViewController* controller = (FlutterViewController*)self.window.rootViewController;
     
     FlutterMethodChannel* channel = [FlutterMethodChannel
@@ -36,7 +36,7 @@
     WXLaunchMiniProgramReq *launchMiniProgramReq = [WXLaunchMiniProgramReq object];
     [launchMiniProgramReq setUserName:weappId];
     [launchMiniProgramReq setMiniProgramType:WXMiniProgramTypeRelease];
-    [WXApi sendReq:launchMiniProgramReq];
+    [WXApi sendReq:launchMiniProgramReq completion:nil];
 }
 
 - (void)shareToWechat:(NSDictionary *)dic {
@@ -54,7 +54,7 @@
     req.message = message;
     req.bText = false;
     req.scene = WXSceneSession;
-    [WXApi sendReq:req];
+    [WXApi sendReq:req completion:nil];
 }
 
 @end
