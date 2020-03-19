@@ -134,22 +134,15 @@ class _LoginState extends State<Login> {
                               Text(errorMessage,
                                   style: TextStyle(color: Colors.red)),
                               if (errorMessage.length > 0) SizedBox(height: 12),
-                              FlatButton(
-                                child: Text(
-                                  "Forgot your password?",
-                                  style: Theme.of(context).textTheme.body2,
-                                ),
-                                onPressed: () {
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (BuildContext context) =>
-                                  //             ForgotPass()));
-                                },
+                              RaisedButton(
+                                child: Text("登录"),
+                                onPressed: _submitForm,
                               ),
                               RaisedButton(
-                                child: Text("Sign In"),
-                                onPressed: _submitForm,
+                                child: Text("企业微信登录"),
+                                onPressed: () {
+                                  // Navigator.pushNamed(context, Register.id);
+                                },
                               ),
                             ],
                           ),
