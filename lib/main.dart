@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:toolchain_flutter/model/user_model.dart';
 import 'package:toolchain_flutter/pages/tabPage/tabPage.dart';
 import 'pages/tabPage/tabPage.dart';
 import 'pages/login/login.dart';
+import 'model/user.dart';
 
 void main() => runApp(App());
 
@@ -44,7 +46,14 @@ class App extends StatelessWidget {
             ),
           ),
         ),
-      home: LoginPage(),
+      home: FutureBuilder<UserModel>(
+          future: User.getCurrentUser(),
+          builder: (context, AsyncSnapshot<UserModel> user) {
+            return user.hasData
+                  ? TabPage()
+                  : LoginPage();
+          },
+        ),
       routes: {
         LoginPage.id: (context) => LoginPage(),
         TabPage.id: (context) => TabPage()
