@@ -44,7 +44,7 @@ class App extends StatelessWidget {
             ),
           ),
         ),
-      home: Login(),
+      home: LoginPage(),
       // home: LifecycleAppPage(),
     );
   }
