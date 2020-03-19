@@ -45,6 +45,10 @@ class App extends StatelessWidget {
           ),
         ),
       home: LoginPage(),
+      routes: {
+        LoginPage.id: (context) => LoginPage(),
+        TabPage.id: (context) => TabPage()
+      },
       // home: LifecycleAppPage(),
     );
   }

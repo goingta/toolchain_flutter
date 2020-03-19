@@ -3,6 +3,7 @@ import '../list/list.dart';
 import '../applet/applet.dart';
 
 class TabPage extends StatefulWidget {
+  static const String id = "/tab";
   TabPage({Key key}) : super(key: key);
 
   @override

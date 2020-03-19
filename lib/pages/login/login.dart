@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluwx_worker/fluwx_worker.dart' as fluwxWorker;
+import '../tabPage/tabPage.dart';
 
 class LoginPage extends StatefulWidget {
   static const String id = "/login";
@@ -38,6 +39,7 @@ class _LoginState extends State<LoginPage> {
     fluwxWorker.responseFromAuth.listen((data) async {
       if (data.errCode == 0){
         _result = data.code;  //后续用这个code再发http请求取得UserID
+        Navigator.pushNamed(context, TabPage.id);
       }else if (data.errCode == 1){
         _result = '授权失败';
       }else {
