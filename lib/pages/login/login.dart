@@ -16,9 +16,9 @@ class _LoginState extends State<LoginPage> {
 
   var _result = 'None';
 
-  final schema = 'wwauth38302c6e89219150000XXX';//替换成自己的
-  final corpId = 'ww38302c6e89219XXX';
-  final agentId = '1000XXX';
+  final schema = 'wwauth700000a5f2191000014';//替换成自己的
+  final corpId = 'ww41abef44dc00e8c4';
+  final agentId = '1000015';
 
   bool loading = false;
   String errorMessage = "";
@@ -173,7 +173,7 @@ class _LoginState extends State<LoginPage> {
                                 onPressed: _submitForm,
                               ),
                               RaisedButton(
-                                child: Text("企业微信登录"),
+                                child: Text("企业微信登录",style: TextStyle(color: Colors.white)),
                                 onPressed: () {
                                   // Navigator.pushNamed(context, Register.id);
                                   //企业微信授权

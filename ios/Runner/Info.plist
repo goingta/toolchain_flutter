@@ -30,6 +30,16 @@
 				<string>wx906221748b3266dd</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>wechatwork</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wwauth41abef44dc00e8c4000015</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>120</string>
