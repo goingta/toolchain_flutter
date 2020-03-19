@@ -51,6 +51,17 @@ flutter:
     - images/aboutus_step.png
     - images/aboutus_vaccine.png
     - images/aboutus_terminal.png
+    - assets/graphics/
+  fonts:
+    - family: Rubik
+      fonts:
+        - asset: assets/fonts/Rubik-Regular.ttf
+        - asset: assets/fonts/Rubik-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Rubik-Light.ttf
+          weight: 200
+        - asset: assets/fonts/Rubik-Medium.ttf
+          weight: 400
   #  - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
