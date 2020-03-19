@@ -17,7 +17,7 @@ class _LoginState extends State<LoginPage> {
 
   var _result = 'None';
 
-  final schema = 'wwauth700000a5f2191000014';//替换成自己的
+  final schema = 'wwauth41abef44dc00e8c4000015';//替换成自己的
   final corpId = 'ww41abef44dc00e8c4';
   final agentId = '1000015';
 
