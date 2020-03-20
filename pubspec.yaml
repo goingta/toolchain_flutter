@@ -27,6 +27,7 @@ dependencies:
   fluwx_worker: #企业微信登录插件
     git:
       url: https://github.com/lichfy/fluwx_worker
+  shared_preferences: ^0.5.1
 
 dev_dependencies:
   flutter_test:
