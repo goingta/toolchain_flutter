@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluwx_worker/fluwx_worker.dart' as fluwxWorker;
 import '../tabPage/tabPage.dart';
+import '../tabPage/homePage.dart';
+import '../../model/user.dart';
 
 class LoginPage extends StatefulWidget {
   static const String id = "/login";
@@ -17,7 +19,7 @@ class _LoginState extends State<LoginPage> {
 
   var _result = 'None';
 
-  final schema = 'wwauth41abef44dc00e8c4000015';//替换成自己的
+  final schema = 'wwauth41abef44dc00e8c4000015'; //替换成自己的
   final corpId = 'ww41abef44dc00e8c4';
   final agentId = '1000015';
 
@@ -31,23 +33,27 @@ class _LoginState extends State<LoginPage> {
   }
 
   _initFluwx() async {
-    await fluwxWorker.register(schema: schema,corpId: corpId,agentId: agentId);
+    await fluwxWorker.register(
+        schema: schema, corpId: corpId, agentId: agentId);
     var result = await fluwxWorker.isWeChatInstalled();
     print("is installed $result");
 
     //等待授权结果
     fluwxWorker.responseFromAuth.listen((data) async {
-      if (data.errCode == 0){
-        _result = data.code;  //后续用这个code再发http请求取得UserID
-        Navigator.pushNamed(context, TabPage.id);
-      }else if (data.errCode == 1){
+      if (data.errCode == 0) {
+        _result = data.code; //后续用这个code再发http请求取得UserID
+        // Navigator.pushNamed(context, TabPage.id);
+        bool result = await User.fluwxWorkerSignIn(data.code);
+        if (result) {
+          Navigator.pushNamed(context, TabPage.id);
+          // Navigator.pushReplacement(context, HomePage.id)
+        }
+      } else if (data.errCode == 1) {
         _result = '授权失败';
-      }else {
+      } else {
         _result = '用户取消';
       }
-      setState(() {
-
-      });
+      setState(() {});
     });
   }
 
@@ -156,8 +162,7 @@ class _LoginState extends State<LoginPage> {
                                 keyboardType: TextInputType.text,
                                 controller: _passwordController,
                                 validator: (value) {
-                                  if (value.length < 8)
-                                    return "密码必须超过8个字符";
+                                  if (value.length < 8) return "密码必须超过8个字符";
                                   return null;
                                 },
                                 decoration: InputDecoration(
@@ -175,11 +180,15 @@ class _LoginState extends State<LoginPage> {
                                 onPressed: _submitForm,
                               ),
                               RaisedButton(
-                                child: Text("企业微信登录",style: TextStyle(color: Colors.white)),
+                                child: Text("企业微信登录",
+                                    style: TextStyle(color: Colors.white)),
                                 onPressed: () {
                                   // Navigator.pushNamed(context, Register.id);
                                   //企业微信授权
-                                  fluwxWorker.sendAuth(schema: schema,appId: corpId,agentId: agentId);
+                                  fluwxWorker.sendAuth(
+                                      schema: schema,
+                                      appId: corpId,
+                                      agentId: agentId);
                                 },
                               ),
                             ],

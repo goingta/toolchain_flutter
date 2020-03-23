@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../tools/lightColor.dart';
 
 class HomePage extends StatelessWidget {
+  static const String id = "/homePage";
   HomePage({Key key}) : super(key: key);
 
   double width;
