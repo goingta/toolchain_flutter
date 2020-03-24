@@ -31,12 +31,12 @@ abstract class User {
   static Future<UserModel> getCurrentUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userInfo = prefs.getString(preUserInfo);
-    print(userInfo);
+    // print(userInfo);
     try {
       UserModel user = new UserModel.fromJson(jsonDecode(userInfo));
       return user;
     } catch (e) {
-      print(e);
+      // print(e);
       return null;
     }
   }

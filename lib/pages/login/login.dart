@@ -14,8 +14,10 @@ class LoginPage extends StatefulWidget {
 
 class _LoginState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _emailController =
+      TextEditingController(text: "flutter@doctorwork.com");
+  final _passwordController =
+      TextEditingController(text: "flutter@doctorwork.com");
 
   var _result = 'None';
 
@@ -26,10 +28,21 @@ class _LoginState extends State<LoginPage> {
   bool loading = false;
   String errorMessage = "";
 
+  String _email = "";
+  String _password = "";
+
   @override
   void initState() {
     super.initState();
     _initFluwx();
+  }
+
+  // 跳转到登录成功首页
+  void pushToHomePage() {
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (BuildContext context) => new HomePage()),
+        ModalRoute.withName('/'));
   }
 
   _initFluwx() async {
@@ -40,13 +53,14 @@ class _LoginState extends State<LoginPage> {
 
     //等待授权结果
     fluwxWorker.responseFromAuth.listen((data) async {
+      print("data.code => ${data.code}");
       if (data.errCode == 0) {
         _result = data.code; //后续用这个code再发http请求取得UserID
         // Navigator.pushNamed(context, TabPage.id);
         bool result = await User.fluwxWorkerSignIn(data.code);
         if (result) {
-          Navigator.pushNamed(context, TabPage.id);
-          // Navigator.pushReplacement(context, HomePage.id)
+          // Navigator.pushNamed(context, TabPage.id);
+          this.pushToHomePage();
         }
       } else if (data.errCode == 1) {
         _result = '授权失败';
@@ -73,13 +87,11 @@ class _LoginState extends State<LoginPage> {
         setState(() {
           loading = true;
         });
-        // final user =
-        //     await Auth.signIn(_emailController.text, _passwordController.text);
-        // if (user != null)
-        //   Navigator.pushAndRemoveUntil(
-        //       context,
-        //       MaterialPageRoute(builder: (context) => Home(user)),
-        //       ModalRoute.withName("/"));
+
+        final result = await User.signIn("xxx", "xx");
+        if (result) {
+          this.pushToHomePage();
+        }
       } catch (e) {
         setState(() {
           loading = false;
@@ -151,6 +163,7 @@ class _LoginState extends State<LoginPage> {
                                 validator: (value) => validateEmail(value),
                                 onFieldSubmitted: (v) {
                                   FocusScope.of(context).nextFocus();
+                                  this._email = v;
                                 },
                                 decoration: InputDecoration(
                                   labelText: "邮箱",
@@ -164,6 +177,9 @@ class _LoginState extends State<LoginPage> {
                                 validator: (value) {
                                   if (value.length < 8) return "密码必须超过8个字符";
                                   return null;
+                                },
+                                onFieldSubmitted: (v) {
+                                  this._password = v;
                                 },
                                 decoration: InputDecoration(
                                   labelText: "密码",
