@@ -5,7 +5,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 //项目内的库
 import 'list_item.dart';
-import '../../network/list.dart';
+import '../../network/pgyer_network.dart';
+import '../../network/jenkins_network.dart'
 import '../../model/item_model.dart';
 import '../../components/loadMore.dart';
 
@@ -132,7 +133,7 @@ class ListPageHeader extends StatelessWidget {
   }
 
   void _build(BuildContext context) async {
-    PGYNetwork network = new PGYNetwork();
+    JenkinsNetwork network = new JenkinsNetwork();
     // Map<String, dynamic> data = await network.jenkinsBuild();
     network.jenkinsBuild();
     Toast.show("触发成功！", context);

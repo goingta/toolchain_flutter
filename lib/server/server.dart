@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 
 class Server {
-  static const pgyHost = 'https://www.pgyer.com/';
+  String host;
 
-  Future<Map<String, dynamic>> getUrl(String url, Map params,
-      {String host = pgyHost}) async {
+  Future<Map<String, dynamic>> getUrl(String url, Map params) async {
+    assert(host != null,'host不能为空');
     Response response;
     Dio dio = new Dio();
     response = await dio.get(host + url, queryParameters: params);
@@ -13,8 +13,8 @@ class Server {
     return data;
   }
 
-  Future<Map<String, dynamic>> post(String url, Map<String, dynamic> params,
-      {String host = pgyHost, Map<String, dynamic> headers}) async {
+  Future<Map<String, dynamic>> post(String url, Map<String, dynamic> params, {Map<String, dynamic> headers}) async {
+    assert(host != null,'host不能为空');
     FormData formData = new FormData.from(params);
     Dio dio = new Dio();
     String webUrl = host + url;
