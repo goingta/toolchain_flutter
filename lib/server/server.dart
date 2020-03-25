@@ -5,12 +5,16 @@ class Server {
 
   Future<Map<String, dynamic>> getUrl(String url, Map params) async {
     assert(host != null,'host不能为空');
-    Response response;
     Dio dio = new Dio();
-    response = await dio.get(host + url, queryParameters: params);
-    // print("get data=" + response.data.toString());
-    Map<String, dynamic> data = response.data["data"];
-    return data;
+    String webUrl = host + url;
+    try {
+      Response response = await dio.get(webUrl, queryParameters: params);
+      Map<String, dynamic> data = response.data["data"];
+      return data;
+    } catch (e) {
+      print('访问出错: $e');
+      return null;
+    }
   }
 
   Future<Map<String, dynamic>> post(String url, Map<String, dynamic> params, {Map<String, dynamic> headers}) async {
@@ -18,27 +22,23 @@ class Server {
     FormData formData = new FormData.from(params);
     Dio dio = new Dio();
     String webUrl = host + url;
-    // print("headers: $headers");
-    // print("formData: $formData");
-    Response response = await dio.post(webUrl,
+
+    try {
+      Response response = await dio.post(webUrl,
         data: formData,
         options: (headers != null && headers.isNotEmpty)
             ? Options(headers: headers)
             : Options());
-    // Response response = await dio.post(
-    //   "http://www.dtworkroom.com/doris/1/2.0.0/test",
-    //   data: {"aa": "bb" * 22},
-    //   onSendProgress: (int sent, int total) {
-    //     print("$sent $total");
-    //   },
-    // );
-    // print("Response complete");
-    // print("post data=" + response.data.toString());
-    if (response.data.toString().isEmpty) {
-      print("empty data");
-      return {};
+
+      if (response.data.toString().isEmpty) {
+        print("empty data");
+        return {};
+      }
+      Map<String, dynamic> data = response.data["data"];
+      return data;
+    } catch (e) {
+      print('访问出错: $e');
+      return null;
     }
-    Map<String, dynamic> data = response.data["data"];
-    return data;
   }
 }

@@ -1,7 +1,9 @@
 import 'dart:async';
-import '../model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+
+import '../model/user_model.dart';
+import '../network/user_network.dart';
 
 abstract class User {
   static String preUserInfo = "PreUserInfo";
@@ -15,10 +17,10 @@ abstract class User {
   }
 
   static Future<bool> fluwxWorkerSignIn(code) async {
-    String userInfo =
-        "{'name':'先生','avatar':'http://avatar','token':'Us5fepIESZHYO1jrPsNXYrecRyk'}";
+    UserNetwork network = UserNetwork();
+    Map<String, dynamic> userInfo = await network.loginWithWechatWork(code);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(preUserInfo, userInfo);
+    prefs.setString(preUserInfo, userInfo.toString());
     return true;
   }
 

@@ -6,7 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 //项目内的库
 import 'list_item.dart';
 import '../../network/pgyer_network.dart';
-import '../../network/jenkins_network.dart'
+import '../../network/jenkins_network.dart';
 import '../../model/item_model.dart';
 import '../../components/loadMore.dart';
 
