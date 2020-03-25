@@ -5,8 +5,9 @@ import 'pages/tabPage/tabPage.dart';
 import 'pages/tabPage/homePage.dart';
 import 'pages/login/login.dart';
 import 'model/user.dart';
+import 'common/Global.dart';
 
-void main() => runApp(App());
+void main() => Global.init().then((e) => runApp(App()));
 
 class App extends StatelessWidget {
   final Color primaryColor = Color(0xff03da9d);

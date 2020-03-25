@@ -1,10 +1,11 @@
 class Global {
-  static String env = "dev";
+  static String env = "prd";
 
   static String schema;
   static final corpId = 'ww41abef44dc00e8c4';
   static String agentId;
 
+  //初始化全局信息，会在APP启动时执行
   static Future init() async {
     switch (env) {
       case "dev":

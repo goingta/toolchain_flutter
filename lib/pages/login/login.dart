@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluwx_worker/fluwx_worker.dart' as fluwxWorker;
+import 'package:toolchain_flutter/common/Global.dart';
 import '../tabPage/tabPage.dart';
 import '../tabPage/homePage.dart';
 import '../../model/user.dart';
@@ -20,10 +21,6 @@ class _LoginState extends State<LoginPage> {
       TextEditingController(text: "flutter@doctorwork.com");
 
   var _result = 'None';
-
-  final schema = 'wwauth41abef44dc00e8c4000015'; //替换成自己的
-  final corpId = 'ww41abef44dc00e8c4';
-  final agentId = '1000021';//研发1000021 线上1000015
 
   bool loading = false;
   String errorMessage = "";
@@ -47,7 +44,7 @@ class _LoginState extends State<LoginPage> {
 
   _initFluwx() async {
     await fluwxWorker.register(
-        schema: schema, corpId: corpId, agentId: agentId);
+        schema: Global.schema, corpId: Global.corpId, agentId: Global.agentId);
     var result = await fluwxWorker.isWeChatInstalled();
     print("is installed $result");
 
@@ -202,9 +199,9 @@ class _LoginState extends State<LoginPage> {
                                   // Navigator.pushNamed(context, Register.id);
                                   //企业微信授权
                                   fluwxWorker.sendAuth(
-                                      schema: schema,
-                                      appId: corpId,
-                                      agentId: agentId);
+                                      schema: Global.schema,
+                                      appId: Global.corpId,
+                                      agentId: Global.agentId);
                                 },
                               ),
                             ],

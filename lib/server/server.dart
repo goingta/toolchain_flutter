@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 class Server {
   String host;
 
-  Future<Map<String, dynamic>> getUrl(String url, Map params) async {
+  Future<Map<String, dynamic>> getUrl(String url, Map<String, dynamic> params) async {
     assert(host != null,'host不能为空');
     Dio dio = new Dio();
     String webUrl = host + url;
