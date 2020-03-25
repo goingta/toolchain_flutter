@@ -6,7 +6,7 @@ import '../../tools/lightColor.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key key}) : super(key: key);
-
+  static const String id = "/home";
   double width;
 
   Widget _header(BuildContext context) {
