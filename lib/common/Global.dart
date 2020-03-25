@@ -1,5 +1,5 @@
 class Global {
-  static String env = "prd";
+  static String env = "dev";
 
   static String schema;
   static final corpId = 'ww41abef44dc00e8c4';

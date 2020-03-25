@@ -1,6 +1,7 @@
-import 'package:toolchain_flutter/common/Global.dart';
 
 import 'server.dart';
+
+import 'package:toolchain_flutter/common/Global.dart';
 
 class UserServer extends Server {
   UserServer() {
