@@ -34,10 +34,40 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>wechatwork</string>
+			<string>wechatwork_prd</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>wwauth41abef44dc00e8c4000015</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>wechatwork_dev</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wwauth41abef44dc00e8c4000021</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>wechatwork_qa</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wwauth41abef44dc00e8c4000016</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>wechatwork_pre</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wwauth41abef44dc00e8c4000017</string>
 			</array>
 		</dict>
 	</array>
