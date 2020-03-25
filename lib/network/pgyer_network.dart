@@ -1,4 +1,4 @@
-import './../server/server.dart';
+import './../server/pgyer_server.dart';
 import './../model/item_model.dart';
 import 'dart:io';
 
@@ -20,7 +20,7 @@ class PGYNetwork {
   var pgyerHealthUserKey = "1355980667be03e4544e23214b5e8c14";
 
   Future<List<ItemModel>> getList({int page = 1}) async {
-    var server = new Server();
+    PGYServer server = new PGYServer();
     Map<String, dynamic> data = await server.post("apiv2/app/builds", {
       "_api_key": type == 0 ? pgyerToolChainApiKey : pgyerHealthApiKey,
       "appKey": type == 0 ? pgyerToolChainAppKey : pgyerHealthAppKey,
