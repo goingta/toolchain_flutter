@@ -46,31 +46,10 @@ class HomePage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Icon(
-                            Icons.keyboard_arrow_left,
-                            color: Colors.white,
-                            size: 40,
-                          ),
                           SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                "Search courses",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              Icon(
-                                Icons.search,
-                                color: Colors.white,
-                                size: 30,
-                              )
-                            ],
-                          ),
                           SizedBox(height: 20),
                           Text(
-                            "Type Something...",
+                            "欢迎使用工具链...",
                             style: TextStyle(
                                 color: Colors.white54,
                                 fontSize: 30,
@@ -112,7 +91,7 @@ class HomePage extends StatelessWidget {
             style: TextStyle(
                 color: LightColor.titleTextColor, fontWeight: FontWeight.bold),
           ),
-          _chip("See all", primary)
+          _chip("更多", primary)
         ],
       ),
     );
@@ -520,11 +499,11 @@ class HomePage extends StatelessWidget {
             children: <Widget>[
               _header(context),
               SizedBox(height: 20),
-              _categoryRow("Featured", LightColor.orange, LightColor.orange),
+              _categoryRow("H5", LightColor.orange, LightColor.orange),
               _featuredRowA(),
               SizedBox(height: 0),
               _categoryRow(
-                  "Featured", LightColor.purple, LightColor.darkpurple),
+                  "小程序", LightColor.purple, LightColor.darkpurple),
               _featuredRowB()
             ],
           ),

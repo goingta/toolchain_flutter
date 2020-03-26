@@ -6,9 +6,11 @@ part 'user_model.g.dart';
 class UserModel {
   String name;
   String avatar;
-  String token;
+  String email;
+  String position;
+  String userId;
 
-  UserModel(this.name, this.avatar, this.token);
+  UserModel(this.name,this.avatar,this.email,this.position,this.userId);
   //不同的类使用不同的mixin即可，注意格式一定要写正确
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);

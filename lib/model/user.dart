@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 
 import '../model/user_model.dart';
 import '../network/user_network.dart';
+import '../tools/utils.dart';
 
 abstract class User {
   static String preUserInfo = "PreUserInfo";
@@ -20,7 +20,8 @@ abstract class User {
     UserNetwork network = UserNetwork();
     Map<String, dynamic> userInfo = await network.loginWithWechatWork(code);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(preUserInfo, userInfo.toString());
+    String userInfoString = Utils.jsonToString(userInfo);
+    prefs.setString(preUserInfo, userInfoString);
     return true;
   }
 
@@ -33,9 +34,8 @@ abstract class User {
   static Future<UserModel> getCurrentUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userInfo = prefs.getString(preUserInfo);
-    // print(userInfo);
     try {
-      UserModel user = new UserModel.fromJson(jsonDecode(userInfo));
+      UserModel user = new UserModel.fromJson(Utils.stringToJson(userInfo));
       return user;
     } catch (e) {
       // print(e);

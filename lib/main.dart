@@ -50,7 +50,7 @@ class App extends StatelessWidget {
       home: FutureBuilder<UserModel>(
         future: User.getCurrentUser(),
         builder: (context, AsyncSnapshot<UserModel> user) {
-          return user.hasData ? TabPage() : LoginPage();
+          return user.hasData ? HomePage() : LoginPage();
         },
       ),
       // home: HomePage(),

@@ -42,7 +42,7 @@ class _LoginState extends State<LoginPage> {
     //     ModalRoute.withName('/'));
 
     // Navigator.replace(context, oldRoute: null, newRoute: MaterialPageRoute(builder: (BuildContext context) => new HomePage()));
-    Navigator.pushReplacementNamed(context, TabPage.id);
+    Navigator.pushReplacementNamed(context, HomePage.id);
   }
 
   _initFluwx() async {
