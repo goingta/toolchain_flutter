@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_smart_course/src/helper/quad_clipper.dart';
 // import 'package:flutter_smart_course/src/pages/recomended_page.dart';
 // import 'package:flutter_smart_course/lib/tools/lightColor.dart';
-import '../../tools/lightColor.dart';
+import '../../theme/light_color.dart';
+import '../../components/quad_clipper.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key key}) : super(key: key);
@@ -467,32 +468,10 @@ class HomePage extends StatelessWidget {
         ));
   }
 
-  BottomNavigationBarItem _bottomIcons(IconData icon) {
-    return BottomNavigationBarItem(icon: Icon(icon), title: Text(""));
-  }
-
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          selectedItemColor: LightColor.purple,
-          unselectedItemColor: Colors.grey.shade300,
-          type: BottomNavigationBarType.fixed,
-          currentIndex: 0,
-          items: [
-            _bottomIcons(Icons.home),
-            _bottomIcons(Icons.star_border),
-            _bottomIcons(Icons.book),
-            _bottomIcons(Icons.person),
-          ],
-          onTap: (index) {
-            //   Navigator.pushReplacement(context,
-            //       MaterialPageRoute(builder: (context) => RecomendedPage()));
-          },
-        ),
         body: SingleChildScrollView(
             child: Container(
           child: Column(
@@ -508,18 +487,5 @@ class HomePage extends StatelessWidget {
             ],
           ),
         )));
-  }
-}
-
-class QuadClipper extends CustomClipper<Rect> {
-  @override
-  Rect getClip(Size size) {
-    Rect rect = Rect.fromLTRB(0.0, 0.0, size.width / 2, size.height / 2);
-    return rect;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Rect> oldClipper) {
-    return true;
   }
 }
