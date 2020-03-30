@@ -64,7 +64,10 @@ class _DetailsState extends State<DetailsPage>
       appBar: new AppBar(
           title: new Text(this.widget.title, style: TextStyle(color: Colors.white)),
           backgroundColor: LightColor.primaryColor, //设置appbar背景颜色
-          centerTitle: true //设置标题是否局
+          centerTitle: true, //设置标题是否局
+          iconTheme: IconThemeData(
+            color: Colors.white, //change your color here
+          ),
           ),
       body: new ListPageContainer(
           title: this.widget.title,
@@ -118,7 +121,7 @@ class ListPageHeader extends StatelessWidget {
                                 },
                                 child: new Text("构建新版本",
                                     style: TextStyle(color: Colors.white)),
-                                color: Colors.blue)
+                                color: LightColor.primaryColor)
                             : new Container()
                       ],
                     ))),

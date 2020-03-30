@@ -60,6 +60,7 @@ class App extends StatelessWidget {
         TabPage.id: (context) => TabPage(),
         HomePage.id: (context) => HomePage(),
         ProfilePage.id: (context) => ProfilePage(),
+        DetailsPage.id: (context) => DetailsPage(title: "详情页",type: 1,logo: "images/health_logo.png"),
         ListPage.id: (context) => ListPage(title:"列表")
       },
       // home: LifecycleAppPage(),

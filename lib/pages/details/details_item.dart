@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toolchain_flutter/theme/light_color.dart';
 import 'package:url_launcher/url_launcher.dart';
 // import 'package:toast/toast.dart';
 import 'package:flutter/services.dart';
@@ -35,7 +36,7 @@ class DetailsItem extends StatelessWidget {
                           openWebUrl(context, model.toJson());
                         },
                         child: new Text("分享二维码",
-                            style: TextStyle(color: Colors.lightBlue))),
+                            style: TextStyle(color: LightColor.primaryColor))),
                     const SizedBox(width: 10.0),
                     new RaisedButton(
                         onPressed: () {
@@ -43,7 +44,7 @@ class DetailsItem extends StatelessWidget {
                         },
                         child: new Text("安装",
                             style: TextStyle(color: Colors.white)),
-                        color: Colors.lightBlue)
+                        color: LightColor.primaryColor)
                   ])),
         ]));
   }

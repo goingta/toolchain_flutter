@@ -34,8 +34,8 @@ class _ListPageState extends State<ListPage>
         backgroundColor: LightColor.primaryColor, //设置appbar背景颜色
         centerTitle: true, //设置标题是否局中
         iconTheme: IconThemeData(
-            color: Colors.white, //change your color here
-          ),
+          color: Colors.white, //change your color here
+        ),
       ),
       body: new ListView.builder(
         itemCount: _list.length,
