@@ -38,7 +38,7 @@ abstract class User {
       UserModel user = new UserModel.fromJson(Utils.stringToJson(userInfo));
       return user;
     } catch (e) {
-      // print(e);
+      print(e);
       return null;
     }
   }

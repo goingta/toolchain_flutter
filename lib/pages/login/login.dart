@@ -36,10 +36,8 @@ class _LoginState extends State<LoginPage> {
 
   // 跳转到登录成功首页
   void pushToHomePage() {
-    // Navigator.pushAndRemoveUntil(
-    //     context,
-    //     MaterialPageRoute(builder: (BuildContext context) => new HomePage()),
-    //     ModalRoute.withName('/'));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (BuildContext context) => new HomePage()));
 
     // Navigator.replace(context, oldRoute: null, newRoute: MaterialPageRoute(builder: (BuildContext context) => new HomePage()));
     Navigator.pushReplacementNamed(context, HomePage.id);
