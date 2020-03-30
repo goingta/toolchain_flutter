@@ -46,7 +46,13 @@ class _ProfileState extends State<ProfilePage> with AutomaticKeepAliveClientMixi
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: Image.network(_user.avatar,width: 100.0,height: 100.0,fit: BoxFit.cover),
+                  child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12.0),
+                  child: Container(
+                      width: 100.0,
+                      height: 100.0,
+                      child: Image.network(_user.avatar,width: 100.0,height: 100.0,fit: BoxFit.cover)),
+                  ),
                 ),
 
                 Expanded(

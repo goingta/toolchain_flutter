@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:toolchain_flutter/pages/details/details_page.dart';
 import 'package:toolchain_flutter/pages/home/home_page.dart';
-import 'package:toolchain_flutter/pages/list/list_page.dart';
 import 'package:toolchain_flutter/pages/profile/profile.dart';
-import '../applet/applet.dart';
 import '../../theme/light_color.dart';
 
 class TabPage extends StatefulWidget {
@@ -46,7 +45,7 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
       body: new PageView(
         children: [
           new HomePage(),
-          new ListPage(),
+          new DetailsPage(),
           new ProfilePage()
         ],
         controller: _pageController,

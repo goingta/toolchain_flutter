@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:toolchain_flutter/model/user_model.dart';
+import 'package:toolchain_flutter/pages/details/details_page.dart';
 import 'package:toolchain_flutter/pages/home/home_page.dart';
 import 'package:toolchain_flutter/pages/profile/profile.dart';
-import 'package:toolchain_flutter/pages/tabPage/tabPage.dart';
+import 'package:toolchain_flutter/pages/tabPage/tab_page.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
-import 'pages/tabPage/tabPage.dart';
-import 'pages/list/list_page.dart';
 import 'pages/login/login.dart';
 import 'model/user.dart';
 import 'common/Global.dart';
@@ -60,7 +59,7 @@ class App extends StatelessWidget {
         TabPage.id: (context) => TabPage(),
         HomePage.id: (context) => HomePage(),
         ProfilePage.id: (context) => ProfilePage(),
-        ListPage.id: (context) => ListPage()
+        DetailsPage.id: (context) => DetailsPage()
       },
       // home: LifecycleAppPage(),
     );

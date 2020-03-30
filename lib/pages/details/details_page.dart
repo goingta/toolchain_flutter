@@ -2,26 +2,28 @@
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:toolchain_flutter/pages/details/details_item.dart';
+import 'package:toolchain_flutter/theme/light_color.dart';
 
 //项目内的库
-import 'list_item.dart';
 import '../../network/pgyer_network.dart';
 import '../../network/jenkins_network.dart';
 import '../../model/item_model.dart';
 import '../../components/loadMore.dart';
 
-class ListPage extends StatefulWidget {
+class DetailsPage extends StatefulWidget {
+  static const String id = "/list";
   final String title;
   final int type;
   final String logo;
   //构造函数
-  ListPage({Key key, this.title, this.type, this.logo}) : super(key: key);
+  DetailsPage({Key key, this.title, this.type, this.logo}) : super(key: key);
 
   @override
-  _ListPageState createState() => _ListPageState();
+  _DetailsState createState() => _DetailsState();
 }
 
-class _ListPageState extends State<ListPage>
+class _DetailsState extends State<DetailsPage>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true; // 返回true
@@ -39,7 +41,7 @@ class _ListPageState extends State<ListPage>
   }
 
   @override
-  void didUpdateWidget(ListPage oldWidget) {
+  void didUpdateWidget(DetailsPage oldWidget) {
     print('ListPage didUpdateWidget');
     super.didUpdateWidget(oldWidget);
   }
@@ -60,8 +62,8 @@ class _ListPageState extends State<ListPage>
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-          title: new Text(this.widget.title),
-          backgroundColor: Colors.blue, //设置appbar背景颜色
+          title: new Text(this.widget.title, style: TextStyle(color: Colors.white)),
+          backgroundColor: LightColor.primaryColor, //设置appbar背景颜色
           centerTitle: true //设置标题是否局
           ),
       body: new ListPageContainer(
@@ -230,7 +232,7 @@ class _ListPageContainerState extends State<ListPageContainer> {
       return _needLoadMore ? LoadMore() : Container();
     } else {
       ItemModel model = _list[index];
-      return new ListViewItem(model: model);
+      return new DetailsItem(model: model);
     }
   }
 }
