@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toolchain_flutter/theme/light_color.dart';
 
 import 'applet_item.dart';
 import '../../model/applet_model.dart';
@@ -27,8 +28,8 @@ class _AppletPageState extends State<AppletPage>
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("小程序"),
-        backgroundColor: Colors.blue, //设置appbar背景颜色
+        title: new Text("小程序",style: TextStyle(color: Colors.white)),
+        backgroundColor: LightColor.primaryColor, //设置appbar背景颜色
         centerTitle: true, //设置标题是否局中
       ),
       body: new ListView.builder(

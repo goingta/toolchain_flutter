@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:toolchain_flutter/model/user_model.dart';
-import 'package:toolchain_flutter/pages/home/homePage.dart';
+import 'package:toolchain_flutter/pages/home/home_page.dart';
 import 'package:toolchain_flutter/pages/profile/profile.dart';
 import 'package:toolchain_flutter/pages/tabPage/tabPage.dart';
+import 'package:toolchain_flutter/theme/light_color.dart';
 import 'pages/tabPage/tabPage.dart';
 import 'pages/list/list_page.dart';
 import 'pages/login/login.dart';
@@ -12,16 +13,14 @@ import 'common/Global.dart';
 void main() => Global.init().then((e) => runApp(App()));
 
 class App extends StatelessWidget {
-  final Color primaryColor = Color(0xff03da9d);
-  final Color accentColor = Color(0xff333333);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '企鹅工具链',
       theme: ThemeData(
-        primaryColor: primaryColor,
-        accentColor: accentColor,
+        primaryColor: LightColor.primaryColor,
+        accentColor: LightColor.accentColor,
         scaffoldBackgroundColor: Colors.white,
         appBarTheme: AppBarTheme(color: Colors.white),
         fontFamily: 'Rubik',
@@ -31,7 +30,7 @@ class App extends StatelessWidget {
           button: TextStyle(color: Colors.white),
         ),
         buttonTheme: ButtonThemeData(
-          buttonColor: primaryColor,
+          buttonColor: LightColor.primaryColor,
           textTheme: ButtonTextTheme.normal,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),

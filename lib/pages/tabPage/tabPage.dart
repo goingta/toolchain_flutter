@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toolchain_flutter/pages/home/homePage.dart';
+import 'package:toolchain_flutter/pages/home/home_page.dart';
 import 'package:toolchain_flutter/pages/list/list_page.dart';
 import 'package:toolchain_flutter/pages/profile/profile.dart';
 import '../applet/applet.dart';
@@ -47,7 +47,6 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
         children: [
           new HomePage(),
           new ListPage(),
-          new AppletPage(),
           new ProfilePage()
         ],
         controller: _pageController,
@@ -62,13 +61,12 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
           currentIndex: _tabindex,
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          selectedItemColor: LightColor.purple,
+          selectedItemColor: LightColor.primaryColor,
           unselectedItemColor: Colors.grey.shade300,
           type: BottomNavigationBarType.fixed,
           items: [
             _bottomIcons(Icons.home),
             _bottomIcons(Icons.star_border),
-            _bottomIcons(Icons.book),
             _bottomIcons(Icons.person),
           ]
         ),

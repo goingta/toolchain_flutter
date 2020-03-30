@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:toolchain_flutter/model/user_model.dart';
+import 'package:toolchain_flutter/theme/light_color.dart';
 
 import '../../model/user.dart';
 
@@ -8,29 +11,42 @@ class ProfilePage extends StatefulWidget {
   _ProfileState createState() => _ProfileState();
 }
 
-class _ProfileState extends State<ProfilePage> {
+class _ProfileState extends State<ProfilePage> with AutomaticKeepAliveClientMixin {
+   @override
+  bool get wantKeepAlive => true; // 返回true
 
-  var user = User.getCurrentUser();
+  UserModel _user;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: new AppBar(
+        title: new Text("个人中心",style: TextStyle(color: Colors.white)),
+        backgroundColor: LightColor.primaryColor, //设置appbar背景颜色
+        centerTitle: true, //设置标题是否局中
+      ),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(10.0,0,10.0,0),
+        padding: EdgeInsets.fromLTRB(10.0,20.0,10.0,0),
 
-        child: ListView(
+        child: _user == null ? Center(
+              child: SpinKitDoubleBounce(
+                color: Theme.of(context).primaryColor,
+                size: 50.0,
+              ),
+            ) : ListView(
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: Image.asset(
-                    "assets/cm4.jpeg",
-                    fit: BoxFit.cover,
-                    width: 100.0,
-                    height: 100.0,
-                  ),
+                  child: Image.network(_user.avatar,width: 100.0,height: 100.0,fit: BoxFit.cover),
                 ),
 
                 Expanded(
@@ -41,7 +57,7 @@ class _ProfileState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            "Jane Doe",
+                            _user.name,
                             style: TextStyle(
                               fontSize: 20.0,
                               fontWeight: FontWeight.bold,
@@ -56,7 +72,7 @@ class _ProfileState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            "jane@doefamily.com",
+                            _user.email,
                             style: TextStyle(
                               fontSize: 14.0,
                               fontWeight: FontWeight.bold,
@@ -69,17 +85,7 @@ class _ProfileState extends State<ProfilePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          InkWell(
-                            onTap: (){
-                              // Navigator.of(context).push(
-                              //   MaterialPageRoute(
-                              //     builder: (BuildContext context){
-                              //       return SplashScreen();
-                              //     },
-                              //   ),
-                              // );
-                            },
-                            child: Text("Logout",
+                          Text(_user.position,
                               style: TextStyle(
                                 fontSize: 13.0,
                                 fontWeight: FontWeight.w400,
@@ -87,7 +93,6 @@ class _ProfileState extends State<ProfilePage> {
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
-                          ),
                         ],
                       ),
 
@@ -99,22 +104,10 @@ class _ProfileState extends State<ProfilePage> {
             ),
 
             Divider(),
-            Container(height: 15.0),
-
-            Padding(
-              padding: EdgeInsets.all(5.0),
-              child: Text(
-                "Account Information".toUpperCase(),
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
 
             ListTile(
               title: Text(
-                "Full Name",
+                "姓名",
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w700,
@@ -122,20 +115,10 @@ class _ProfileState extends State<ProfilePage> {
               ),
 
               subtitle: Text(
-                "Jane Mary Doe",
-              ),
-
-              trailing: IconButton(
-                icon: Icon(
-                  Icons.edit,
-                  size: 20.0,
-                ),
-                onPressed: (){
-                },
-                tooltip: "Edit",
+                _user.name,
               ),
             ),
-
+            Divider(),
             ListTile(
               title: Text(
                 "Email",
@@ -146,94 +129,32 @@ class _ProfileState extends State<ProfilePage> {
               ),
 
               subtitle: Text(
-                "jane@doefamily.com",
+                _user.email,
               ),
             ),
-
-            ListTile(
-              title: Text(
-                "Phone",
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-
-              subtitle: Text(
-                "+1 816-926-6241",
-              ),
-            ),
-
-            ListTile(
-              title: Text(
-                "Address",
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-
-              subtitle: Text(
-                "1278 Loving Acres RoadKansas City, MO 64110",
-              ),
-            ),
-
-            ListTile(
-              title: Text(
-                "Gender",
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-
-              subtitle: Text(
-                "Female",
-              ),
-            ),
-
-            ListTile(
-              title: Text(
-                "Date of Birth",
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-
-              subtitle: Text(
-                "April 9, 1995",
-              ),
-            ),
-
-            ListTile(
-              title: Text(
-                "Dark Theme",
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-
-              // trailing: Switch(
-              //   value: Provider.of<AppProvider>(context).theme == Constants.lightTheme
-              //       ? false
-              //       : true,
-              //   onChanged: (v) async{
-              //     if (v) {
-              //       Provider.of<AppProvider>(context, listen: false)
-              //           .setTheme(Constants.darkTheme, "dark");
-              //     } else {
-              //       Provider.of<AppProvider>(context, listen: false)
-              //           .setTheme(Constants.lightTheme, "light");
-              //     }
-              //   },
-              //   activeColor: Theme.of(context).accentColor,
-              // ),
-            ),
+            Divider(),
+            Container(height: 40.0),
+            RaisedButton(
+                        child: Text("退出登录"),
+                        textColor: Colors.white,
+                        onPressed: _logout,
+                      )
           ],
         ),
       ),
     );
   }
+
+  Future<Null> _loadData() async {
+    UserModel user = await User.getCurrentUser();
+    setState(() {
+      _user = user;
+    });
+  }
+
+  _logout() {
+
+  }
 }
+
+
