@@ -117,10 +117,15 @@ class HomePage extends StatelessWidget {
             GridView.builder(
             shrinkWrap: true,
             itemCount: serviceList.length,
-            physics: NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
+              // 左右间隔
+              crossAxisSpacing: 0,
+              // 上下间隔
+              mainAxisSpacing: 10,
+              //宽高比
+              childAspectRatio: 3 / 2,
             ),
             itemBuilder: (context, index) {
               return HomeItem(data: serviceList[index]);
