@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:toolchain_flutter/model/user_model.dart';
+import 'package:toolchain_flutter/pages/home/homePage.dart';
+import 'package:toolchain_flutter/pages/settting/setting.dart';
 import 'package:toolchain_flutter/pages/tabPage/tabPage.dart';
 import 'pages/tabPage/tabPage.dart';
-import 'pages/tabPage/homePage.dart';
+import 'pages/list/list_page.dart';
 import 'pages/login/login.dart';
 import 'model/user.dart';
 import 'common/Global.dart';
@@ -57,7 +59,9 @@ class App extends StatelessWidget {
       routes: {
         LoginPage.id: (context) => LoginPage(),
         TabPage.id: (context) => TabPage(),
-        HomePage.id: (context) => HomePage()
+        HomePage.id: (context) => HomePage(),
+        Settings.id: (context) => Settings(),
+        ListPage.id: (context) => ListPage()
       },
       // home: LifecycleAppPage(),
     );

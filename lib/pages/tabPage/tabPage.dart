@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import '../list/list.dart';
+import 'package:toolchain_flutter/pages/home/homePage.dart';
+import 'package:toolchain_flutter/pages/list/list_page.dart';
+import 'package:toolchain_flutter/pages/settting/setting.dart';
 import '../applet/applet.dart';
+import '../../theme/light_color.dart';
 
 class TabPage extends StatefulWidget {
   static const String id = "/tab";
@@ -32,16 +35,20 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
+  BottomNavigationBarItem _bottomIcons(IconData icon) {
+    return BottomNavigationBarItem(icon: Icon(icon), title: Text(""));
+  }
+
   @override
   Widget build(BuildContext context) {
     print("tabIndex $_tabindex");
     return Scaffold(
       body: new PageView(
         children: [
-          new ListPage(title: "企鹅医生", type: 1, logo: "images/health_logo.png"),
-          new ListPage(
-              title: "企鹅工具链", type: 0, logo: "images/toolchain_logo.png"),
-          new AppletPage()
+          new HomePage(),
+          new ListPage(),
+          new AppletPage(),
+          new Settings()
         ],
         controller: _pageController,
         physics: new NeverScrollableScrollPhysics(),
@@ -50,18 +57,21 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
       // body: TabBarView(
       //     controller: _tabController,
       //     children: [new ListPage(), new AppletPage()]),
-      bottomNavigationBar: new BottomNavigationBar(
-        onTap: navigationTapped,
-        currentIndex: _tabindex,
-        items: <BottomNavigationBarItem>[
-          new BottomNavigationBarItem(
-              icon: new Icon(Icons.group), title: new Text("企鹅医生")),
-          new BottomNavigationBarItem(
-              icon: new Icon(Icons.brightness_5), title: new Text("企鹅工具链")),
-          new BottomNavigationBarItem(
-              icon: new Icon(Icons.map), title: new Text("小程序"))
-        ],
-      ),
+      bottomNavigationBar: BottomNavigationBar(
+          onTap: navigationTapped,
+          currentIndex: _tabindex,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          selectedItemColor: LightColor.purple,
+          unselectedItemColor: Colors.grey.shade300,
+          type: BottomNavigationBarType.fixed,
+          items: [
+            _bottomIcons(Icons.home),
+            _bottomIcons(Icons.star_border),
+            _bottomIcons(Icons.book),
+            _bottomIcons(Icons.person),
+          ]
+        ),
     );
   }
 

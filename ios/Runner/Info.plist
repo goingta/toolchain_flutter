@@ -70,6 +70,16 @@
 				<string>wwauth41abef44dc00e8c4000050</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>wechatwork_hao123_dev</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wwauth41abef44dc00e8c4000021</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>120</string>

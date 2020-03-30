@@ -21,12 +21,13 @@ dependencies:
   dio: ^2.0.0 #latest version
   url_launcher: 5.0.1
   toast: ^0.1.3
+  provider:
   json_serializable: ^2.0.0 #序列化
   flutter_spinkit: ^3.0.0 #loading组件
   flutter_webview_plugin: ^0.3.0
   fluwx_worker: #企业微信登录插件
-    git:
-      url: https://github.com/lichfy/fluwx_worker
+      git:
+        url: https://github.com/goingta/fluwx_worker
   shared_preferences: ^0.5.1
 
 dev_dependencies:
@@ -34,6 +35,8 @@ dev_dependencies:
     sdk: flutter
   build_runner: ^1.0.0
 
+module:
+  androidX: true
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
 
