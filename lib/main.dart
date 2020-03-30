@@ -60,7 +60,6 @@ class App extends StatelessWidget {
         TabPage.id: (context) => TabPage(),
         HomePage.id: (context) => HomePage(),
         ProfilePage.id: (context) => ProfilePage(),
-        DetailsPage.id: (context) => DetailsPage(),
         ListPage.id: (context) => ListPage(title:"列表")
       },
       // home: LifecycleAppPage(),

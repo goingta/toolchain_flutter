@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:toolchain_flutter/pages/details/details_page.dart';
 
 import '../../model/applet_model.dart';
 
@@ -30,7 +31,8 @@ class ListViewItem extends StatelessWidget {
   }
 
   void launchURL(BuildContext context, AppletModel model) async {
-    const platform = const MethodChannel('goingta.flutter.io/share');
-    await platform.invokeMethod("gotoWechat", model.programName);
+    // const platform = const MethodChannel('goingta.flutter.io/share');
+    // await platform.invokeMethod("gotoWechat", model.programName);
+    Navigator.pushNamed(context, DetailsPage.id,arguments: {"title":"详情页","type":1,"logo":"images/health_logo.png"});
   }
 }
