@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toolchain_flutter/pages/home/homePage.dart';
 import 'package:toolchain_flutter/pages/list/list_page.dart';
-import 'package:toolchain_flutter/pages/settting/setting.dart';
+import 'package:toolchain_flutter/pages/profile/profile.dart';
 import '../applet/applet.dart';
 import '../../theme/light_color.dart';
 
@@ -48,7 +48,7 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
           new HomePage(),
           new ListPage(),
           new AppletPage(),
-          new Settings()
+          new ProfilePage()
         ],
         controller: _pageController,
         physics: new NeverScrollableScrollPhysics(),
