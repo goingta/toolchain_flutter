@@ -40,7 +40,6 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    print("tabIndex $_tabindex");
     return Scaffold(
       body: new PageView(
         children: [
