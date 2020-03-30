@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:toolchain_flutter/model/user_model.dart';
 import 'package:toolchain_flutter/pages/details/details_page.dart';
 import 'package:toolchain_flutter/pages/home/home_page.dart';
+import 'package:toolchain_flutter/pages/list/list_page.dart';
 import 'package:toolchain_flutter/pages/profile/profile.dart';
 import 'package:toolchain_flutter/pages/tabPage/tab_page.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
@@ -59,7 +60,8 @@ class App extends StatelessWidget {
         TabPage.id: (context) => TabPage(),
         HomePage.id: (context) => HomePage(),
         ProfilePage.id: (context) => ProfilePage(),
-        DetailsPage.id: (context) => DetailsPage()
+        DetailsPage.id: (context) => DetailsPage(),
+        ListPage.id: (context) => ListPage(title:"列表")
       },
       // home: LifecycleAppPage(),
     );

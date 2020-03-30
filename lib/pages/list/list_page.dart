@@ -5,6 +5,7 @@ import 'package:toolchain_flutter/theme/light_color.dart';
 import '../../model/applet_model.dart';
 
 class ListPage extends StatefulWidget {
+  static const String id = "/list";
   final String title;
   //构造函数
   ListPage({Key key, this.title}) : super(key: key);
@@ -32,6 +33,9 @@ class _ListPageState extends State<ListPage>
         title: new Text(this.widget.title,style: TextStyle(color: Colors.white)),
         backgroundColor: LightColor.primaryColor, //设置appbar背景颜色
         centerTitle: true, //设置标题是否局中
+        iconTheme: IconThemeData(
+            color: Colors.white, //change your color here
+          ),
       ),
       body: new ListView.builder(
         itemCount: _list.length,

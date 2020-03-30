@@ -67,43 +67,33 @@ class HomePage extends StatelessWidget {
  List<HomeItemViewModel> serviceList = [
   HomeItemViewModel(
     title: 'iOS',
-    icon: Icon(
-      Icons.explore,
-      size: 55,
-      color: LightColor.primaryColor,
-    ),
+    icon: "explore",
+    tid: "5e7457a4bd106540e515eba2",
   ),
   HomeItemViewModel(
     title: 'Android',
-    icon: Icon(
-      Icons.android,
-      size: 55,
-      color: LightColor.primaryColor,
-    ),
+    icon: "android",
+    tid: "5e7457b2bd106540e515eba3",
   ),
   HomeItemViewModel(
     title: 'H5',
-    icon: Icon(
-      Icons.language,
-      size: 55,
-      color: LightColor.primaryColor,
-    ),
+    icon: "language",
+    tid: "5e7457b5bd106540e515eba4",
   ),
   HomeItemViewModel(
     title: '小程序',
-    icon: Icon(
-      Icons.polymer,
-      size: 55,
-      color: LightColor.primaryColor,
-    ),
+    icon: "polymer",
+    tid: "5e81e23eb59f0f19096132a2",
   ),
   HomeItemViewModel(
     title: 'Java',
-    icon: Icon(
-      Icons.backup,
-      size: 55,
-      color: LightColor.primaryColor,
-    ),
+    icon: "backup",
+    tid: "5e7457bbbd106540e515eba5",
+  ),
+  HomeItemViewModel(
+    title: 'Node',
+    icon: "backup",
+    tid: "5e7457c0bd106540e515eba6",
   )
 ];
 
@@ -117,7 +107,7 @@ class HomePage extends StatelessWidget {
             GridView.builder(
             shrinkWrap: true,
             itemCount: serviceList.length,
-            padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+            padding: EdgeInsets.fromLTRB(15, 30, 15, 0),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               // 左右间隔

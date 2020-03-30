@@ -12,7 +12,7 @@ import '../../model/item_model.dart';
 import '../../components/loadMore.dart';
 
 class DetailsPage extends StatefulWidget {
-  static const String id = "/list";
+  static const String id = "/details";
   final String title;
   final int type;
   final String logo;
