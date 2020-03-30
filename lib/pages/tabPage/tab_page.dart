@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:toolchain_flutter/pages/details/details_page.dart';
 import 'package:toolchain_flutter/pages/home/home_page.dart';
+import 'package:toolchain_flutter/pages/list/list_page.dart';
 import 'package:toolchain_flutter/pages/profile/profile.dart';
 import '../../theme/light_color.dart';
 
@@ -45,7 +45,7 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
       body: new PageView(
         children: [
           new HomePage(),
-          new DetailsPage(),
+          new ListPage(title: "我的收藏"),
           new ProfilePage()
         ],
         controller: _pageController,

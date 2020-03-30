@@ -5,8 +5,9 @@ import 'package:toolchain_flutter/theme/light_color.dart';
 import '../../model/applet_model.dart';
 
 class ListPage extends StatefulWidget {
+  final String title;
   //构造函数
-  ListPage({Key key}) : super(key: key);
+  ListPage({Key key, this.title}) : super(key: key);
 
   @override
   _ListPageState createState() => _ListPageState();
@@ -28,7 +29,7 @@ class _ListPageState extends State<ListPage>
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("小程序",style: TextStyle(color: Colors.white)),
+        title: new Text(this.widget.title,style: TextStyle(color: Colors.white)),
         backgroundColor: LightColor.primaryColor, //设置appbar背景颜色
         centerTitle: true, //设置标题是否局中
       ),
