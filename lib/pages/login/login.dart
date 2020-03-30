@@ -5,6 +5,7 @@ import 'package:toolchain_flutter/common/Global.dart';
 import 'package:toolchain_flutter/pages/home/homePage.dart';
 import '../tabPage/tabPage.dart';
 import '../../model/user.dart';
+import '../../model/user_model.dart';
 
 class LoginPage extends StatefulWidget {
   static const String id = "/login";
@@ -36,8 +37,8 @@ class _LoginState extends State<LoginPage> {
 
   // 跳转到登录成功首页
   void pushToHomePage() {
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (BuildContext context) => new HomePage()));
+    // Navigator.of(context).pushReplacement(
+    //     MaterialPageRoute(builder: (BuildContext context) => new HomePage()));
 
     // Navigator.replace(context, oldRoute: null, newRoute: MaterialPageRoute(builder: (BuildContext context) => new HomePage()));
     Navigator.pushReplacementNamed(context, HomePage.id);
@@ -80,6 +81,10 @@ class _LoginState extends State<LoginPage> {
   }
 
   void _submitForm() async {
+    // 测试代码
+    // UserModel user = await User.getCurrentUser();
+    // return;
+
     if (_formKey.currentState.validate()) {
       try {
         setState(() {

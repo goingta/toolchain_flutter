@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/user_model.dart';
@@ -10,7 +11,7 @@ abstract class User {
 
   static Future<bool> signIn(String email, String password) async {
     String userInfo =
-        "{'name':'先生','avatar':'http://avatar','token':'Us5fepIESZHYO1jrPsNXYrecRyk'}";
+        "{\"name\":\"先生\",\"avatar\":\"http://avatar\",\"token\":\"Us5fepIESZHYO1jrPsNXYrecRyk\"}";
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(preUserInfo, userInfo);
     return true;
