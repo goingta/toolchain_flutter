@@ -4,6 +4,7 @@ import 'package:toolchain_flutter/model/user_model.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
 import 'package:toolchain_flutter/pages/login/login.dart';
 import '../../model/user.dart';
+import 'package:flutter/src/material/dialog.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -156,8 +157,41 @@ class _ProfileState extends State<ProfilePage>
     });
   }
 
-  _logout() {
-    User.signOut();
-    Navigator.pushReplacementNamed(context, LoginPage.id);
+  Future<void> _logout() async {
+    // User.signOut();
+    // Navigator.pushReplacementNamed(context, LoginPage.id);
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('提示'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('是否确认退出登录'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('取消'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text('退出'),
+              onPressed: () {
+                User.signOut();
+                Navigator.of(context).pop();
+                Navigator.pushReplacementNamed(context, LoginPage.id);
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 }
