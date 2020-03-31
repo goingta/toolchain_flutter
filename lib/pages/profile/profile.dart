@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:toolchain_flutter/model/user_model.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
-
+import 'package:toolchain_flutter/pages/login/login.dart';
 import '../../model/user.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -156,5 +156,8 @@ class _ProfileState extends State<ProfilePage>
     });
   }
 
-  _logout() {}
+  _logout() {
+    User.signOut();
+    Navigator.pushReplacementNamed(context, LoginPage.id);
+  }
 }
