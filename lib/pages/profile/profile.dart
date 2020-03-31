@@ -11,8 +11,9 @@ class ProfilePage extends StatefulWidget {
   _ProfileState createState() => _ProfileState();
 }
 
-class _ProfileState extends State<ProfilePage> with AutomaticKeepAliveClientMixin {
-   @override
+class _ProfileState extends State<ProfilePage>
+    with AutomaticKeepAliveClientMixin {
+  @override
   bool get wantKeepAlive => true; // 返回true
 
   UserModel _user;
@@ -27,126 +28,123 @@ class _ProfileState extends State<ProfilePage> with AutomaticKeepAliveClientMixi
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: new Text("个人中心",style: TextStyle(color: Colors.white)),
+        title: new Text("个人中心", style: TextStyle(color: Colors.white)),
         backgroundColor: LightColor.primaryColor, //设置appbar背景颜色
         centerTitle: true, //设置标题是否局中
       ),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(10.0,20.0,10.0,0),
-
-        child: _user == null ? Center(
-              child: SpinKitDoubleBounce(
-                color: Theme.of(context).primaryColor,
-                size: 50.0,
-              ),
-            ) : ListView(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12.0),
-                  child: Container(
-                      width: 100.0,
-                      height: 100.0,
-                      child: Image.network(_user.avatar,width: 100.0,height: 100.0,fit: BoxFit.cover)),
-                  ),
+        padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0),
+        child: _user == null
+            ? Center(
+                child: SpinKitDoubleBounce(
+                  color: Theme.of(context).primaryColor,
+                  size: 50.0,
                 ),
-
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              )
+            : ListView(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            _user.name,
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                      Padding(
+                        padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12.0),
+                          child: Container(
+                              width: 100.0,
+                              height: 100.0,
+                              child: Image.network(
+                                  _user.avatar == null ? '' : _user.avatar,
+                                  width: 100.0,
+                                  height: 100.0,
+                                  fit: BoxFit.cover)),
+                        ),
                       ),
-
-                      SizedBox(height: 5.0),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            _user.email,
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  _user.name == null ? '' : _user.name,
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-
-                      SizedBox(height: 20.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(_user.position,
-                              style: TextStyle(
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).accentColor,
-                              ),
-                              overflow: TextOverflow.ellipsis,
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  _user.email == null ? '' : _user.email,
+                                  style: TextStyle(
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
-                        ],
+                            SizedBox(height: 20.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  _user.position == null ? '' : _user.position,
+                                  style: TextStyle(
+                                    fontSize: 13.0,
+                                    fontWeight: FontWeight.w400,
+                                    color: Theme.of(context).accentColor,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        flex: 3,
                       ),
-
                     ],
                   ),
-                  flex: 3,
-                ),
-              ],
-            ),
-
-            Divider(),
-
-            ListTile(
-              title: Text(
-                "姓名",
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                ),
+                  Divider(),
+                  ListTile(
+                    title: Text(
+                      "姓名",
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    subtitle: Text(
+                      _user.name == null ? '' : _user.name,
+                    ),
+                  ),
+                  Divider(),
+                  ListTile(
+                    title: Text(
+                      "Email",
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    subtitle: Text(
+                      _user.email == null ? '' : _user.email,
+                    ),
+                  ),
+                  Divider(),
+                  Container(height: 40.0),
+                  RaisedButton(
+                    child: Text("退出登录"),
+                    textColor: Colors.white,
+                    onPressed: _logout,
+                  )
+                ],
               ),
-
-              subtitle: Text(
-                _user.name,
-              ),
-            ),
-            Divider(),
-            ListTile(
-              title: Text(
-                "Email",
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-
-              subtitle: Text(
-                _user.email,
-              ),
-            ),
-            Divider(),
-            Container(height: 40.0),
-            RaisedButton(
-                        child: Text("退出登录"),
-                        textColor: Colors.white,
-                        onPressed: _logout,
-                      )
-          ],
-        ),
       ),
     );
   }
@@ -158,9 +156,5 @@ class _ProfileState extends State<ProfilePage> with AutomaticKeepAliveClientMixi
     });
   }
 
-  _logout() {
-
-  }
+  _logout() {}
 }
-
-

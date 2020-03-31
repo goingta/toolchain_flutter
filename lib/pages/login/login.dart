@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluwx_worker/fluwx_worker.dart' as fluwxWorker;
 import 'package:toolchain_flutter/common/Global.dart';
-import 'package:toolchain_flutter/pages/home/home_page.dart';
+import 'package:toolchain_flutter/pages/tabPage/tab_page.dart';
 import '../../model/user.dart';
 
 class LoginPage extends StatefulWidget {
@@ -39,7 +39,7 @@ class _LoginState extends State<LoginPage> {
     //     MaterialPageRoute(builder: (BuildContext context) => new HomePage()));
 
     // Navigator.replace(context, oldRoute: null, newRoute: MaterialPageRoute(builder: (BuildContext context) => new HomePage()));
-    Navigator.pushReplacementNamed(context, HomePage.id);
+    Navigator.pushReplacementNamed(context, TabPage.id);
   }
 
   _initFluwx() async {
