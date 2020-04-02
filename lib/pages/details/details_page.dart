@@ -62,13 +62,14 @@ class _DetailsState extends State<DetailsPage>
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-          title: new Text(this.widget.title, style: TextStyle(color: Colors.white)),
-          backgroundColor: LightColor.primaryColor, //设置appbar背景颜色
-          centerTitle: true, //设置标题是否局
-          iconTheme: IconThemeData(
-            color: Colors.white, //change your color here
-          ),
-          ),
+        title:
+            new Text(this.widget.title, style: TextStyle(color: Colors.white)),
+        backgroundColor: LightColor.primaryColor, //设置appbar背景颜色
+        centerTitle: true, //设置标题是否局
+        iconTheme: IconThemeData(
+          color: Colors.white, //change your color here
+        ),
+      ),
       body: new ListPageContainer(
           title: this.widget.title,
           type: this.widget.type,

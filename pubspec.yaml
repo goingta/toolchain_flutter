@@ -25,9 +25,10 @@ dependencies:
   json_serializable: ^2.0.0 #序列化
   flutter_spinkit: ^3.0.0 #loading组件
   flutter_webview_plugin: ^0.3.0
+  flutter_icons: ^1.0.0+1
   fluwx_worker: #企业微信登录插件
-      git:
-        url: https://github.com/goingta/fluwx_worker
+    git:
+      url: https://github.com/goingta/fluwx_worker
   shared_preferences: ^0.5.1
 
 dev_dependencies:
