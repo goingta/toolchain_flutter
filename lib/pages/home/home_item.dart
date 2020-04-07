@@ -24,7 +24,8 @@ class HomeItem extends StatelessWidget {
         alignment: Alignment.center,
         child: InkWell(
           onTap: () {
-            Navigator.pushNamed(context, ListPage.id);
+            Navigator.pushNamed(context, ListPage.id,
+                arguments: <String, AppType>{'type': this.data.type});
           },
           child: Column(
             children: <Widget>[
