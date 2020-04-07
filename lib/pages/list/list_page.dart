@@ -28,9 +28,13 @@ class _ListPageState extends State<ListPage>
 
   @override
   Widget build(BuildContext context) {
+    var args = ModalRoute.of(context).settings.arguments;
+    print('获取到的参数${args}');
+
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text(this.widget.title,style: TextStyle(color: Colors.white)),
+        title:
+            new Text(this.widget.title, style: TextStyle(color: Colors.white)),
         backgroundColor: LightColor.primaryColor, //设置appbar背景颜色
         centerTitle: true, //设置标题是否局中
         iconTheme: IconThemeData(
