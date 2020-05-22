@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluwx_worker/fluwx_worker.dart' as fluwxWorker;
+import 'package:toast/toast.dart';
 import 'package:toolchain_flutter/common/Global.dart';
 import 'package:toolchain_flutter/pages/tabPage/tab_page.dart';
 import '../../model/user.dart';
@@ -58,6 +59,8 @@ class _LoginState extends State<LoginPage> {
         if (result) {
           // Navigator.pushNamed(context, TabPage.id);
           this.pushToHomePage();
+        } else {
+          Toast.show("登录失败！", context);
         }
       } else if (data.errCode == 1) {
         _result = '授权失败';

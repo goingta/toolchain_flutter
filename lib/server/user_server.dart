@@ -7,16 +7,16 @@ class UserServer extends Server {
   UserServer() {
     switch (Global.env) {
       case "dev":
-        host = 'http://oa.sso.developer.doctorwork.com/';
+        host = 'http://api-dev.doctorwork.com/oa-sso-web/';
       break;
       case "qa":
-        host = 'http://oa.sso.qa.doctorwork.com/';
+        host = 'http://api-qa.doctorwork.com/oa-sso-web/';
       break;
       case "pre":
-        host = 'http://oa.sso.pre.doctorwork.com/';
+        host = 'http://api-pre.doctorwork.com/oa-sso-web/';
       break;
       case "prd":
-        host = 'http://oa.sso.doctorwork.com/';
+        host = 'http://api.doctorwork.com/oa-sso-web/';
       break;
     }
   }

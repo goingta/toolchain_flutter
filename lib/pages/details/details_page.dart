@@ -2,22 +2,23 @@
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:toolchain_flutter/model/item_model.dart';
+import 'package:toolchain_flutter/network/network.dart';
+import 'package:toolchain_flutter/network/pgyer_network.dart';
 import 'package:toolchain_flutter/pages/details/details_item.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
 
 //项目内的库
-import '../../network/pgyer_network.dart';
 import '../../network/jenkins_network.dart';
-import '../../model/item_model.dart';
+import '../../model/pgy_item_model.dart';
 import '../../components/loadMore.dart';
 
 class DetailsPage extends StatefulWidget {
   static const String id = "/details";
   final String title;
-  final int type;
-  final String logo;
+  final ItemModel model;
   //构造函数
-  DetailsPage({Key key, this.title, this.type, this.logo}) : super(key: key);
+  DetailsPage({Key key, this.title, this.model}) : super(key: key);
 
   @override
   _DetailsState createState() => _DetailsState();
@@ -72,8 +73,7 @@ class _DetailsState extends State<DetailsPage>
       ),
       body: new ListPageContainer(
           title: this.widget.title,
-          type: this.widget.type,
-          logo: this.widget.logo),
+          model: this.widget.model),
     );
   }
 }
@@ -81,12 +81,13 @@ class _DetailsState extends State<DetailsPage>
 class ListPageHeader extends StatelessWidget {
   final String title;
   final String logo;
-  final int type;
+  final String type;
 
   ListPageHeader({this.title, this.type, this.logo}) : super();
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
         height: 120,
         padding: EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 0.0),
@@ -105,7 +106,11 @@ class ListPageHeader extends StatelessWidget {
           children: <Widget>[
             new ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Image.asset(this.logo, height: 88.0)),
+                child: logo == "" || logo == null ? Image.asset("images/list_default_logo.png"):Image.network(
+                                  logo,
+                                  width: 80.0,
+                                  height: 80.0,
+                                  fit: BoxFit.cover)),
             new Expanded(
                 flex: 2,
                 child: Padding(
@@ -114,16 +119,14 @@ class ListPageHeader extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        new Text(this.title, style: TextStyle(fontSize: 24.0)),
-                        this.type == 1
-                            ? new FlatButton(
+                        SizedBox(height: 15),
+                        new FlatButton(
                                 onPressed: () {
                                   _build(context);
                                 },
                                 child: new Text("构建新版本",
                                     style: TextStyle(color: Colors.white)),
                                 color: LightColor.primaryColor)
-                            : new Container()
                       ],
                     ))),
             new Container(
@@ -148,16 +151,15 @@ class ListPageHeader extends StatelessWidget {
 
 class ListPageContainer extends StatefulWidget {
   final String title;
-  final int type;
-  final String logo;
-  ListPageContainer({this.title, this.type, this.logo}) : super();
+  final ItemModel model;
+  ListPageContainer({this.title, this.model}) : super();
   @override
   _ListPageContainerState createState() => _ListPageContainerState();
 }
 
 class _ListPageContainerState extends State<ListPageContainer> {
   //数据源
-  List<ItemModel> _list = [];
+  List<PGYItemModel> _list = [];
   bool _needLoadMore = true;
   int _page = 1;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
@@ -188,15 +190,20 @@ class _ListPageContainerState extends State<ListPageContainer> {
       children: <Widget>[
         ListPageHeader(
             title: this.widget.title,
-            type: this.widget.type,
-            logo: this.widget.logo),
+            type: this.widget.model.type,
+            logo: this.widget.model.logo),
         Container(
             height: 1.0,
             decoration: new BoxDecoration(
                 border: new Border.all(color: Colors.grey[200]))),
         Flexible(
             child: _list.length == 0
-                ? new Center(child: SpinKitWave(color: Colors.blue))
+                ? Center(
+                  child: SpinKitDoubleBounce(
+                    color: Theme.of(context).primaryColor,
+                    size: 50.0,
+                  ),
+                )
                 : new RefreshIndicator(
                     onRefresh: _refresh,
                     child: ListView.builder(
@@ -216,26 +223,47 @@ class _ListPageContainerState extends State<ListPageContainer> {
   Future<Null> _refresh() async {
     _list.clear();
     _page = 1;
-    await _loadData(_page);
+    await _loadDetailData(this.widget.model.id);
     return null;
   }
 
   Future<Null> _loadData(int page) async {
-    // print("page:$page,type:${this.widget.type},title:${this.widget.title}");
-    PGYNetwork network = new PGYNetwork(type: this.widget.type);
-    List<ItemModel> arr = await network.getList(page: page);
-    _needLoadMore = arr.length >= 20;
-    print("数据加载完毕!");
-    setState(() {
-      _list.addAll(arr);
-    });
+    if (this.widget.model.tid == '5e7457a4bd106540e515eba2' || this.widget.model.tid == "5e7457b2bd106540e515eba3") {
+      PGYNetwork network = new PGYNetwork();
+      List<PGYItemModel> arr = await network.getList();
+      _needLoadMore = arr.length >= 20;
+      print("数据加载完毕!");
+      setState(() {
+          _list.addAll(arr);
+      });
+    } else {
+      // print("page:$page,type:${this.widget.type},title:${this.widget.title}");
+      // Network network = new Network();
+      // List<ItemModel> arr = await network.getList(page: page);
+      // _needLoadMore = arr.length >= 20;
+      // print("数据加载完毕!");
+      // setState(() {
+      //     _list.addAll(arr);
+      // });
+    }
   }
+
+  Future<Null> _loadDetailData(String lid) async {
+      Network network = new Network();
+      Map<String, dynamic> data = await network.detail(lid);
+      // _needLoadMore = arr.length >= 20;
+      print(data);
+      // setState(() {
+      //     _list.addAll(arr);
+      // });
+  }
+
 
   _getItem(int index) {
     if (index == _list.length - 1 && index != 0) {
       return _needLoadMore ? LoadMore() : Container();
     } else {
-      ItemModel model = _list[index];
+      PGYItemModel model = _list[index];
       return new DetailsItem(model: model);
     }
   }

@@ -65,19 +65,19 @@ class HomePage extends StatelessWidget {
   /// 美团 - 服务菜单
   List<HomeItemViewModel> serviceList = [
     HomeItemViewModel(
-        title: 'iOS', tid: "5e7457a4bd106540e515eba2", type: AppType.ios),
+        title: 'iOS', tid: "5e7457a4bd106540e515eba2", type: "iOS"),
     HomeItemViewModel(
         title: 'Android',
         tid: "5e7457b2bd106540e515eba3",
-        type: AppType.android),
+        type: "Android"),
     HomeItemViewModel(
-        title: 'H5', tid: "5e7457b5bd106540e515eba4", type: AppType.h5),
+        title: 'H5', tid: "5e7457b5bd106540e515eba4", type: "H5"),
     HomeItemViewModel(
-        title: '小程序', tid: "5e81e23eb59f0f19096132a2", type: AppType.weapp),
+        title: '小程序', tid: "5e81e23eb59f0f19096132a2", type: '小程序'),
     HomeItemViewModel(
-        title: 'Java', tid: "5e7457bbbd106540e515eba5", type: AppType.java),
+        title: 'Java', tid: "5e7457bbbd106540e515eba5", type: 'Java'),
     HomeItemViewModel(
-        title: 'Node', tid: "5e7457c0bd106540e515eba6", type: AppType.node)
+        title: 'Node', tid: "5e7457c0bd106540e515eba6", type: 'Node')
   ];
 
   @override

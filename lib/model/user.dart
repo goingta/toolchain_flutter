@@ -18,11 +18,15 @@ abstract class User {
 
   static Future<bool> fluwxWorkerSignIn(code) async {
     UserNetwork network = UserNetwork();
-    Map<String, dynamic> userInfo = await network.loginWithWechatWork(code);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userInfoString = Utils.jsonToString(userInfo);
-    prefs.setString(preUserInfo, userInfoString);
-    return true;
+    Map<String, dynamic> result = await network.loginWithWechatWork(code);
+    if (result != null) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String userInfoString = Utils.jsonToString(result["data"]);
+      prefs.setString(preUserInfo, userInfoString);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   static Future<void> signOut() async {

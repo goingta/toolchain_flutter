@@ -4,11 +4,11 @@ import 'package:url_launcher/url_launcher.dart';
 // import 'package:toast/toast.dart';
 import 'package:flutter/services.dart';
 
-import '../../model/item_model.dart';
+import '../../model/pgy_item_model.dart';
 
 class DetailsItem extends StatelessWidget {
   //属性
-  final ItemModel model;
+  final PGYItemModel model;
 
   //构造函数
   DetailsItem({Key key, @required this.model}) : super(key: key);

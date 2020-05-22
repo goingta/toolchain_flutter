@@ -55,7 +55,7 @@ flutter:
     - images/aboutus_healthLife.png
     - images/aboutus_step.png
     - images/aboutus_vaccine.png
-    - images/aboutus_terminal.png
+    - images/list_default_logo.png
     - assets/graphics/
   fonts:
     - family: Rubik

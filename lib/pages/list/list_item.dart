@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:toolchain_flutter/model/item_model.dart';
 import 'package:toolchain_flutter/pages/details/details_page.dart';
 
-import '../../model/applet_model.dart';
 
 class ListViewItem extends StatelessWidget {
-  //属性
-  final AppletModel model;
+  //属性e
+  final ItemModel model;
 
   //构造函数
   ListViewItem({Key key, @required this.model}) : super(key: key);
@@ -19,8 +18,20 @@ class ListViewItem extends StatelessWidget {
             child: new Row(children: <Widget>[
               new Padding(
                   padding: EdgeInsets.all(10.0),
-                  child: new Image.asset(model.icon)),
-              new Text(model.title, style: TextStyle(fontSize: 22))
+                  child: model.logo == "" || model.logo == null ? Image.asset("images/list_default_logo.png"):Image.network(
+                                  model.logo,
+                                  width: 80.0,
+                                  height: 80.0,
+                                  fit: BoxFit.cover)),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Text(model.name, style: TextStyle(fontSize: 18)),
+                  new Text("别名："+model.alias, style: TextStyle(fontSize: 12)),
+                  new Text("负责人："+model.owner, style: TextStyle(fontSize: 12))
+                ],
+              )
             ]),
             onTap: () {
               launchURL(context, model);
@@ -30,9 +41,9 @@ class ListViewItem extends StatelessWidget {
                 bottom: BorderSide(width: 1.0, color: Colors.grey[300]))));
   }
 
-  void launchURL(BuildContext context, AppletModel model) async {
+  void launchURL(BuildContext context, ItemModel model) async {
     // const platform = const MethodChannel('goingta.flutter.io/share');
     // await platform.invokeMethod("gotoWechat", model.programName);
-    Navigator.pushNamed(context, DetailsPage.id,arguments: {"title":"详情页","type":1,"logo":"images/health_logo.png"});
+    Navigator.pushNamed(context, DetailsPage.id,arguments: {"title":model.name, "model": model});
   }
 }

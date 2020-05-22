@@ -11,13 +11,13 @@ class HomeItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const myIcons = <AppType, IconData>{
-      AppType.ios: FontAwesome5Brands.app_store_ios,
-      AppType.android: FontAwesome5Brands.android,
-      AppType.h5: FontAwesome5Brands.html5,
-      AppType.weapp: FontAwesome5Brands.weixin,
-      AppType.java: FontAwesome5Brands.java,
-      AppType.node: FontAwesome5Brands.node_js,
+    const myIcons = <String, IconData>{
+      "iOS": FontAwesome5Brands.app_store_ios,
+      "Android": FontAwesome5Brands.android,
+      "H5": FontAwesome5Brands.html5,
+      "小程序": FontAwesome5Brands.weixin,
+      "Java": FontAwesome5Brands.java,
+      "Node": FontAwesome5Brands.node_js,
     };
 
     return Container(
@@ -25,7 +25,7 @@ class HomeItem extends StatelessWidget {
         child: InkWell(
           onTap: () {
             Navigator.pushNamed(context, ListPage.id,
-                arguments: <String, AppType>{'type': this.data.type});
+                arguments: <String, dynamic>{'tid': this.data.tid, 'type':this.data.type});
           },
           child: Column(
             children: <Widget>[
@@ -58,7 +58,7 @@ class HomeItemViewModel {
   /// Key
   final String tid;
 
-  final AppType type;
+  final String type;
 
   const HomeItemViewModel({this.icon, this.title, this.tid, this.type});
 }

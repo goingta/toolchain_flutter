@@ -1,33 +1,48 @@
 class ItemModel {
-  String buildKey;
-  String buildFileSize;
-  String buildVersion;
-  String buildUpdateDescription;
-  String buildBuildVersion;
-  String buildCreated;
+  String id;
+  String name;
+  String tid;
+  String type;
+  String alias;
+  String desc;
+  String gitlab;
+  String owner;
+  String logo;
+  String branch;
 
   ItemModel(
-      {this.buildKey,
-      this.buildFileSize,
-      this.buildVersion,
-      this.buildUpdateDescription,
-      this.buildBuildVersion,
-      this.buildCreated});
+      {this.id,
+      this.name,
+      this.tid,
+      this.alias,
+      this.desc,
+      this.gitlab,
+      this.owner,
+      this.logo,
+      this.branch});
 
   ItemModel.fromJson(Map<String, dynamic> json)
-      : buildKey = json['buildKey'],
-        buildFileSize = json['buildFileSize'],
-        buildVersion = json['buildVersion'],
-        buildUpdateDescription = json['buildUpdateDescription'],
-        buildBuildVersion = json['buildBuildVersion'],
-        buildCreated = json['buildCreated'];
+      : id = json['_id'],
+        name = json['name'],
+        tid = json['tid'],
+        type = json['type'],
+        alias = json['alias'],
+        desc = json['desc'],
+        gitlab = json['gitlab'],
+        owner = json['owner'],
+        logo = json['logo'],
+        branch = json['branch'];
 
   Map<String, dynamic> toJson() => {
-        'buildKey': buildKey,
-        'buildFileSize': buildFileSize,
-        'buildVersion': buildVersion,
-        'buildUpdateDescription': buildUpdateDescription,
-        'buildBuildVersion': buildBuildVersion,
-        'buildCreated': buildCreated,
+        'id': id,
+        'name': name,
+        'tid': tid,
+        'type': type,
+        'alias': alias,
+        'desc': desc,
+        'gitlab': gitlab,
+        'owner': owner,
+        'logo': logo,
+        'branch': branch
       };
 }
