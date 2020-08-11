@@ -62,7 +62,7 @@ class HomePage extends StatelessWidget {
         ));
   }
 
-  /// 美团 - 服务菜单
+  /// - 服务菜单
   List<HomeItemViewModel> serviceList = [
     HomeItemViewModel(
         title: 'iOS', tid: "5e7457a4bd106540e515eba2", type: "iOS"),

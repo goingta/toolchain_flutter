@@ -169,7 +169,8 @@ class _ListPageContainerState extends State<ListPageContainer> {
   void initState() {
     print('ListPageContainer initState');
     super.initState();
-    _refresh();
+    // _refresh();
+    this._loadData(1);
 
     ///增加滑动监听
     _scrollController.addListener(() {
@@ -223,12 +224,12 @@ class _ListPageContainerState extends State<ListPageContainer> {
   Future<Null> _refresh() async {
     _list.clear();
     _page = 1;
-    await _loadDetailData(this.widget.model.id);
+    // await _loadDetailData(this.widget.model.id);
     return null;
   }
 
   Future<Null> _loadData(int page) async {
-    if (this.widget.model.tid == '5e7457a4bd106540e515eba2' || this.widget.model.tid == "5e7457b2bd106540e515eba3") {
+    // if (this.widget.model.tid == '5e7457a4bd106540e515eba2' || this.widget.model.tid == "5e7457b2bd106540e515eba3") {
       PGYNetwork network = new PGYNetwork();
       List<PGYItemModel> arr = await network.getList();
       _needLoadMore = arr.length >= 20;
@@ -236,7 +237,7 @@ class _ListPageContainerState extends State<ListPageContainer> {
       setState(() {
           _list.addAll(arr);
       });
-    } else {
+    // } else {
       // print("page:$page,type:${this.widget.type},title:${this.widget.title}");
       // Network network = new Network();
       // List<ItemModel> arr = await network.getList(page: page);
@@ -245,7 +246,7 @@ class _ListPageContainerState extends State<ListPageContainer> {
       // setState(() {
       //     _list.addAll(arr);
       // });
-    }
+    // }
   }
 
   Future<Null> _loadDetailData(String lid) async {

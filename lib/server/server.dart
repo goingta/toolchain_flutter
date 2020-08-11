@@ -48,7 +48,7 @@ class Server {
   Future<Map<String, dynamic>> post(String url, Map<String, dynamic> params,
       {Map<String, dynamic> headers}) async {
     assert(host != null, 'host不能为空');
-    FormData formData = new FormData.from(commonParams(params));
+    FormData formData = new FormData.fromMap(params);
     Dio dio = new Dio();
     String webUrl = host + url;
     try {

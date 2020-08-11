@@ -8,7 +8,7 @@ class PGYNetwork {
   PGYNetwork({this.type});
   //工具链 蒲公英配置
   var pgyerToolChainAppKey = isIOS
-      ? "df0fa62af1afe652c6cc881091d808fc"
+      ? "939354a730a57681b79e7cf7c662c42a"
       : "aad7f7999b29743c6820c113e92bdb5a";
   var pgyerToolChainApiKey = "01f1afe385c48954fd713ba5d533b62c";
   var pgyerToolChainUserKey = "1355980667be03e4544e23214b5e8c14";
@@ -22,8 +22,8 @@ class PGYNetwork {
   Future<List<PGYItemModel>> getList({int page = 1, appKey, apiKey}) async {
     PGYServer server = new PGYServer();
     Map<String, dynamic> data = await server.post("apiv2/app/builds", {
-      "_api_key": apiKey,
-      "appKey": appKey,
+      "_api_key": pgyerToolChainApiKey,
+      "appKey": pgyerToolChainAppKey,
       "page": page
     });
 

@@ -26,18 +26,45 @@ class _ListPageState extends State<ListPage>
   bool _needLoadMore = true;
   List<ItemModel> _list = [];
 
+
+
   void initState() {
     super.initState();
+
+    ItemModel qheath = new ItemModel();
+    qheath.name = "企业健康App";
+    qheath.logo = "https://app-icon.pgyer.com/b/e/e/c/e/beece9bc91da9ccb0108bdd195588930?x-oss-process=image/resize,m_lfit,h_120,w_120/format,jpg";
+    qheath.desc = "企业健康App-Flutter版本";
+    qheath.owner = "唐雷";
+    qheath.type = "ios";
+
+    ItemModel healthApplet = new ItemModel();
+    healthApplet.name = "企鹅家庭医生";
+    healthApplet.logo = "https://app-icon.pgyer.com/b/e/e/c/e/beece9bc91da9ccb0108bdd195588930?x-oss-process=image/resize,m_lfit,h_120,w_120/format,jpg";
+    healthApplet.desc = "C端小程序";
+    healthApplet.owner = "谭军一";
+    healthApplet.type = "applet";
+
+    ItemModel yzs = new ItemModel();
+    yzs.name = "健康咨询";
+    yzs.logo = "https://app-icon.pgyer.com/b/e/e/c/e/beece9bc91da9ccb0108bdd195588930?x-oss-process=image/resize,m_lfit,h_120,w_120/format,jpg";
+    yzs.desc = "云诊室";
+    yzs.owner = "张天鸣";
+    yzs.type = "h5";
+
+    _list.add(qheath);
+    _list.add(healthApplet);
+    _list.add(yzs);
   }
 
   @override
   Widget build(BuildContext context) {
 
-    Map<String,dynamic> args = ModalRoute.of(context).settings.arguments;
+    // Map<String,dynamic> args = ModalRoute.of(context).settings.arguments;
 
-    if (_list.length == 0 && !_loading && _needLoadMore) {
-      _loadData(1, {"tid": args["tid"]});
-    }
+    // if (_list.length == 0 && !_loading && _needLoadMore) {
+    //   _loadData(1, {"tid": args["tid"]});
+    // }
 
 
 
