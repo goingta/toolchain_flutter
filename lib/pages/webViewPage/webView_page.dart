@@ -76,12 +76,9 @@ class _WebViewPageState extends State<WebViewPage> {
           if (controller.hasData) {
             return FloatingActionButton(
               onPressed: () async {
-                final String url = await controller.data.currentUrl();
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(content: Text('Favorited $url')),
-                );
+
               },
-              child: const Icon(Icons.favorite),
+              child: const Icon(Icons.refresh),
             );
           }
           return Container();
