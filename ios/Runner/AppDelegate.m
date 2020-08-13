@@ -6,7 +6,7 @@
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [WXApi registerApp:@"wx906221748b3266dd" universalLink:nil];
+    [WXApi registerApp:@"wx36017dd6944033f4" universalLink:nil];
     FlutterViewController* controller = (FlutterViewController*)self.window.rootViewController;
     
     FlutterMethodChannel* channel = [FlutterMethodChannel
