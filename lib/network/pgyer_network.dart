@@ -9,7 +9,7 @@ class PGYNetwork {
   //工具链 蒲公英配置
   var pgyerToolChainAppKey = isIOS
       ? "939354a730a57681b79e7cf7c662c42a"
-      : "aad7f7999b29743c6820c113e92bdb5a";
+      : "38f6c28b60363081098d9102a7b00cc8";
   var pgyerToolChainApiKey = "01f1afe385c48954fd713ba5d533b62c";
   var pgyerToolChainUserKey = "1355980667be03e4544e23214b5e8c14";
 

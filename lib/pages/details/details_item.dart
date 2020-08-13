@@ -53,11 +53,9 @@ class DetailsItem extends StatelessWidget {
     var url;
     bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
     if (isIOS) {
-      print("iOS install");
       url =
           "itms-services://?action=download-manifest&url=https://www.pgyer.com/app/plist/$buildKey";
     } else {
-      print("Android install");
       url =
           "https://www.pgyer.com/apiv2/app/install?_api_key=87a96feb51f5ecdfafc2bc4c9eeb045a&buildKey=$buildKey";
     }
