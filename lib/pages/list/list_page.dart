@@ -13,7 +13,7 @@ class ListPage extends StatefulWidget {
   final String title;
   final Map arguments;
   //构造函数
-  ListPage({Key key, this.title , this.arguments}) : super(key: key);
+  ListPage({Key key, this.title, this.arguments}) : super(key: key);
   @override
   _ListPageState createState() => _ListPageState();
 }
@@ -26,28 +26,29 @@ class _ListPageState extends State<ListPage>
   bool _needLoadMore = true;
   List<ItemModel> _list = [];
 
-
-
   void initState() {
     super.initState();
 
     ItemModel qheath = new ItemModel();
     qheath.name = "企业健康App";
-    qheath.logo = "https://app-icon.pgyer.com/b/e/e/c/e/beece9bc91da9ccb0108bdd195588930?x-oss-process=image/resize,m_lfit,h_120,w_120/format,jpg";
+    qheath.logo =
+        "https://app-icon.pgyer.com/b/e/e/c/e/beece9bc91da9ccb0108bdd195588930?x-oss-process=image/resize,m_lfit,h_120,w_120/format,jpg";
     qheath.desc = "企业健康App-Flutter版本";
     qheath.owner = "唐雷";
     qheath.type = "ios";
 
     ItemModel healthApplet = new ItemModel();
     healthApplet.name = "企鹅家庭医生";
-    healthApplet.logo = "https://app-icon.pgyer.com/b/e/e/c/e/beece9bc91da9ccb0108bdd195588930?x-oss-process=image/resize,m_lfit,h_120,w_120/format,jpg";
+    healthApplet.logo =
+        "http://wx.qlogo.cn/mmhead/Q3auHgzwzM4zNRU5eQjnLEQZiaXvNM8m3wq9kBJzCGaJAE9wgyicV8yg/0";
     healthApplet.desc = "C端小程序";
     healthApplet.owner = "谭军一";
     healthApplet.type = "applet";
 
     ItemModel yzs = new ItemModel();
     yzs.name = "健康咨询";
-    yzs.logo = "https://app-icon.pgyer.com/b/e/e/c/e/beece9bc91da9ccb0108bdd195588930?x-oss-process=image/resize,m_lfit,h_120,w_120/format,jpg";
+    yzs.logo =
+        "http://wx.qlogo.cn/mmhead/Q3auHgzwzM4nPEAff0LVoakHN35RNhWXsOzXyV3dQMU1JyHDFSpobg/0";
     yzs.desc = "云诊室";
     yzs.owner = "张天鸣";
     yzs.type = "h5";
@@ -59,14 +60,11 @@ class _ListPageState extends State<ListPage>
 
   @override
   Widget build(BuildContext context) {
-
     // Map<String,dynamic> args = ModalRoute.of(context).settings.arguments;
 
     // if (_list.length == 0 && !_loading && _needLoadMore) {
     //   _loadData(1, {"tid": args["tid"]});
     // }
-
-
 
     return new Scaffold(
       appBar: new AppBar(
@@ -78,35 +76,38 @@ class _ListPageState extends State<ListPage>
           color: Colors.white, //change your color here
         ),
       ),
-      body: _loading ? Center(
+      body: _loading
+          ? Center(
               child: SpinKitDoubleBounce(
                 color: Theme.of(context).primaryColor,
                 size: 50.0,
               ),
-            ) : _list.length == 0 ? Center(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: 20),
-                    Image(
+            )
+          : _list.length == 0
+              ? Center(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                      SizedBox(height: 20),
+                      Image(
                           image: AssetImage(
-                            'assets/graphics/not-found.png',
-                          )),
-                    Text("暂无数据",
-                            style: TextStyle(color: LightColor.primaryColor))
-                  ])
-             ): ListView.builder(
-        itemCount: _list.length,
-        itemBuilder: (context, index) {
-          ItemModel model = _list[index];
-          return new ListViewItem(model: model);
-        },
-      ),
+                        'assets/graphics/not-found.png',
+                      )),
+                      Text("暂无数据",
+                          style: TextStyle(color: LightColor.primaryColor))
+                    ]))
+              : ListView.builder(
+                  itemCount: _list.length,
+                  itemBuilder: (context, index) {
+                    ItemModel model = _list[index];
+                    return new ListViewItem(model: model);
+                  },
+                ),
     );
   }
 
-  Future<Null> _loadData(int page,Map<String,dynamic> params) async {
-      _loading = true;
+  Future<Null> _loadData(int page, Map<String, dynamic> params) async {
+    _loading = true;
     // print("page:$page,type:${this.widget.type},title:${this.widget.title}");
     Network network = new Network();
     List<ItemModel> arr = await network.list(page: page, params: params);

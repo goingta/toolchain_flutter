@@ -26,7 +26,7 @@ public class WeixinPlugin implements MethodChannel.MethodCallHandler {
     private static final int THUMB_SIZE = 150;
     private static final String CHANNEL = "goingta.flutter.io/share";
 
-    public static final String APP_ID = "wx906221748b3266dd";
+    public static final String APP_ID = "wx36017dd6944033f4";
 
     public static void registerWith(FlutterView flutterView) {
         MethodChannel channel =
