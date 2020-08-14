@@ -6,7 +6,7 @@
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [WXApi registerApp:@"wx36017dd6944033f4" universalLink:nil];
+    [WXApi registerApp:@"wx36017dd6944033f4" universalLink:@"https://help.wechat.com/toolchain/"];
     FlutterViewController* controller = (FlutterViewController*)self.window.rootViewController;
     
     FlutterMethodChannel* channel = [FlutterMethodChannel
@@ -30,6 +30,10 @@
   [GeneratedPluginRegistrant registerWithRegistry:self];
   // Override point for customization after application launch.
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
+    return [WXApi handleOpenURL:userActivity delegate:self];
 }
 
 - (void)gotoWechat:(NSString *)weappId {

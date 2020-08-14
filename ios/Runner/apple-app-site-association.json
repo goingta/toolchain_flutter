@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "ANP5JZS39H.com.doctorwork.flutter.toolchain",
+        "paths": ["/toolchain/*"]
+      }
+    ]
+  }
+}
