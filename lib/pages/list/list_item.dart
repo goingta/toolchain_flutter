@@ -57,7 +57,7 @@ class ListViewItem extends StatelessWidget {
       Navigator.pushNamed(context, DetailsPage.id,arguments: {"title":model.name, "model": model});
     } else {
       const platform = const MethodChannel('goingta.flutter.io/share');
-      await platform.invokeMethod("gotoWechat", "wxf9f544671e2508d4");
+      await platform.invokeMethod("gotoWechat", "gh_ace42616fd18");
     }
   }
 }
