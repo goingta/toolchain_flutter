@@ -27,13 +27,26 @@
         }
     }];
     
-  [GeneratedPluginRegistrant registerWithRegistry:self];
+    [GeneratedPluginRegistrant registerWithRegistry:self];
+    //调用自检函数
+    [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult* result) {
+        NSLog(@"wxapi:%@, %u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion);
+    }];
   // Override point for customization after application launch.
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    return  [WXApi handleOpenURL:url delegate:self];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [WXApi handleOpenURL:url delegate:self];
+}
+
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
-    return [WXApi handleOpenURL:userActivity delegate:self];
+//    return [WXApi handleOpenURL:userActivity delegate:self];
+    return [WXApi handleOpenUniversalLink:userActivity delegate:self];
 }
 
 - (void)gotoWechat:(NSString *)weappId {
