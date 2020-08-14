@@ -6,7 +6,7 @@
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [WXApi registerApp:@"wx36017dd6944033f4" universalLink:@"https://help.wechat.com/toolchain/"];
+    [WXApi registerApp:@"wx36017dd6944033f4" universalLink:@"https://xingren.com/app/"];
     FlutterViewController* controller = (FlutterViewController*)self.window.rootViewController;
     
     FlutterMethodChannel* channel = [FlutterMethodChannel

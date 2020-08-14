@@ -26,7 +26,9 @@ class Server {
 
   commonParams(Map<String, dynamic> params) async {
     UserModel user = await User.getCurrentUser();
-    params["token"] = user.token;
+    if(user != null) {
+      params["token"] = user.token;
+    }
     return params;
   }
 
@@ -36,7 +38,8 @@ class Server {
     Dio dio = new Dio();
     String webUrl = host + url;
     try {
-      Response response = await dio.get(webUrl, queryParameters: commonParams(params));
+      params = await commonParams(params);
+      Response response = await dio.get(webUrl, queryParameters: params);
       Map<String, dynamic> data = response.data;
       return data;
     } catch (e) {

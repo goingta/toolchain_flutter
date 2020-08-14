@@ -10,7 +10,7 @@ class UserModel {
   String position;
   String userId;
   String token;
-  String normandyUserId;/// Normany的用户ID */
+  int normandyUserId;/// Normany的用户ID */
 
   UserModel(this.name,this.avatar,this.email,this.position,this.userId,this.token,this.normandyUserId);
   //不同的类使用不同的mixin即可，注意格式一定要写正确
