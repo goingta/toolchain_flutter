@@ -6,19 +6,19 @@
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [WXApi registerApp:@"wx36017dd6944033f4" universalLink:@"https://xingren.com/app/"];
+    [WXApi registerApp:@"wx36017dd6944033f4" universalLink:@"https://yisheng.aihaisi.com/toolchain/"];
     FlutterViewController* controller = (FlutterViewController*)self.window.rootViewController;
-    
+
     FlutterMethodChannel* channel = [FlutterMethodChannel
                                             methodChannelWithName:@"goingta.flutter.io/share"
                                             binaryMessenger:controller];
-    
+
     __weak typeof(self) weakSelf = self;
     [channel setMethodCallHandler:^(FlutterMethodCall* call, FlutterResult result) {
         if ([@"gotoWechat" isEqualToString:call.method]) {
             NSString* weappId = call.arguments;
             [weakSelf gotoWechat:weappId];
-            
+
             result(@(YES));
         } else if ([@"shareToWechat" isEqualToString:call.method]) {
             [weakSelf shareToWechat:call.arguments];
@@ -26,12 +26,8 @@
             result(FlutterMethodNotImplemented);
         }
     }];
-    
+
     [GeneratedPluginRegistrant registerWithRegistry:self];
-    //调用自检函数
-    [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult* result) {
-        NSLog(@"wxapi:%@, %u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion);
-    }];
   // Override point for customization after application launch.
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
@@ -59,14 +55,14 @@
 - (void)shareToWechat:(NSDictionary *)dic {
     WXWebpageObject *ext = [WXWebpageObject object];
     ext.webpageUrl = [NSString stringWithFormat:@"https://www.pgyer.com/%@",dic[@"buildKey"]];
-    
+
     WXMediaMessage *message = [WXMediaMessage message];
     message.title = [NSString stringWithFormat:@"蒲公英iOS版本(%@:%@)",dic[@"buildVersion"],dic[@"buildBuildVersion"]];
     message.description = dic[@"buildUpdateDescription"];
     message.mediaObject = ext;
     [message setThumbImage:[UIImage imageNamed:@"logo"]];
     message.mediaTagName = dic[@"buildVersion"];
-    
+
     SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
     req.message = message;
     req.bText = false;
