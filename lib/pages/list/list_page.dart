@@ -32,7 +32,7 @@ class _ListPageState extends State<ListPage>
     ItemModel qheath = new ItemModel();
     qheath.name = "企业健康App";
     qheath.logo =
-        "https://app-icon.pgyer.com/b/e/e/c/e/beece9bc91da9ccb0108bdd195588930?x-oss-process=image/resize,m_lfit,h_120,w_120/format,jpg";
+        "http://wx.qlogo.cn/mmhead/Q3auHgzwzM7Db1AKDiaiaibXFw8fuQINtgVq3BvTxDtJq791VIrzQjCuA/0";
     qheath.desc = "企业健康App-Flutter版本";
     qheath.owner = "唐雷";
     qheath.type = "ios";
