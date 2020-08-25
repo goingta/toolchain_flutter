@@ -23,7 +23,7 @@ platform :ios do
 	  	git_log = sh("git log --no-merges -1 --pretty=format:'# %ai%n# %B by %an'")
 
 		automatic_code_signing(
-			profile_uuid:"67ac2965-fa44-40e9-baf9-e1b4e8ed044a"
+			profile_uuid:"26bce8ca-926f-4da3-895d-4153c0620179"
 		)
 
 	    gym(
