@@ -30,12 +30,14 @@ allprojects {
     }
 }
 
+rootProject.buildDir = '../build'
 subprojects {
-    if(project.name != "app") {
-        project.buildDir = "${rootProject.buildDir}/${project.name}"
-    }
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
-
 subprojects {
     project.evaluationDependsOn(':app')
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
