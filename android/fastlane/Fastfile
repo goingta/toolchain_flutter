@@ -1,0 +1,30 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "发布 Android 包到蒲公英"
+  lane :pgy do
+    git_log = sh("git log --no-merges -1 --pretty=format:'# %ai%n# %B by %an'")
+    gradle(task: "clean")
+    gradle(task: "assemble", build_type: "Release", project_dir: ".")
+    pgyer(
+        api_key: "01f1afe385c48954fd713ba5d533b62c",
+        user_key: "1355980667be03e4544e23214b5e8c14",
+        update_description: git_log
+    )
+  end
+end
