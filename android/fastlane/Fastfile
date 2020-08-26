@@ -19,8 +19,7 @@ platform :android do
   desc "发布 Android 包到蒲公英"
   lane :pgy do
     git_log = sh("git log --no-merges -1 --pretty=format:'# %ai%n# %B by %an'")
-    gradle(task: "clean")
-    gradle(task: "assemble", build_type: "Release", project_dir: ".")
+    lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH] = "../build/app/outputs/apk/release/app-release.apk"
     pgyer(
         api_key: "01f1afe385c48954fd713ba5d533b62c",
         user_key: "1355980667be03e4544e23214b5e8c14",
