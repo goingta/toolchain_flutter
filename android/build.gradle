@@ -1,10 +1,5 @@
 buildscript {
     repositories {
-        // google()
-        // jcenter()
-        // maven {
-        //     url 'https://bintray.com/wechat-sdk-team/maven'
-        // }
         maven {
             url 'https://maven.aliyun.com/repository/google'
         }
@@ -23,11 +18,6 @@ buildscript {
 
 allprojects {
     repositories {
-        // google()
-        // jcenter()
-        // maven {
-        //     url 'https://bintray.com/wechat-sdk-team/maven'
-        // }
         maven {
             url 'https://maven.aliyun.com/repository/google'
         }
@@ -40,14 +30,12 @@ allprojects {
     }
 }
 
-rootProject.buildDir = '../build'
 subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
-    project.evaluationDependsOn(':app')
+    if(project.name != "app") {
+        project.buildDir = "${rootProject.buildDir}/${project.name}"
+    }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+subprojects {
+    project.evaluationDependsOn(':app')
 }
