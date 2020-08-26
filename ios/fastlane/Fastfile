@@ -31,7 +31,9 @@ platform :ios do
 	    	scheme: "Runner",
 	    	export_method: "enterprise",
 	    	output_directory: "output",
-	    	configuration: "Release"
+	    	configuration: "Release",
+        clean: true,
+        xcargs: "-UseNewBuildSystem=YES"
 	    )
 
   		pgyer(
