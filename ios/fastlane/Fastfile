@@ -22,9 +22,10 @@ platform :ios do
 
 	  	git_log = sh("git log --no-merges -1 --pretty=format:'# %ai%n# %B by %an'")
 
-		automatic_code_signing(
-			profile_uuid:"26bce8ca-926f-4da3-895d-4153c0620179"
-		)
+# 用自动签名，就不需要手动签名了
+#		automatic_code_signing(
+#			profile_uuid:"26bce8ca-926f-4da3-895d-4153c0620179"
+#		)
 
 	    gym(
 	    	scheme: "Runner",
