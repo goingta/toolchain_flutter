@@ -1,7 +1,9 @@
 //package
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:toast/toast.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:toolchain_flutter/model/item_model.dart';
 import 'package:toolchain_flutter/network/network.dart';
 import 'package:toolchain_flutter/network/pgyer_network.dart';
@@ -72,8 +74,7 @@ class _DetailsState extends State<DetailsPage>
         ),
       ),
       body: new ListPageContainer(
-          title: this.widget.title,
-          model: this.widget.model),
+          title: this.widget.title, model: this.widget.model),
     );
   }
 }
@@ -87,7 +88,6 @@ class ListPageHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
         height: 120,
         padding: EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 0.0),
@@ -106,11 +106,10 @@ class ListPageHeader extends StatelessWidget {
           children: <Widget>[
             new ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: logo == "" || logo == null ? Image.asset("images/list_default_logo.png"):Image.network(
-                                  logo,
-                                  width: 80.0,
-                                  height: 80.0,
-                                  fit: BoxFit.cover)),
+                child: logo == "" || logo == null
+                    ? Image.asset("images/list_default_logo.png")
+                    : Image.network(logo,
+                        width: 80.0, height: 80.0, fit: BoxFit.cover)),
             new Expanded(
                 flex: 2,
                 child: Padding(
@@ -121,12 +120,12 @@ class ListPageHeader extends StatelessWidget {
                       children: <Widget>[
                         SizedBox(height: 15),
                         new FlatButton(
-                                onPressed: () {
-                                  _build(context);
-                                },
-                                child: new Text("构建新版本",
-                                    style: TextStyle(color: Colors.white)),
-                                color: LightColor.primaryColor)
+                            onPressed: () {
+                              _build(context);
+                            },
+                            child: new Text("构建新版本",
+                                style: TextStyle(color: Colors.white)),
+                            color: LightColor.primaryColor)
                       ],
                     ))),
             new Container(
@@ -142,9 +141,24 @@ class ListPageHeader extends StatelessWidget {
   }
 
   void _build(BuildContext context) async {
+    final result = await showModalActionSheet<String>(
+      context: context,
+      actions: [
+        const SheetAction(
+          icon: FontAwesome5Brands.app_store_ios,
+          label: 'iOS',
+          key: 'iOS',
+        ),
+        const SheetAction(
+          icon: FontAwesome5Brands.android,
+          label: 'Android',
+          key: 'Android',
+        ),
+      ],
+    );
     JenkinsNetwork network = new JenkinsNetwork();
-    // Map<String, dynamic> data = await network.jenkinsBuild();
-    network.jenkinsBuild();
+    // // Map<String, dynamic> data = await network.jenkinsBuild();
+    network.jenkinsBuild("ab5ca6249862f5a60ac451599b5d9938", result);
     Toast.show("触发成功！", context);
   }
 }
@@ -200,11 +214,11 @@ class _ListPageContainerState extends State<ListPageContainer> {
         Flexible(
             child: _list.length == 0
                 ? Center(
-                  child: SpinKitDoubleBounce(
-                    color: Theme.of(context).primaryColor,
-                    size: 50.0,
-                  ),
-                )
+                    child: SpinKitDoubleBounce(
+                      color: Theme.of(context).primaryColor,
+                      size: 50.0,
+                    ),
+                  )
                 : new RefreshIndicator(
                     onRefresh: _refresh,
                     child: ListView.builder(
@@ -230,35 +244,34 @@ class _ListPageContainerState extends State<ListPageContainer> {
 
   Future<Null> _loadData(int page) async {
     // if (this.widget.model.tid == '5e7457a4bd106540e515eba2' || this.widget.model.tid == "5e7457b2bd106540e515eba3") {
-      PGYNetwork network = new PGYNetwork();
-      List<PGYItemModel> arr = await network.getList();
-      _needLoadMore = arr.length >= 20;
-      print("数据加载完毕!");
-      setState(() {
-          _list.addAll(arr);
-      });
+    PGYNetwork network = new PGYNetwork();
+    List<PGYItemModel> arr = await network.getList();
+    _needLoadMore = arr.length >= 20;
+    print("数据加载完毕!");
+    setState(() {
+      _list.addAll(arr);
+    });
     // } else {
-      // print("page:$page,type:${this.widget.type},title:${this.widget.title}");
-      // Network network = new Network();
-      // List<ItemModel> arr = await network.getList(page: page);
-      // _needLoadMore = arr.length >= 20;
-      // print("数据加载完毕!");
-      // setState(() {
-      //     _list.addAll(arr);
-      // });
+    // print("page:$page,type:${this.widget.type},title:${this.widget.title}");
+    // Network network = new Network();
+    // List<ItemModel> arr = await network.getList(page: page);
+    // _needLoadMore = arr.length >= 20;
+    // print("数据加载完毕!");
+    // setState(() {
+    //     _list.addAll(arr);
+    // });
     // }
   }
 
   Future<Null> _loadDetailData(String lid) async {
-      Network network = new Network();
-      Map<String, dynamic> data = await network.detail(lid);
-      // _needLoadMore = arr.length >= 20;
-      print(data);
-      // setState(() {
-      //     _list.addAll(arr);
-      // });
+    Network network = new Network();
+    Map<String, dynamic> data = await network.detail(lid);
+    // _needLoadMore = arr.length >= 20;
+    print(data);
+    // setState(() {
+    //     _list.addAll(arr);
+    // });
   }
-
 
   _getItem(int index) {
     if (index == _list.length - 1 && index != 0) {
