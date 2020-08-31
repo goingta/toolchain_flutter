@@ -123,6 +123,7 @@ class ListPageHeader extends StatelessWidget {
     JenkinsNetwork network = new JenkinsNetwork();
     try {
       await network.jenkinsBuild(
+        appItemModel.jenkinsProjectName,
         appItemModel.jenkinsToken,
         appItemModel.programType == ProgramType.IOS ? "iOS" : "Android",
       );

@@ -5,12 +5,15 @@ class AppItemModel extends ProgramItemModel {
   final String pgyApiKey;
   // 蒲公英 AppKey
   final String pgyAppKey;
+  // Jenkins 工程名字
+  final String jenkinsProjectName;
   // Jenkins 构建 Token
   final String jenkinsToken;
 
   AppItemModel.fromJson(Map<String, dynamic> json)
       : pgyApiKey = json['pgyApiKey'],
         pgyAppKey = json['pgyAppKey'],
+        jenkinsProjectName = json['jenkinsProjectName'],
         jenkinsToken = json['jenkinsToken'],
         super.fromJson(json);
 }

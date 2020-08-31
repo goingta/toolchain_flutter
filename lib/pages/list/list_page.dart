@@ -33,7 +33,7 @@ class _ListPageState extends State<ListPage> {
       final List<ProgramItemModel> programItemModels =
           await yapiNetwork.getProgramList(widget.programType.code);
       _list.addAll(programItemModels);
-    } on Exception catch (e) {
+    } catch (e) {
       Toast.show(e.toString(), context);
     }
     if (mounted) {

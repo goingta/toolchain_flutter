@@ -31,6 +31,7 @@ dependencies:
       url: https://github.com/goingta/fluwx_worker
   shared_preferences: ^0.5.1
   adaptive_dialog: ^0.7.5+3
+  package_info: 0.4.3
 
 dev_dependencies:
   flutter_test:
