@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class LightColor {
   static const Color primaryColor = Color(0xff03da9d);
 
-  static const Color accentColor = Color(0xff333333);
+  static const Color accentColor = Color(0xff03da9d);
 
   static const Color background = Color(0XFFFFFFFF);
 

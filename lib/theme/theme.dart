@@ -4,43 +4,46 @@ import 'package:toolchain_flutter/theme/light_color.dart';
 class AppTheme {
   const AppTheme();
   static ThemeData lightTheme = ThemeData(
-    primarySwatch: Colors.blue,
-    backgroundColor: LightColor.background,
-    primaryColor: LightColor.purple,
-    accentColor: LightColor.lightblack,
-    primaryColorDark: LightColor.Darker,
-    primaryColorLight: LightColor.brighter,
-    cardTheme: CardTheme(color: LightColor.background),
-    textTheme: TextTheme(display1: TextStyle(color: LightColor.black)),
-    iconTheme: IconThemeData(color: LightColor.lightblack),
-    bottomAppBarColor: LightColor.background,
-    dividerColor: LightColor.lightGrey,
-    colorScheme: ColorScheme(
-        primary: LightColor.purple,
-        primaryVariant: LightColor.purple,
-        secondary: LightColor.lightBlue,
-        secondaryVariant: LightColor.darkBlue,
-        surface: LightColor.background,
-        background: LightColor.background,
-        error: Colors.red,
-        onPrimary: LightColor.Darker,
-        onSecondary: LightColor.background,
-        onSurface: LightColor.Darker,
-        onBackground: LightColor.titleTextColor,
-        onError: LightColor.titleTextColor,
-        brightness: Brightness.dark),
+    primaryColor: LightColor.primaryColor,
+    primaryColorBrightness: Brightness.dark,
+    accentColor: LightColor.accentColor,
+    accentColorBrightness: Brightness.dark,
+    scaffoldBackgroundColor: LightColor.background,
+    appBarTheme: AppBarTheme(
+      centerTitle: true,
+    ),
+    fontFamily: 'Rubik',
+    textTheme: TextTheme(
+      headline6: TextStyle(
+        color: Colors.black87,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    buttonTheme: ButtonThemeData(
+      buttonColor: LightColor.primaryColor,
+      textTheme: ButtonTextTheme.normal,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(
+          8.0,
+        ),
+      ),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      contentPadding: const EdgeInsets.all(
+        8.0,
+      ),
+      filled: true,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(
+          8.0,
+        ),
+        borderSide: BorderSide(style: BorderStyle.none),
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(
+          8.0,
+        ),
+      ),
+    ),
   );
-
-  static TextStyle titleStyle =
-      const TextStyle(color: LightColor.titleTextColor, fontSize: 16);
-  static TextStyle subTitleStyle =
-      const TextStyle(color: LightColor.subTitleTextColor, fontSize: 12);
-
-  static TextStyle h1Style =
-      const TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
-  static TextStyle h2Style = const TextStyle(fontSize: 22);
-  static TextStyle h3Style = const TextStyle(fontSize: 20);
-  static TextStyle h4Style = const TextStyle(fontSize: 18);
-  static TextStyle h5Style = const TextStyle(fontSize: 16);
-  static TextStyle h6Style = const TextStyle(fontSize: 14);
 }

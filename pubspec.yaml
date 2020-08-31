@@ -37,12 +37,6 @@ dev_dependencies:
     sdk: flutter
   build_runner: ^1.0.0
 
-module:
-  androidX: true
-# For information on the generic Dart part of this file, see the
-# following page: https://www.dartlang.org/tools/pub/pubspec
-
-# The following section is specific to Flutter.
 flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -50,13 +44,7 @@ flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
-    - images/logo.png
-    - images/health_logo.png
-    - images/toolchain_logo.png
-    - images/aboutus_healthLife.png
-    - images/aboutus_step.png
-    - images/aboutus_vaccine.png
-    - images/list_default_logo.png
+    - images/
     - assets/graphics/
   fonts:
     - family: Rubik

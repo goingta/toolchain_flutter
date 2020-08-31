@@ -1,79 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
-import 'package:toolchain_flutter/model/item_model.dart';
-import 'package:toolchain_flutter/network/network.dart';
+import 'package:toast/toast.dart';
+import 'package:toolchain_flutter/model/program_type.dart';
+import 'package:toolchain_flutter/model/program_item_model.dart';
+import 'package:toolchain_flutter/network/yapi_network.dart';
 import 'package:toolchain_flutter/pages/list/list_item.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
 
-import '../../model/applet_model.dart';
-
 class ListPage extends StatefulWidget {
   static const String id = "/list";
-  final String title;
-  final Map arguments;
-  //构造函数
-  ListPage({Key key, this.title, this.arguments}) : super(key: key);
+
+  // 程序类型
+  final ProgramType programType;
+
+  // 构造函数
+  ListPage({Key key, Map arguments})
+      : this.programType = arguments['programType'],
+        super(key: key);
+
   @override
   _ListPageState createState() => _ListPageState();
 }
 
-class _ListPageState extends State<ListPage>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true; // 返回true
-  bool _loading = false;
-  bool _needLoadMore = true;
-  List<ItemModel> _list = [];
+class _ListPageState extends State<ListPage> {
+  bool _loading = true;
+
+  List<ProgramItemModel> _list = [];
+
+  Future<void> _fetchProgramItems() async {
+    YapiNetwork yapiNetwork = YapiNetwork();
+    try {
+      final List<ProgramItemModel> programItemModels =
+          await yapiNetwork.getProgramList(widget.programType.code);
+      _list.addAll(programItemModels);
+    } on Exception catch (e) {
+      Toast.show(e.toString(), context);
+    }
+    if (mounted) {
+      setState(() {
+        this._loading = false;
+      });
+    }
+  }
 
   void initState() {
     super.initState();
-
-    ItemModel qheath = new ItemModel();
-    qheath.name = "企业健康App";
-    qheath.logo =
-        "http://wx.qlogo.cn/mmhead/Q3auHgzwzM7Db1AKDiaiaibXFw8fuQINtgVq3BvTxDtJq791VIrzQjCuA/0";
-    qheath.desc = "企业健康App-Flutter版本";
-    qheath.owner = "唐雷";
-    qheath.type = "ios";
-
-    ItemModel healthApplet = new ItemModel();
-    healthApplet.name = "企鹅家庭医生";
-    healthApplet.logo =
-        "http://wx.qlogo.cn/mmhead/Q3auHgzwzM4zNRU5eQjnLEQZiaXvNM8m3wq9kBJzCGaJAE9wgyicV8yg/0";
-    healthApplet.desc = "C端小程序";
-    healthApplet.owner = "谭军一";
-    healthApplet.type = "applet";
-
-    ItemModel yzs = new ItemModel();
-    yzs.name = "健康咨询";
-    yzs.logo =
-        "http://wx.qlogo.cn/mmhead/Q3auHgzwzM4nPEAff0LVoakHN35RNhWXsOzXyV3dQMU1JyHDFSpobg/0";
-    yzs.desc = "云诊室";
-    yzs.owner = "张天鸣";
-    yzs.type = "h5";
-
-    _list.add(qheath);
-    _list.add(healthApplet);
-    _list.add(yzs);
+    _fetchProgramItems();
   }
 
   @override
   Widget build(BuildContext context) {
-    // Map<String,dynamic> args = ModalRoute.of(context).settings.arguments;
-
-    // if (_list.length == 0 && !_loading && _needLoadMore) {
-    //   _loadData(1, {"tid": args["tid"]});
-    // }
-
     return new Scaffold(
       appBar: new AppBar(
-        title:
-            new Text(this.widget.title, style: TextStyle(color: Colors.white)),
-        backgroundColor: LightColor.primaryColor, //设置appbar背景颜色
-        centerTitle: true, //设置标题是否局中
-        iconTheme: IconThemeData(
-          color: Colors.white, //change your color here
+        title: new Text(
+          this.widget.programType.value,
         ),
       ),
       body: _loading
@@ -86,36 +66,31 @@ class _ListPageState extends State<ListPage>
           : _list.length == 0
               ? Center(
                   child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
                       SizedBox(height: 20),
                       Image(
                           image: AssetImage(
                         'assets/graphics/not-found.png',
                       )),
-                      Text("暂无数据",
-                          style: TextStyle(color: LightColor.primaryColor))
-                    ]))
+                      Text(
+                        "暂无数据",
+                        style: TextStyle(
+                          color: LightColor.primaryColor,
+                        ),
+                      )
+                    ],
+                  ),
+                )
               : ListView.builder(
                   itemCount: _list.length,
                   itemBuilder: (context, index) {
-                    ItemModel model = _list[index];
-                    return new ListViewItem(model: model);
+                    ProgramItemModel programItemModel = _list[index];
+                    return new ListViewItem(
+                      programItemModel: programItemModel,
+                    );
                   },
                 ),
     );
-  }
-
-  Future<Null> _loadData(int page, Map<String, dynamic> params) async {
-    _loading = true;
-    // print("page:$page,type:${this.widget.type},title:${this.widget.title}");
-    Network network = new Network();
-    List<ItemModel> arr = await network.list(page: page, params: params);
-    _needLoadMore = arr.length >= 20;
-    setState(() {
-      _loading = false;
-      _list.addAll(arr);
-      _needLoadMore = arr.length != 0;
-    });
   }
 }

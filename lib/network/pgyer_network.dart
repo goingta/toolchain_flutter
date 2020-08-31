@@ -1,40 +1,24 @@
-import './../server/pgyer_server.dart';
-import './../model/pgy_item_model.dart';
-import 'dart:io';
+import 'package:toolchain_flutter/model/pgy_item_model.dart';
+import 'package:toolchain_flutter/server/pgyer_server.dart';
 
 class PGYNetwork {
-  static bool isIOS = Platform.isIOS;
-  int type; //0是工具链本身，1是企鹅APP
-  PGYNetwork({this.type});
-  //工具链 蒲公英配置
-  var pgyerToolChainAppKey = isIOS
-      ? "939354a730a57681b79e7cf7c662c42a"
-      : "38f6c28b60363081098d9102a7b00cc8";
-  var pgyerToolChainApiKey = "01f1afe385c48954fd713ba5d533b62c";
-  var pgyerToolChainUserKey = "1355980667be03e4544e23214b5e8c14";
+  static PGYServer _pgyServer = new PGYServer();
 
-  // var pgyerHealthAppKey = isIOS
-  //     ? "6f5f513de56605e2da0db3f3108f7911"
-  //     : "bf323da6d0fd071c90d0b9a2ac44c20b";
-  // var pgyerHealthApiKey = "01f1afe385c48954fd713ba5d533b62c";
-  // var pgyerHealthUserKey = "1355980667be03e4544e23214b5e8c14";
-
-  Future<List<PGYItemModel>> getList({int page = 1, appKey, apiKey}) async {
-    PGYServer server = new PGYServer();
-    Map<String, dynamic> data = await server.post("apiv2/app/builds", {
-      "_api_key": pgyerToolChainApiKey,
-      "appKey": pgyerToolChainAppKey,
-      "page": page
-    });
-
-    print("网络返回结果：" + data.toString());
-
-    List<PGYItemModel> arr = [];
-    List list = data["data"]["list"];
-    for (var item in list) {
-      PGYItemModel model = new PGYItemModel.fromJson(item);
-      arr.add(model);
+  Future<List<PGYItemModel>> getBuildList(
+      int page, String apiKey, String appKey) async {
+    try {
+      final Map<String, dynamic> jsonMap = await _pgyServer.post(
+        "apiv2/app/builds",
+        formData: {
+          "_api_key": apiKey,
+          "appKey": appKey,
+          "page": page,
+        },
+      );
+      final List values = (jsonMap["data"] ?? {})["list"] ?? List.empty();
+      return values.map((item) => PGYItemModel.fromJson(item)).toList();
+    } catch (e) {
+      return Future.error(e);
     }
-    return arr;
   }
 }

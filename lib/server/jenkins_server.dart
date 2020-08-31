@@ -1,8 +1,7 @@
-import 'server.dart';
+import 'package:toolchain_flutter/server/server.dart';
 
-class JenkinsServer extends Server {
-
+class JenkinsServer extends Server<void> {
   JenkinsServer() {
-    host = 'https://dwci.aihaisi.com/';
+    baseUrl = 'https://dwci.aihaisi.com/';
   }
 }

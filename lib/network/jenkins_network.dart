@@ -1,14 +1,21 @@
-import './../server/jenkins_server.dart';
-import 'dart:io';
+import 'package:toolchain_flutter/server/jenkins_server.dart';
 
 class JenkinsNetwork {
-  static bool isIOS = Platform.isIOS;
+  static JenkinsServer _jenkinsServer = new JenkinsServer();
 
-  Future<Map<String, dynamic>> jenkinsBuild(String token,String platform) async {
-    JenkinsServer server = new JenkinsServer();
-    String urlPath = "job/toolchain_flutter/buildWithParameters?token=$token&Platform=$platform";
-    Map<String, dynamic> data = await server.post(urlPath, {"1": "1"},
-        headers: {"Authorization": "Basic ZGV2OmRvY3Rvcndvcms="});
-    return data;
+  Future<void> jenkinsBuild(String token, String platform) async {
+    try {
+      await _jenkinsServer.post(
+        "job/toolchain_flutter/buildWithParameters?token=$token&Platform=$platform",
+        data: {
+          "1": "1",
+        },
+        headers: {
+          "Authorization": "Basic ZGV2OmRvY3Rvcndvcms=",
+        },
+      );
+    } catch (e) {
+      return Future.error(e);
+    }
   }
 }

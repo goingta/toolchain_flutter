@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluwx_worker/fluwx_worker.dart' as fluwxWorker;
 import 'package:toast/toast.dart';
-import 'package:toolchain_flutter/common/Global.dart';
-import 'package:toolchain_flutter/pages/tabPage/tab_page.dart';
-import '../../model/user.dart';
+import 'package:toolchain_flutter/common/global.dart';
+import 'package:toolchain_flutter/model/user.dart';
+import 'package:toolchain_flutter/pages/tab/tab_page.dart';
+import 'package:toolchain_flutter/router/nav_key.dart';
 
 class LoginPage extends StatefulWidget {
   static const String id = "/login";
@@ -20,8 +21,6 @@ class _LoginState extends State<LoginPage> {
   final _passwordController =
       TextEditingController(text: "flutter@doctorwork.com");
 
-  var _result = 'None';
-
   bool loading = false;
   String errorMessage = "";
 
@@ -31,19 +30,15 @@ class _LoginState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    _initFluwx();
+    _setFluwxCallback();
   }
 
   // 跳转到登录成功首页
-  void pushToHomePage() {
-    // Navigator.of(context).pushReplacement(
-    //     MaterialPageRoute(builder: (BuildContext context) => new HomePage()));
-
-    // Navigator.replace(context, oldRoute: null, newRoute: MaterialPageRoute(builder: (BuildContext context) => new HomePage()));
-    Navigator.pushReplacementNamed(context, TabPage.id);
+  void pushToTabPage() {
+    NavKey.navKey.currentState.pushReplacementNamed(TabPage.id);
   }
 
-  _initFluwx() async {
+  _setFluwxCallback() async {
     await fluwxWorker.register(
         schema: Global.schema, corpId: Global.corpId, agentId: Global.agentId);
     var result = await fluwxWorker.isWeChatInstalled();
@@ -53,21 +48,19 @@ class _LoginState extends State<LoginPage> {
     fluwxWorker.responseFromAuth.listen((data) async {
       print("data.code => ${data.code}");
       if (data.errCode == 0) {
-        _result = data.code; //后续用这个code再发http请求取得UserID
-        // Navigator.pushNamed(context, TabPage.id);
-        bool result = await User.fluwxWorkerSignIn(data.code);
-        if (result) {
-          // Navigator.pushNamed(context, TabPage.id);
-          this.pushToHomePage();
-        } else {
-          Toast.show("登录失败！", context);
+        // 后续用这个code再发http请求取得UserID
+        try {
+          await User.fluwxWorkerSignIn(data.code);
+          this.pushToTabPage();
+        } on Exception catch (e) {
+          Toast.show(e.toString(), context);
         }
-      } else if (data.errCode == 1) {
-        _result = '授权失败';
       } else {
-        _result = '用户取消';
+        Toast.show("授权失败", context);
       }
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
   }
 
@@ -82,10 +75,6 @@ class _LoginState extends State<LoginPage> {
   }
 
   void _submitForm() async {
-    // 测试代码
-    // UserModel user = await User.getCurrentUser();
-    // return;
-
     if (_formKey.currentState.validate()) {
       try {
         setState(() {
@@ -94,7 +83,7 @@ class _LoginState extends State<LoginPage> {
 
         final result = await User.signIn("xxx", "xx");
         if (result) {
-          this.pushToHomePage();
+          this.pushToTabPage();
         }
       } catch (e) {
         setState(() {
@@ -126,9 +115,6 @@ class _LoginState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-      ),
       body: loading
           ? Center(
               child: SpinKitDoubleBounce(
@@ -141,8 +127,10 @@ class _LoginState extends State<LoginPage> {
               children: <Widget>[
                 SafeArea(
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 30,
+                      vertical: 30,
+                    ),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,7 +139,7 @@ class _LoginState extends State<LoginPage> {
                           "企鹅杏仁工具链",
                           style: Theme.of(context)
                               .textTheme
-                              .headline
+                              .headline5
                               .copyWith(color: Theme.of(context).primaryColor),
                         ),
                         SizedBox(height: 36),
@@ -215,10 +203,8 @@ class _LoginState extends State<LoginPage> {
                           ),
                         ),
                         SizedBox(height: 30),
-                        Image(
-                          image: AssetImage(
-                            'assets/graphics/not-found.png',
-                          ),
+                        Image.asset(
+                          'assets/graphics/not-found.png',
                         ),
                       ],
                     ),

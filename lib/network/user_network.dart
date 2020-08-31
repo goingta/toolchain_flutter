@@ -1,13 +1,18 @@
-import './../server/user_server.dart';
-import 'dart:io';
+import 'package:toolchain_flutter/model/user_model.dart';
+import 'package:toolchain_flutter/server/user_server.dart';
 
 class UserNetwork {
-  static bool isIOS = Platform.isIOS;
+  static UserServer _userServer = new UserServer();
 
-  Future<Map<String, dynamic>> loginWithWechatWork(String code) async {
-    UserServer server = new UserServer();
-    String urlPath = "v1/wx/user/app/oauth_code";
-    Map<String, dynamic> data = await server.getUrl(urlPath, {"code": code});
-    return data;
+  Future<UserModel> loginWithWechatWork(String code) async {
+    try {
+      final Map<String, dynamic> jsonMap = await _userServer.get(
+        "v1/wx/user/app/oauth_code",
+        queryParameters: {"code": code},
+      );
+      return UserModel.fromJson(jsonMap["data"]);
+    } catch (e) {
+      return Future.error(e);
+    }
   }
 }
