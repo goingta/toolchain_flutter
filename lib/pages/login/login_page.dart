@@ -38,12 +38,7 @@ class _LoginState extends State<LoginPage> {
     NavKey.navKey.currentState.pushReplacementNamed(TabPage.id);
   }
 
-  _setFluwxCallback() async {
-    await fluwxWorker.register(
-        schema: Global.schema, corpId: Global.corpId, agentId: Global.agentId);
-    var result = await fluwxWorker.isWeChatInstalled();
-    print("is installed $result");
-
+  _setFluwxCallback() {
     //等待授权结果
     fluwxWorker.responseFromAuth.listen((data) async {
       print("data.code => ${data.code}");
@@ -62,6 +57,20 @@ class _LoginState extends State<LoginPage> {
         setState(() {});
       }
     });
+  }
+
+  /// 企业微信登录
+  _weWorkLogin() async {
+    bool isInstalled = await fluwxWorker.isWeChatInstalled();
+
+    if (!isInstalled) {
+      Toast.show("未安装企业微信", context);
+      return;
+    }
+
+    //企业微信授权
+    fluwxWorker.sendAuth(
+        schema: Global.schema, appId: Global.corpId, agentId: Global.agentId);
   }
 
   String validateEmail(String value) {
@@ -191,12 +200,7 @@ class _LoginState extends State<LoginPage> {
                                 child: Text("企业微信登录",
                                     style: TextStyle(color: Colors.white)),
                                 onPressed: () {
-                                  // Navigator.pushNamed(context, Register.id);
-                                  //企业微信授权
-                                  fluwxWorker.sendAuth(
-                                      schema: Global.schema,
-                                      appId: Global.corpId,
-                                      agentId: Global.agentId);
+                                  _weWorkLogin();
                                 },
                               ),
                             ],
