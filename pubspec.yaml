@@ -10,33 +10,30 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.2.0 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
-  dio: ^3.0.10
-  url_launcher: 5.0.1
-  toast: ^0.1.3
+  cupertino_icons: 0.1.3
+  dio: 3.0.10
+  url_launcher: 5.5.1
+  toast: 0.1.5
   provider:
-  json_serializable: ^2.0.0 #序列化
-  flutter_spinkit: ^3.0.0 #loading组件
-  webview_flutter: ^0.3.22+1
-  flutter_icons: ^1.0.0+1
+  json_serializable: 3.4.0 
+  flutter_spinkit: 3.0.0 
+  webview_flutter: 0.3.22
+  flutter_icons: 1.1.0
   fluwx_worker: #企业微信登录插件
     git:
       url: https://github.com/goingta/fluwx_worker
-  shared_preferences: ^0.5.1
-  adaptive_dialog: ^0.7.5+3
+  shared_preferences: 0.5.10
+  adaptive_dialog: 0.7.5
   package_info: 0.4.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^1.0.0
 
 flutter:
   # The following line ensures that the Material Icons font is
