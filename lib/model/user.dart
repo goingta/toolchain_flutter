@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../model/user_model.dart';
-import '../network/user_network.dart';
-import '../tools/utils.dart';
+import 'package:toolchain_flutter/model/user_model.dart';
+import 'package:toolchain_flutter/network/user_network.dart';
+import 'package:toolchain_flutter/tools/utils.dart';
 
 abstract class User {
   static String preUserInfo = "PreUserInfo";
@@ -16,16 +15,15 @@ abstract class User {
     return true;
   }
 
-  static Future<bool> fluwxWorkerSignIn(code) async {
+  static Future<void> fluwxWorkerSignIn(code) async {
     UserNetwork network = UserNetwork();
-    Map<String, dynamic> result = await network.loginWithWechatWork(code);
-    if (result != null) {
+    try {
+      final UserModel userModel = await network.loginWithWechatWork(code);
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String userInfoString = Utils.jsonToString(result["data"]);
+      String userInfoString = Utils.jsonToString(userModel.toJson());
       prefs.setString(preUserInfo, userInfoString);
-      return true;
-    } else {
-      return false;
+    } on Exception catch (e) {
+      return Future.error(e);
     }
   }
 

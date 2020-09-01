@@ -1,20 +1,28 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'user_model.g.dart';
-
-@JsonSerializable()
 class UserModel {
-  String name;
-  String avatar;
-  String email;
-  String position;
-  String userId;
-  String token;
-  int normandyUserId;/// Normany的用户ID */
+  final String name;
+  final String avatar;
+  final String email;
+  final String position;
+  final String userId;
+  final String token;
+  final int normandyUserId;
 
-  UserModel(this.name,this.avatar,this.email,this.position,this.userId,this.token,this.normandyUserId);
-  //不同的类使用不同的mixin即可，注意格式一定要写正确
-  factory UserModel.fromJson(Map<String, dynamic> json) =>
-      _$UserModelFromJson(json);
-  Map<String, dynamic> toJson() => _$UserModelToJson(this);
+  UserModel.fromJson(Map<String, dynamic> json)
+      : name = json["name"],
+        avatar = json["avatar"],
+        email = json["email"],
+        position = json["position"],
+        userId = json["userId"],
+        token = json["token"],
+        normandyUserId = json["normandyUserId"];
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "avatar": avatar,
+        "email": email,
+        "position": position,
+        "userId": userId,
+        "token": token,
+        "normandyUserId": normandyUserId,
+      };
 }

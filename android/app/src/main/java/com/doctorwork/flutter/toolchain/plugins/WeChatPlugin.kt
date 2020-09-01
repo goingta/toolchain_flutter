@@ -5,20 +5,21 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import android.widget.Toast
-import com.doctorwork.flutter.toolchain.App
 import com.doctorwork.flutter.toolchain.R
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
+import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
+import io.flutter.plugin.common.PluginRegistry
 import io.flutter.view.FlutterView
 import java.util.*
 
-class WeChatPlugin(private val context: Context) : MethodCallHandler {
+class WeChatPlugin() : FlutterPlugin, MethodCallHandler {
 
     companion object {
         private const val TAG = "WeChatPlugin"
@@ -27,10 +28,14 @@ class WeChatPlugin(private val context: Context) : MethodCallHandler {
 
         private const val METHOD_CHANNEL_NAME = "goingta.flutter.io/share"
 
-        fun registerWith(flutterView: FlutterView) {
-            val channel = MethodChannel(flutterView, METHOD_CHANNEL_NAME)
-            val instance = WeChatPlugin(flutterView.context)
-            channel.setMethodCallHandler(instance)
+        private const val APP_ID = "wx36017dd6944033f4";
+
+        private lateinit var context:Context;
+
+        fun registerWith(registrar: PluginRegistry.Registrar) {
+            val channel = MethodChannel(registrar.messenger(), METHOD_CHANNEL_NAME)
+            context = registrar.context()
+            channel.setMethodCallHandler(WeChatPlugin())
         }
     }
 
@@ -55,7 +60,7 @@ class WeChatPlugin(private val context: Context) : MethodCallHandler {
 
     private fun shareToWechat(methodCall: MethodCall, result: MethodChannel.Result) {
         val argumentMap = methodCall.arguments as HashMap<String, String>
-        val api = WXAPIFactory.createWXAPI(context, App.APP_ID)
+        val api = WXAPIFactory.createWXAPI(context, APP_ID)
 
         val webpage = WXWebpageObject()
         webpage.webpageUrl = String.format("https://www.pgyer.com/%s", argumentMap["buildKey"])
@@ -78,8 +83,7 @@ class WeChatPlugin(private val context: Context) : MethodCallHandler {
 
     private fun gotoWechat(methodCall: MethodCall, result: MethodChannel.Result) {
         Toast.makeText(context, "开始跳转小程序", Toast.LENGTH_SHORT).show()
-        val appId = App.APP_ID
-        val api = WXAPIFactory.createWXAPI(context, appId)
+        val api = WXAPIFactory.createWXAPI(context, APP_ID)
         //
         val req = WXLaunchMiniProgram.Req()
         // 填小程序原始id
@@ -87,5 +91,16 @@ class WeChatPlugin(private val context: Context) : MethodCallHandler {
         // 可选打开 开发版，体验版和正式版
         req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE
         api.sendReq(req)
+    }
+
+    override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+        Log.d(TAG, "onAttachedToEngine")
+        val channel = MethodChannel(binding.binaryMessenger, METHOD_CHANNEL_NAME)
+        context = binding.applicationContext
+        channel.setMethodCallHandler(WeChatPlugin())
+    }
+
+    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+        Log.d(TAG, "onDetachedFromEngine")
     }
 }

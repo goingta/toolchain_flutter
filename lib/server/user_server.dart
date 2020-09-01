@@ -1,23 +1,21 @@
+import 'package:toolchain_flutter/common/global.dart';
+import 'package:toolchain_flutter/server/json_server.dart';
 
-import 'server.dart';
-
-import 'package:toolchain_flutter/common/Global.dart';
-
-class UserServer extends Server {
+class UserServer extends JsonServer {
   UserServer() {
     switch (Global.env) {
       case "dev":
-        host = 'http://api-dev.doctorwork.com/oa-sso-web/';
-      break;
+        baseUrl = 'http://api-dev.doctorwork.com/oa-sso-web/';
+        break;
       case "qa":
-        host = 'http://api-qa.doctorwork.com/oa-sso-web/';
-      break;
+        baseUrl = 'http://api-qa.doctorwork.com/oa-sso-web/';
+        break;
       case "pre":
-        host = 'http://api-pre.doctorwork.com/oa-sso-web/';
-      break;
+        baseUrl = 'http://api-pre.doctorwork.com/oa-sso-web/';
+        break;
       case "prd":
-        host = 'http://api.doctorwork.com/oa-sso-web/';
-      break;
+        baseUrl = 'http://api.doctorwork.com/oa-sso-web/';
+        break;
     }
   }
 }

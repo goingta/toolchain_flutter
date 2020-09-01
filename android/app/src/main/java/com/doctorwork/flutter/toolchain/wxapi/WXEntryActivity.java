@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.doctorwork.flutter.toolchain.App;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -15,13 +14,14 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     private static String TAG = "WXEntryActivity";
+    private static String APP_ID = "wx36017dd6944033f4";
 
     private IWXAPI api;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        api = WXAPIFactory.createWXAPI(this, App.APP_ID);
+        api = WXAPIFactory.createWXAPI(this, APP_ID);
         onNewIntent(getIntent());
     }
 
