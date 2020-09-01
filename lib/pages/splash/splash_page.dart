@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:toolchain_flutter/common/Global.dart';
+import 'package:toolchain_flutter/common/global.dart';
 import 'package:toolchain_flutter/model/user.dart';
 import 'package:toolchain_flutter/pages/login/login_page.dart';
 import 'package:toolchain_flutter/pages/tab/tab_page.dart';
