@@ -61,12 +61,12 @@ class _LoginState extends State<LoginPage> {
 
   /// 企业微信登录
   _weWorkLogin() async {
-    bool isInstalled = await fluwxWorker.isWeChatInstalled();
+    // bool isInstalled = await fluwxWorker.isWeChatInstalled();
 
-    if (!isInstalled) {
-      Toast.show("未安装企业微信", context);
-      return;
-    }
+    // if (!isInstalled) {
+    //   Toast.show("未安装企业微信", context);
+    //   return;
+    // }
 
     //企业微信授权
     fluwxWorker.sendAuth(
