@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -19,18 +19,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_launcher" translatesAutoresizingMaskIntoConstraints="NO" id="R3U-Rt-Qge">
-                                <rect key="frame" x="172" y="413" width="70" height="70"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="76m-fT-JkY"/>
-                                    <constraint firstAttribute="width" constant="70" id="QBO-kB-fZh"/>
-                                </constraints>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch_1125_2436.png" translatesAutoresizingMaskIntoConstraints="NO" id="R3U-Rt-Qge">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="R3U-Rt-Qge" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="3Ga-k1-B9C"/>
-                            <constraint firstItem="R3U-Rt-Qge" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ixs-Gu-FqH"/>
+                            <constraint firstItem="R3U-Rt-Qge" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="0dH-M7-He4"/>
+                            <constraint firstAttribute="bottom" secondItem="R3U-Rt-Qge" secondAttribute="bottom" id="5Dm-sl-TnF"/>
+                            <constraint firstAttribute="trailing" secondItem="R3U-Rt-Qge" secondAttribute="trailing" id="tuM-Oy-jRv"/>
+                            <constraint firstItem="R3U-Rt-Qge" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="vog-gR-giZ"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -40,6 +38,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icon_launcher" width="180" height="180"/>
+        <image name="launch_1125_2436.png" width="591" height="1280"/>
     </resources>
 </document>
