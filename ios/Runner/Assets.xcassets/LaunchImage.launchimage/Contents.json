@@ -3,49 +3,88 @@
     {
       "extent" : "full-screen",
       "idiom" : "iphone",
-      "subtype" : "2436h",
-      "filename" : "1125*2436.jpg",
+      "minimum-system-version" : "12.0",
+      "orientation" : "portrait",
+      "scale" : "3x",
+      "subtype" : "2688h"
+    },
+    {
+      "extent" : "full-screen",
+      "idiom" : "iphone",
+      "minimum-system-version" : "12.0",
+      "orientation" : "portrait",
+      "scale" : "2x",
+      "subtype" : "1792h"
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "launchiPhoneXPortraitiOS11_375x812pt@3x.png",
+      "idiom" : "iphone",
       "minimum-system-version" : "11.0",
       "orientation" : "portrait",
-      "scale" : "3x"
+      "scale" : "3x",
+      "subtype" : "2436h"
     },
     {
       "extent" : "full-screen",
+      "filename" : "launchiPhonePortraitiOS89_414x736pt@3x.png",
       "idiom" : "iphone",
-      "subtype" : "736h",
-      "filename" : "1242*2208.jpg",
       "minimum-system-version" : "8.0",
       "orientation" : "portrait",
-      "scale" : "3x"
+      "scale" : "3x",
+      "subtype" : "736h"
     },
     {
       "extent" : "full-screen",
+      "filename" : "launchiPhonePortraitiOS89_375x667pt@2x.png",
       "idiom" : "iphone",
-      "subtype" : "667h",
-      "filename" : "750*1334.jpg",
       "minimum-system-version" : "8.0",
       "orientation" : "portrait",
-      "scale" : "2x"
-    },
-    {
-      "orientation" : "portrait",
-      "idiom" : "iphone",
-      "extent" : "full-screen",
-      "minimum-system-version" : "7.0",
-      "scale" : "2x"
+      "scale" : "2x",
+      "subtype" : "667h"
     },
     {
       "extent" : "full-screen",
+      "filename" : "launchiPhonePortraitiOS789_320x480pt@2x.png",
       "idiom" : "iphone",
-      "subtype" : "retina4",
-      "filename" : "640*1136.jpg",
       "minimum-system-version" : "7.0",
       "orientation" : "portrait",
       "scale" : "2x"
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "launchiPhonePortraitiOS789_320x568pt@2x.png",
+      "idiom" : "iphone",
+      "minimum-system-version" : "7.0",
+      "orientation" : "portrait",
+      "scale" : "2x",
+      "subtype" : "retina4"
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "launchiPhonePortraitiOS56_320x480pt.png",
+      "idiom" : "iphone",
+      "orientation" : "portrait",
+      "scale" : "1x"
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "launchiPhonePortraitiOS56_320x480pt@2x.png",
+      "idiom" : "iphone",
+      "orientation" : "portrait",
+      "scale" : "2x"
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "launchiPhonePortraitiOS56_320x568pt@2x.png",
+      "idiom" : "iphone",
+      "orientation" : "portrait",
+      "scale" : "2x",
+      "subtype" : "retina4"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }
