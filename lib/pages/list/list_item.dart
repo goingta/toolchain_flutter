@@ -18,7 +18,6 @@ class ListViewItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
-        height: 90.0,
         child: new InkWell(
           child: new Row(children: <Widget>[
             new Padding(

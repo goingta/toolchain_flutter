@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:toolchain_flutter/components/load_more.dart';
+import 'package:toast/toast.dart';
 import 'package:toolchain_flutter/model/app_item_model.dart';
 import 'package:toolchain_flutter/model/pgy_item_model.dart';
 import 'package:toolchain_flutter/model/program_type.dart';
@@ -138,20 +137,20 @@ class ListPageContainer extends StatefulWidget {
   final AppItemModel appItemModel;
 
   ListPageContainer({@required this.appItemModel}) : super();
+
   @override
   _ListPageContainerState createState() => _ListPageContainerState();
 }
 
 class _ListPageContainerState extends State<ListPageContainer> {
-  //数据源
+  // 数据源
   List<PGYItemModel> _list = [];
 
-  bool _needLoadMore = true;
+  bool _hasMore = true;
+  bool _loading = true;
 
   int _currentPage = 1;
 
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      new GlobalKey<RefreshIndicatorState>();
   final ScrollController _scrollController = new ScrollController();
 
   void initState() {
@@ -159,14 +158,14 @@ class _ListPageContainerState extends State<ListPageContainer> {
     super.initState();
     this._loadData();
 
-    ///增加滑动监听
+    /// 增加滑动监听
     _scrollController.addListener(() {
-      ///判断当前滑动位置是不是到达底部，触发加载更多回调
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        if (_needLoadMore) {
-          print("加载更多!");
-          ++_currentPage;
+      if (_scrollController.position.pixels /
+              _scrollController.position.maxScrollExtent >
+          0.6) {
+        if (_hasMore && !_loading) {
+          print("loadMore");
+          _currentPage++;
           this._loadData();
         }
       }
@@ -198,18 +197,23 @@ class _ListPageContainerState extends State<ListPageContainer> {
                 )
               : new RefreshIndicator(
                   onRefresh: _refresh,
-                  child: ListView.builder(
-                    key: _refreshIndicatorKey,
-                    itemCount: _list.length,
-
-                    ///保持ListView任何情况都能滚动，解决在RefreshIndicator的兼容问题。
-                    physics: const AlwaysScrollableScrollPhysics(),
+                  child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10.0,
+                      horizontal: 10.0,
+                    ),
                     itemBuilder: (context, index) {
                       return _getItem(index);
                     },
+                    separatorBuilder: (context, index) {
+                      return SizedBox(
+                        height: 30.0,
+                      );
+                    },
+                    itemCount: _list.length,
                     controller: _scrollController,
-                  ),
-                ),
+                    physics: const AlwaysScrollableScrollPhysics(),
+                  )),
         ),
       ],
     );
@@ -223,6 +227,7 @@ class _ListPageContainerState extends State<ListPageContainer> {
 
   Future<void> _loadData() async {
     try {
+      _loading = true;
       PGYNetwork network = new PGYNetwork();
       final List<PGYItemModel> pgyItemModels = await network.getBuildList(
         _currentPage,
@@ -231,8 +236,7 @@ class _ListPageContainerState extends State<ListPageContainer> {
       );
       _list.addAll(pgyItemModels);
       if (pgyItemModels.length == 0) {
-        _needLoadMore = false;
-        Toast.show("没有更多编译版本", context);
+        _hasMore = false;
       }
       if (mounted) {
         setState(() {});
@@ -240,18 +244,15 @@ class _ListPageContainerState extends State<ListPageContainer> {
     } catch (e) {
       Toast.show(e.toString(), context);
     }
+    _loading = false;
   }
 
   _getItem(int index) {
-    if (index == _list.length - 1 && index != 0) {
-      return _needLoadMore ? LoadMore() : Container();
-    } else {
-      PGYItemModel pgyItemModel = _list[index];
-      return new AppDetailsItem(
-        pgyItemModel: pgyItemModel,
-        programType: this.widget.appItemModel.programType,
-        pgyApiKey: this.widget.appItemModel.pgyApiKey,
-      );
-    }
+    PGYItemModel pgyItemModel = _list[index];
+    return new AppDetailsItem(
+      pgyItemModel: pgyItemModel,
+      programType: this.widget.appItemModel.programType,
+      pgyApiKey: this.widget.appItemModel.pgyApiKey,
+    );
   }
 }
