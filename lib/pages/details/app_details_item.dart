@@ -25,50 +25,49 @@ class AppDetailsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      height: 150.0,
-      child: new Stack(
+      child: new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          new Container(
-              child: ListTile(
-                  title: Text(
-                      "# 版本 ${pgyItemModel.buildVersion}(${pgyItemModel.buildBuildVersion}) 时间：${pgyItemModel.buildCreated}"),
-                  subtitle: Text(
-                      '${pgyItemModel.buildUpdateDescription.replaceAll("\n", "")}'))),
-          new Positioned(
-            right: 10.0,
-            top: 80.0,
-            child: new Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                new FlatButton(
-                  onPressed: () {
-                    share(context, pgyItemModel.toJson());
-                  },
-                  child: new Text(
-                    "分享二维码",
-                    style: TextStyle(
-                      color: LightColor.primaryColor,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10.0,
-                ),
-                new RaisedButton(
-                  onPressed: () {
-                    install(context, pgyItemModel.buildKey);
-                  },
-                  child: new Text(
-                    "安装",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  color: LightColor.primaryColor,
-                )
-              ],
+          Text(
+            "# 版本 ${pgyItemModel.buildVersion}(${pgyItemModel.buildBuildVersion}) 时间：${pgyItemModel.buildCreated}",
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w600,
             ),
+          ),
+          Text(
+            '${pgyItemModel.buildUpdateDescription}',
+          ),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              new FlatButton(
+                onPressed: () {
+                  share(context, pgyItemModel.toJson());
+                },
+                child: new Text(
+                  "分享二维码",
+                  style: TextStyle(
+                    color: LightColor.primaryColor,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 10.0,
+              ),
+              new RaisedButton(
+                onPressed: () {
+                  install(context, pgyItemModel.buildKey);
+                },
+                child: new Text(
+                  "安装",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                color: LightColor.primaryColor,
+              )
+            ],
           ),
         ],
       ),
