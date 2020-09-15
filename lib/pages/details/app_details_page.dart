@@ -74,7 +74,7 @@ class ListPageHeader extends StatelessWidget {
             new ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: appItemModel.logo == "" || appItemModel.logo == null
-                  ? Image.asset("images/list_default_logo.png")
+                  ? Image.asset("assets/images/list_default_logo.png")
                   : Image.network(
                       appItemModel.logo,
                       width: 80.0,
@@ -93,7 +93,7 @@ class ListPageHeader extends StatelessWidget {
                         SizedBox(height: 15),
                         new FlatButton(
                           onPressed: () {
-                            _build(context);
+                            _showSelectionDialog(context);
                           },
                           child: new Text(
                             "构建新版本",
@@ -117,14 +117,78 @@ class ListPageHeader extends StatelessWidget {
         ));
   }
 
-  // 构建新版本
-  void _build(BuildContext context) async {
+  /// 显示环境编译选择 Dialog
+  void _showSelectionDialog(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10.0,
+                ),
+                child: Text(
+                  "请选择编译目标环境",
+                  style: TextStyle(
+                    fontSize: 12.0,
+                    color: Theme.of(context).hintColor,
+                  ),
+                ),
+              ),
+              Divider(
+                height: 0.5,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pop(dialogContext);
+                  _build(context, "origin/rc");
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                  ),
+                  child: Text(
+                    "预发",
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              Divider(
+                height: 0.5,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pop(dialogContext);
+                  _build(context, "origin/master");
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                  ),
+                  child: Text(
+                    "线上",
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+  /// 构建新版本
+  void _build(BuildContext context, String branchName) async {
     JenkinsNetwork network = new JenkinsNetwork();
     try {
       await network.jenkinsBuild(
         appItemModel.jenkinsProjectName,
         appItemModel.jenkinsToken,
         appItemModel.programType == ProgramType.IOS ? "iOS" : "Android",
+        branchName,
       );
       Toast.show("触发成功！", context);
     } on Exception catch (e) {
