@@ -97,7 +97,7 @@ class WeChatPlugin() : FlutterPlugin, MethodCallHandler {
         Log.d(TAG, "onAttachedToEngine")
         val channel = MethodChannel(binding.binaryMessenger, METHOD_CHANNEL_NAME)
         context = binding.applicationContext
-        channel.setMethodCallHandler(WeChatPlugin())
+        channel.setMethodCallHandler(this)
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
