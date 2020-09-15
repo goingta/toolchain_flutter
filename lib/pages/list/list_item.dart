@@ -3,9 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:toolchain_flutter/model/app_item_model.dart';
 import 'package:toolchain_flutter/model/mini_program_item_model.dart';
 import 'package:toolchain_flutter/model/program_item_model.dart';
-import 'package:toolchain_flutter/model/program_type.dart';
 import 'package:toolchain_flutter/pages/details/app_details_page.dart';
-import 'package:toolchain_flutter/pages/webViewPage/webView_page.dart';
 import 'package:toolchain_flutter/router/nav_key.dart';
 
 class ListViewItem extends StatelessWidget {
@@ -24,7 +22,7 @@ class ListViewItem extends StatelessWidget {
                 padding: EdgeInsets.all(10.0),
                 child:
                     programItemModel.logo == "" || programItemModel.logo == null
-                        ? Image.asset("images/list_default_logo.png")
+                        ? Image.asset("assets/images/list_default_logo.png")
                         : Image.network(programItemModel.logo,
                             width: 80.0, height: 80.0, fit: BoxFit.cover)),
             Column(

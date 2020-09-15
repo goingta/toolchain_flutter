@@ -50,9 +50,7 @@ class Server<T> {
     }
   }
 
-  /**
-   * 不直接调用，可以子类复写
-   */
+  /// 不直接调用，可以子类复写
   @protected
   Future<T> request(String requestMethod, String path,
       {Map<String, dynamic> headers,
