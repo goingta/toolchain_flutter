@@ -10,7 +10,7 @@ import 'package:toolchain_flutter/pages/profile/profile_page.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
 
 class TabPage extends StatefulWidget {
-  static const String id = "/tab";
+  static const String id = "/tab_page";
   TabPage({Key key}) : super(key: key);
 
   @override

@@ -3,7 +3,7 @@ import 'package:toolchain_flutter/model/program_type.dart';
 import 'package:toolchain_flutter/pages/home/home_item.dart';
 
 class HomePage extends StatelessWidget {
-  static const String id = "/home";
+  static const String id = "/home_page";
 
   /// - 服务菜单
   final List<HomeItemViewModel> serviceList = [

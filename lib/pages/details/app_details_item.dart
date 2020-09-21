@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:toast/toast.dart';
 import 'package:toolchain_flutter/model/pgy_item_model.dart';
 import 'package:toolchain_flutter/model/program_type.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter/services.dart';
 
 class AppDetailsItem extends StatelessWidget {
   // 属性

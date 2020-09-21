@@ -10,7 +10,7 @@ import 'package:toolchain_flutter/pages/details/app_details_item.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
 
 class AppDetailsPage extends StatefulWidget {
-  static const String id = "/app_details";
+  static const String id = "/app_details_page";
 
   final AppItemModel appItemModel;
 

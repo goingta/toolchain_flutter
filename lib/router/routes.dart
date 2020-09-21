@@ -19,6 +19,7 @@ class Routes {
         AppDetailsPage(arguments: arguments),
   };
 
+  // ignore: top_level_function_literal_block
   static final onGenerateRoute = (RouteSettings settings) {
     // 统一处理
     final String name = settings.name;

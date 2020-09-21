@@ -9,7 +9,7 @@ import 'package:toolchain_flutter/pages/login/login_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatefulWidget {
-  static const String id = "/profile";
+  static const String id = "/profile_page";
 
   _ProfileState createState() => _ProfileState();
 }

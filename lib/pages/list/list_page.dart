@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:toast/toast.dart';
-import 'package:toolchain_flutter/model/program_type.dart';
 import 'package:toolchain_flutter/model/program_item_model.dart';
+import 'package:toolchain_flutter/model/program_type.dart';
 import 'package:toolchain_flutter/network/yapi_network.dart';
 import 'package:toolchain_flutter/pages/list/list_item.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
 
 class ListPage extends StatefulWidget {
-  static const String id = "/list";
+  static const String id = "/list_page";
 
   // 程序类型
   final ProgramType programType;
