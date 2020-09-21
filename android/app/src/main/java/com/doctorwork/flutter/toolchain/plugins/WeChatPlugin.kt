@@ -75,6 +75,7 @@ class WeChatPlugin() : FlutterPlugin, MethodCallHandler {
         req.message = message
         req.scene = SendMessageToWX.Req.WXSceneSession
         api.sendReq(req)
+        result.success(null)
     }
 
     private fun buildTransaction(type: String): String {
@@ -91,6 +92,7 @@ class WeChatPlugin() : FlutterPlugin, MethodCallHandler {
         // 可选打开 开发版，体验版和正式版
         req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE
         api.sendReq(req)
+        result.success(null)
     }
 
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
