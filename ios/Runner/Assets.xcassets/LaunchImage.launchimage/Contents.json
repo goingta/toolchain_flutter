@@ -18,7 +18,7 @@
     },
     {
       "extent" : "full-screen",
-      "filename" : "launchiPhoneXPortraitiOS11_375x812pt@3x.png",
+      "filename" : "Launch_1168*2668iPhoneXPortraitiOS11_375x812pt@3x.png",
       "idiom" : "iphone",
       "minimum-system-version" : "11.0",
       "orientation" : "portrait",
@@ -27,7 +27,7 @@
     },
     {
       "extent" : "full-screen",
-      "filename" : "launchiPhonePortraitiOS89_414x736pt@3x.png",
+      "filename" : "Launch_1168*2668iPhonePortraitiOS89_414x736pt@3x.png",
       "idiom" : "iphone",
       "minimum-system-version" : "8.0",
       "orientation" : "portrait",
@@ -36,7 +36,7 @@
     },
     {
       "extent" : "full-screen",
-      "filename" : "launchiPhonePortraitiOS89_375x667pt@2x.png",
+      "filename" : "Launch_1168*2668iPhonePortraitiOS89_375x667pt@2x.png",
       "idiom" : "iphone",
       "minimum-system-version" : "8.0",
       "orientation" : "portrait",
@@ -45,7 +45,7 @@
     },
     {
       "extent" : "full-screen",
-      "filename" : "launchiPhonePortraitiOS789_320x480pt@2x.png",
+      "filename" : "Launch_1168*2668iPhonePortraitiOS789_320x480pt@2x.png",
       "idiom" : "iphone",
       "minimum-system-version" : "7.0",
       "orientation" : "portrait",
@@ -53,7 +53,7 @@
     },
     {
       "extent" : "full-screen",
-      "filename" : "launchiPhonePortraitiOS789_320x568pt@2x.png",
+      "filename" : "Launch_1168*2668iPhonePortraitiOS789_320x568pt@2x.png",
       "idiom" : "iphone",
       "minimum-system-version" : "7.0",
       "orientation" : "portrait",
@@ -62,21 +62,21 @@
     },
     {
       "extent" : "full-screen",
-      "filename" : "launchiPhonePortraitiOS56_320x480pt.png",
+      "filename" : "Launch_1168*2668iPhonePortraitiOS56_320x480pt.png",
       "idiom" : "iphone",
       "orientation" : "portrait",
       "scale" : "1x"
     },
     {
       "extent" : "full-screen",
-      "filename" : "launchiPhonePortraitiOS56_320x480pt@2x.png",
+      "filename" : "Launch_1168*2668iPhonePortraitiOS56_320x480pt@2x.png",
       "idiom" : "iphone",
       "orientation" : "portrait",
       "scale" : "2x"
     },
     {
       "extent" : "full-screen",
-      "filename" : "launchiPhonePortraitiOS56_320x568pt@2x.png",
+      "filename" : "Launch_1168*2668iPhonePortraitiOS56_320x568pt@2x.png",
       "idiom" : "iphone",
       "orientation" : "portrait",
       "scale" : "2x",
