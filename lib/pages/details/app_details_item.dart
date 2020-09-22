@@ -43,7 +43,7 @@ class AppDetailsItem extends StatelessWidget {
           ),
           new Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
+            children: [
               new FlatButton(
                 onPressed: () {
                   share(context, pgyItemModel.toJson());
@@ -66,7 +66,7 @@ class AppDetailsItem extends StatelessWidget {
                       (programType == ProgramType.ANDROID &&
                           !Platform.isAndroid))
                   ? SizedBox.shrink()
-                  : new RaisedButton(
+                  : RaisedButton(
                       onPressed: () {
                         install(context, pgyItemModel.buildKey);
                       },

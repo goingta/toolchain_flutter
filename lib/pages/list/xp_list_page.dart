@@ -1,39 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:toast/toast.dart';
-import 'package:toolchain_flutter/model/program_item_model.dart';
+import 'package:toolchain_flutter/model/program_language.dart';
 import 'package:toolchain_flutter/model/program_type.dart';
-import 'package:toolchain_flutter/network/yapi_network.dart';
-import 'package:toolchain_flutter/pages/list/list_item.dart';
+import 'package:toolchain_flutter/model/xp_program_item_model.dart';
+import 'package:toolchain_flutter/network/xpportal_network.dart';
+import 'package:toolchain_flutter/pages/list/xp_list_item.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
 
-class ListPage extends StatefulWidget {
-  static const String id = "/list_page";
+class XPListPage extends StatefulWidget {
+  static const String id = "/xp_list_page";
 
   // 程序类型
-  final ProgramType programType;
+  final String language;
 
   // 构造函数
-  ListPage({Key key, Map arguments})
-      : this.programType = arguments['programType'],
+  XPListPage({Key key, Map arguments})
+      : this.language = arguments['language'],
         super(key: key);
 
   @override
-  _ListPageState createState() => _ListPageState();
+  _XPListPageState createState() => _XPListPageState();
 }
 
-class _ListPageState extends State<ListPage> {
+class _XPListPageState extends State<XPListPage> {
   bool _loading = true;
 
-  List<ProgramItemModel> _list = [];
+  List<XPProgramItemModel> _list = [];
 
   Future<void> _fetchProgramItems() async {
-    YapiNetwork yapiNetwork = YapiNetwork();
+    XPPortalNetwork xpPortalNetwork = XPPortalNetwork();
     try {
-      final List<ProgramItemModel> programItemModels =
-          await yapiNetwork.getProgramList(widget.programType.code);
-      programItemModels.sort((a, b) => a.name.compareTo(b.name));
-      _list.addAll(programItemModels);
+      final List<XPProgramItemModel> xpProgramItemModels =
+          await xpPortalNetwork.getProgramList(widget.language);
+      xpProgramItemModels.sort((a, b) => a.name.compareTo(b.name));
+      _list.addAll(xpProgramItemModels);
     } catch (e) {
       Toast.show(e.toString(), context);
     }
@@ -54,7 +55,9 @@ class _ListPageState extends State<ListPage> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(
-          this.widget.programType.value,
+          this.widget.language == ProgramLanguage.JAVA.value
+              ? ProgramType.JAVA.value
+              : ProgramType.NODE.value,
         ),
       ),
       body: _loading
@@ -86,9 +89,9 @@ class _ListPageState extends State<ListPage> {
               : ListView.builder(
                   itemCount: _list.length,
                   itemBuilder: (context, index) {
-                    ProgramItemModel programItemModel = _list[index];
-                    return new ListViewItem(
-                      programItemModel: programItemModel,
+                    XPProgramItemModel xpProgramItemModel = _list[index];
+                    return new XPListViewItem(
+                      xpProgramItemModel: xpProgramItemModel,
                     );
                   },
                 ),
