@@ -4,7 +4,9 @@ class ProgramLanguage {
 
   ProgramLanguage(this.code, this.value);
 
-  static final ProgramLanguage JAVA = ProgramLanguage(1, "Java");
+  static final ProgramLanguage JAVA = ProgramLanguage(0, "Java");
+
+  static final ProgramLanguage SCALA = ProgramLanguage(1, "Scala");
 
   static final ProgramLanguage JAVA_SCRIPT = ProgramLanguage(2, "JavaScript");
 

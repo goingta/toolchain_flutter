@@ -292,8 +292,8 @@ class _ListPageContainerState extends State<_ListPageContainer> {
                           return _getItem(index);
                         },
                         separatorBuilder: (context, index) {
-                          return SizedBox(
-                            height: 30.0,
+                          return Divider(
+                            color: Colors.grey,
                           );
                         },
                         itemCount: _list.length,

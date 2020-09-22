@@ -7,6 +7,7 @@ import 'package:toolchain_flutter/model/pgy_update_model.dart';
 import 'package:toolchain_flutter/network/pgyer_network.dart';
 import 'package:toolchain_flutter/notifier/version_update_change_notifier.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class VersionCheckUtil {
   /// 检查更新
@@ -65,16 +66,17 @@ class VersionCheckUtil {
                   Navigator.of(context).pop();
                 },
                 child: Text(
-                  '升级',
+                  '取消',
                   style: TextStyle(color: LightColor.primaryColor),
                 ),
               ),
               FlatButton(
                 onPressed: () {
                   Navigator.of(context).pop();
+                  launch(pgyUpdateModel.downloadURL);
                 },
                 child: Text(
-                  '取消',
+                  '升级',
                   style: TextStyle(color: LightColor.primaryColor),
                 ),
               ),

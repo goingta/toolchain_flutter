@@ -65,7 +65,7 @@ class WeChatPlugin() : FlutterPlugin, MethodCallHandler {
         val webpage = WXWebpageObject()
         webpage.webpageUrl = String.format("https://www.pgyer.com/%s", argumentMap["buildKey"])
         val message = WXMediaMessage(webpage)
-        message.title = String.format("蒲公英Android版本(%s:%s)", argumentMap["buildVersion"], argumentMap["buildBuildVersion"])
+        message.title = String.format("蒲公英版本(%s:%s)", argumentMap["buildVersion"], argumentMap["buildBuildVersion"])
         message.description = argumentMap.get("buildUpdateDescription")
         message.setThumbImage(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher), THUMB_SIZE, THUMB_SIZE, true))
         message.mediaTagName = argumentMap["buildVersion"];
@@ -83,7 +83,6 @@ class WeChatPlugin() : FlutterPlugin, MethodCallHandler {
     }
 
     private fun gotoWechat(methodCall: MethodCall, result: MethodChannel.Result) {
-        Toast.makeText(context, "开始跳转小程序", Toast.LENGTH_SHORT).show()
         val api = WXAPIFactory.createWXAPI(context, APP_ID)
         //
         val req = WXLaunchMiniProgram.Req()

@@ -4,8 +4,8 @@ import 'package:toolchain_flutter/model/user.dart';
 import 'package:toolchain_flutter/model/user_model.dart';
 import 'package:toolchain_flutter/server/json_server.dart';
 
-class XPPortalServer extends JsonServer {
-  XPPortalServer() {
+class XPServer extends JsonServer {
+  XPServer() {
     switch (Global.env) {
       case "dev":
         baseUrl = 'http://xpportal.xingrengo.com/';

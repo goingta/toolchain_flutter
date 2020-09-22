@@ -11,7 +11,7 @@ class ProgramType {
 
   static final ProgramType MINI_PROGRAM = ProgramType(4, "小程序");
 
-  static final ProgramType JAVA = ProgramType(5, "Java");
+  static final ProgramType SERVER = ProgramType(5, "Server");
 
   static final ProgramType NODE = ProgramType(6, "Node");
 
@@ -20,7 +20,7 @@ class ProgramType {
     ANDROID,
     H5,
     MINI_PROGRAM,
-    JAVA,
+    SERVER,
     NODE
   ];
 

@@ -89,7 +89,9 @@ class ListViewItem extends StatelessWidget {
                             color: LightColor.primaryColor,
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          launchURL(context, programItemModel);
+                        },
                       ),
                     ],
                   )
@@ -127,6 +129,16 @@ class ListViewItem extends StatelessWidget {
         },
       );
     }
+    // else if (programItemModel is H5ProgramItemModel) {
+    //   Navigator.push(
+    //     context,
+    //     new MaterialPageRoute(
+    //       builder: (context) => new WebViewPage(
+    //           title: "云诊室",
+    //           url: "https://open.xingren.com/consult/assistant/index"),
+    //     ),
+    //   );
+    // }
 
     // const platform = const MethodChannel('goingta.flutter.io/share');
     // await platform.invokeMethod("gotoWechat", model.programName);

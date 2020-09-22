@@ -89,13 +89,17 @@ class Server<T> {
     );
   }
 
-  Future<T> post(String path,
-      {Map<String, dynamic> data,
-      Map<String, dynamic> formData,
-      Map<String, dynamic> headers}) async {
+  Future<T> post(
+    String path, {
+    Map<String, dynamic> queryParameters,
+    Map<String, dynamic> data,
+    Map<String, dynamic> formData,
+    Map<String, dynamic> headers,
+  }) async {
     return request(
       "POST",
       path,
+      queryParameters: queryParameters,
       data: data,
       formData: FormData.fromMap(formData),
       headers: headers,

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:toast/toast.dart';
 import 'package:toolchain_flutter/model/xp_build_item.dart';
+import 'package:toolchain_flutter/model/xp_env.dart';
 import 'package:toolchain_flutter/model/xp_program_item_model.dart';
-import 'package:toolchain_flutter/network/xpportal_network.dart';
+import 'package:toolchain_flutter/network/xp_network.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
 
 class XPDetailsPage extends StatefulWidget {
@@ -249,8 +250,8 @@ class _ListPageContainerState extends State<_ListPageContainer> {
                         return _getItem(index);
                       },
                       separatorBuilder: (context, index) {
-                        return SizedBox(
-                          height: 30.0,
+                        return Divider(
+                          color: Colors.grey,
                         );
                       },
                       itemCount: _list.length,
@@ -279,7 +280,7 @@ class _ListPageContainerState extends State<_ListPageContainer> {
 
   Future<void> _loadBuildHistory() async {
     try {
-      XPPortalNetwork xpPortalNetwork = XPPortalNetwork();
+      XPNetwork xpPortalNetwork = XPNetwork();
       final List<XPBuildItem> xpBuildItems =
           await xpPortalNetwork.getBuildHistory(widget.xpProgramItemModel.id);
       _list.addAll(xpBuildItems);
@@ -299,37 +300,106 @@ class _ListPageContainerState extends State<_ListPageContainer> {
       child: new Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "分支：${xpBuildItem.ref}",
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      "时间：${DateTime.fromMillisecondsSinceEpoch(xpBuildItem.created)}",
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: 60,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 5.0,
+                  vertical: 3.0,
+                ),
+                decoration: BoxDecoration(
+                  color: _getIndicatorColor(xpBuildItem.status),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(
+                      10.0,
+                    ),
+                  ),
+                ),
+                child: Text(
+                  xpBuildItem.status?.value ?? "构建未知",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                  ),
+                ),
+              ),
+            ],
+          ),
           Text(
-            "#CommitId：${xpBuildItem.commitId}",
-            style: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.w600,
-            ),
+            '${xpBuildItem.commitId}',
           ),
           Text(
             '${xpBuildItem.comment}',
           ),
+          SizedBox(
+            width: 10,
+          ),
           Row(mainAxisAlignment: MainAxisAlignment.end, children: [
             RaisedButton(
-              onPressed: () {
-                _showSelectionDialog();
-              },
+              onPressed: xpBuildItem.status == XPBuildStatus.SUCCESS
+                  ? () {
+                      _showSelectionDialog(xpBuildItem);
+                    }
+                  : null,
               child: new Text(
                 "发布",
                 style: TextStyle(
                   color: Colors.white,
                 ),
               ),
-              color: LightColor.primaryColor,
+              color: xpBuildItem.status == XPBuildStatus.SUCCESS
+                  ? LightColor.primaryColor
+                  : LightColor.lightGrey,
             ),
-          ])
+          ]),
         ],
       ),
     );
   }
 
+  Color _getIndicatorColor(XPBuildStatus xpBuildStatus) {
+    Color color;
+    if (xpBuildStatus == XPBuildStatus.SUCCESS) {
+      color = Colors.green;
+    } else if (xpBuildStatus == XPBuildStatus.FAILED) {
+      color = Colors.red;
+    } else if (xpBuildStatus == XPBuildStatus.PENDING) {
+      color = Colors.orange;
+    } else if (xpBuildStatus == XPBuildStatus.RUNNING) {
+      color = Colors.blue;
+    } else {
+      color = Colors.grey;
+    }
+    return color;
+  }
+
   /// 显示选择发布环境的 Dialog
-  void _showSelectionDialog() {
+  void _showSelectionDialog(XPBuildItem xpBuildItem) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext dialogContext) {
@@ -341,7 +411,7 @@ class _ListPageContainerState extends State<_ListPageContainer> {
                   vertical: 10.0,
                 ),
                 child: Text(
-                  "请选择编译目标环境",
+                  "请选择发布目标环境",
                   style: TextStyle(
                     fontSize: 12.0,
                     color: Theme.of(context).hintColor,
@@ -354,6 +424,7 @@ class _ListPageContainerState extends State<_ListPageContainer> {
               InkWell(
                 onTap: () {
                   Navigator.pop(dialogContext);
+                  _inputNotes(xpBuildItem, XPEnv.DEV);
                 },
                 child: Container(
                   width: double.infinity,
@@ -361,7 +432,7 @@ class _ListPageContainerState extends State<_ListPageContainer> {
                     vertical: 10.0,
                   ),
                   child: Text(
-                    "预发",
+                    XPEnv.DEV.value,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -372,6 +443,7 @@ class _ListPageContainerState extends State<_ListPageContainer> {
               InkWell(
                 onTap: () {
                   Navigator.pop(dialogContext);
+                  _inputNotes(xpBuildItem, XPEnv.TEST);
                 },
                 child: Container(
                   width: double.infinity,
@@ -379,7 +451,45 @@ class _ListPageContainerState extends State<_ListPageContainer> {
                     vertical: 10.0,
                   ),
                   child: Text(
-                    "线上",
+                    XPEnv.TEST.value,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              Divider(
+                height: 0.5,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pop(dialogContext);
+                  _inputNotes(xpBuildItem, XPEnv.STAGING);
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                  ),
+                  child: Text(
+                    XPEnv.STAGING.value,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              Divider(
+                height: 0.5,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pop(dialogContext);
+                  _inputNotes(xpBuildItem, XPEnv.PRODUCTION);
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                  ),
+                  child: Text(
+                    XPEnv.PRODUCTION.value,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -387,5 +497,67 @@ class _ListPageContainerState extends State<_ListPageContainer> {
             ],
           );
         });
+  }
+
+  /// 输入发布日志
+  void _inputNotes(XPBuildItem xpBuildItem, XPEnv xpEnv) {
+    final TextEditingController publishNotesController =
+        TextEditingController();
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              '发布日志',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            content: TextField(
+              controller: publishNotesController,
+              autofocus: true,
+              decoration: const InputDecoration(
+                hintText: "请输入发布日志（非必须）",
+              ),
+              maxLines: 5,
+            ),
+            actions: [
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  '取消',
+                  style: TextStyle(color: LightColor.primaryColor),
+                ),
+              ),
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _publish(xpBuildItem, xpEnv, publishNotesController.text);
+                },
+                child: Text(
+                  '发布',
+                  style: TextStyle(color: LightColor.primaryColor),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+  /// 发布
+  Future<void> _publish(
+      XPBuildItem xpBuildItem, XPEnv xpEnv, String notes) async {
+    XPNetwork xpNetwork = XPNetwork();
+    try {
+      await xpNetwork.publish(
+          widget.xpProgramItemModel.id, xpBuildItem, xpEnv, notes);
+    } catch (e) {
+      print(e);
+      Toast.show(e.toString(), context);
+    }
   }
 }

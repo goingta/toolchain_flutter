@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:toast/toast.dart';
-import 'package:toolchain_flutter/model/program_language.dart';
 import 'package:toolchain_flutter/model/program_type.dart';
 import 'package:toolchain_flutter/model/xp_program_item_model.dart';
-import 'package:toolchain_flutter/network/xpportal_network.dart';
+import 'package:toolchain_flutter/model/xp_program_type.dart';
+import 'package:toolchain_flutter/network/xp_network.dart';
 import 'package:toolchain_flutter/pages/list/xp_list_item.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
 
@@ -12,11 +12,11 @@ class XPListPage extends StatefulWidget {
   static const String id = "/xp_list_page";
 
   // 程序类型
-  final String language;
+  final ProgramType programType;
 
   // 构造函数
   XPListPage({Key key, Map arguments})
-      : this.language = arguments['language'],
+      : this.programType = arguments['programType'],
         super(key: key);
 
   @override
@@ -29,10 +29,20 @@ class _XPListPageState extends State<XPListPage> {
   List<XPProgramItemModel> _list = [];
 
   Future<void> _fetchProgramItems() async {
-    XPPortalNetwork xpPortalNetwork = XPPortalNetwork();
+    XPNetwork xpPortalNetwork = XPNetwork();
     try {
-      final List<XPProgramItemModel> xpProgramItemModels =
-          await xpPortalNetwork.getProgramList(widget.language);
+      final List<XPProgramItemModel> xpProgramItemModels = await xpPortalNetwork
+          .getProgramList(widget.programType == ProgramType.SERVER
+              ? [
+                  XPProgramType.API.code,
+                  XPProgramType.ADMIN.code,
+                  XPProgramType.WEB.code,
+                  XPProgramType.RPC.code,
+                ]
+              : [
+                  XPProgramType.SPA.code,
+                  XPProgramType.BFF.code,
+                ]);
       xpProgramItemModels.sort((a, b) => a.name.compareTo(b.name));
       _list.addAll(xpProgramItemModels);
     } catch (e) {
@@ -55,9 +65,7 @@ class _XPListPageState extends State<XPListPage> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(
-          this.widget.language == ProgramLanguage.JAVA.value
-              ? ProgramType.JAVA.value
-              : ProgramType.NODE.value,
+          this.widget.programType.value,
         ),
       ),
       body: _loading
