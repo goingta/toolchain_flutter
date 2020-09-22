@@ -20,9 +20,9 @@
     __weak typeof(self) weakSelf = self;
     [channel setMethodCallHandler:^(FlutterMethodCall* call, FlutterResult result) {
         if ([@"gotoWechat" isEqualToString:call.method]) {
-            NSString* weappId = call.arguments;
-            [weakSelf gotoWechat:weappId];
-
+            NSString* appid = [call.arguments objectForKey:@"appid"];
+            NSString* programType = [call.arguments objectForKey:@"programType"];
+            [weakSelf gotoWechat:appid programType:programType];
             result(@(YES));
         } else if ([@"shareToWechat" isEqualToString:call.method]) {
             [weakSelf shareToWechat:call.arguments];
@@ -56,10 +56,26 @@
     return [WWKApi handleOpenURL:url delegate:self];
 }
 
-- (void)gotoWechat:(NSString *)weappId {
+- (void)gotoWechat:(NSString *)weappId programType:(NSString *)programType {
+//    //类型转换失败，小程序无法跳转
+//    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+//    [dic setObject:@1 forKey:@"test"];
+//    [dic setObject:@2 forKey:@"preview"];
+//    [dic setObject:@0 forKey:@"release"];
+//    WXMiniProgramType type = (WXMiniProgramType)[dic objectForKey:programType];
+    WXMiniProgramType type = WXMiniProgramTypeRelease;
+    if ([programType isEqual:@"test"]) {
+        type = WXMiniProgramTypeTest;
+    }
+    else if ([programType isEqual:@"preview"]){
+        type = WXMiniProgramTypePreview;
+    }
+    else if ([programType isEqual:@"release"]){
+        type = WXMiniProgramTypeRelease;
+    }
     WXLaunchMiniProgramReq *launchMiniProgramReq = [WXLaunchMiniProgramReq object];
     [launchMiniProgramReq setUserName:weappId];
-    [launchMiniProgramReq setMiniProgramType:WXMiniProgramTypeRelease];
+    [launchMiniProgramReq setMiniProgramType:type];
     [WXApi sendReq:launchMiniProgramReq completion:nil];
 }
 
