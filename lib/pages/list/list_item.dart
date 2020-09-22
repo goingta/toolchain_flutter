@@ -264,6 +264,7 @@ class ListViewItem extends StatelessWidget {
         "description": programItemModel.desc,
         "mediaTagName": programItemModel.name,
         //小程序分享特有配置
+        "pageUrl": (programItemModel as MiniProgramItemModel).appId,
         "userName": (programItemModel as MiniProgramItemModel).appId,
         "hdImageData": programItemModel.logo,
         "programType": programType,

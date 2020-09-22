@@ -124,6 +124,7 @@
     //按条件生成分享对象
     NSObject *ext;
     if ([dic[@"type"] isEqual:@"webPage"]) {
+        webPageExt.webpageUrl = @"http:www.baidu.com";
         ext = webPageExt;
     }
     else if ([dic[@"type"] isEqual:@"miniProgram"]){
@@ -137,7 +138,8 @@
             miniProgramExt.path = dic[@"path"];
         }
         if (dic[@"hdImageData"] != NULL && ![dic[@"hdImageData"]  isEqual: @""]) {
-            miniProgramExt.hdImageData = [dic[@"hdImageData"] dataUsingEncoding:NSUTF8StringEncoding];
+            miniProgramExt.hdImageData =[[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:dic[@"hdImageData"]]];
+//            miniProgramExt.hdImageData =UIImagePNGRepresentation([UIImage imageNamed:@"shareLogo"]);
         }
         if (dic[@"withShareTicket"] != NULL) {
             miniProgramExt.withShareTicket = dic[@"withShareTicket"];
@@ -152,12 +154,15 @@
     message.mediaTagName = dic[@"mediaTagName"];
     message.mediaObject = ext;
     [message setThumbImage:[UIImage imageNamed:@"logo"]];
+    
 
     SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
     req.message = message;
     req.bText = false;
     req.scene = WXSceneSession;
-    [WXApi sendReq:req completion:nil];
+    [WXApi sendReq:req completion:^(BOOL success) {
+        bool result = success;
+    }];
 }
 
 @end
