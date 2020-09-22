@@ -26,7 +26,10 @@
             result(@(YES));
         } else if ([@"shareToWechat" isEqualToString:call.method]) {
             [weakSelf shareToWechat:call.arguments];
-        } else {
+        } else if ([@"sendReqToWechat" isEqualToString:call.method]) {
+            [weakSelf sendReqToWechat:call.arguments];
+        }
+        else {
             result(FlutterMethodNotImplemented);
         }
     }];
@@ -56,6 +59,8 @@
     return [WWKApi handleOpenURL:url delegate:self];
 }
 
+//MARK: -
+
 - (void)gotoWechat:(NSString *)weappId programType:(NSString *)programType {
 //    //类型转换失败，小程序无法跳转
 //    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
@@ -79,6 +84,8 @@
     [WXApi sendReq:launchMiniProgramReq completion:nil];
 }
 
+//MARK:-
+
 - (void)shareToWechat:(NSDictionary *)dic {
     WXWebpageObject *ext = [WXWebpageObject object];
     ext.webpageUrl = [NSString stringWithFormat:@"https://www.pgyer.com/%@",dic[@"buildKey"]];
@@ -89,6 +96,62 @@
     message.mediaObject = ext;
     [message setThumbImage:[UIImage imageNamed:@"logo"]];
     message.mediaTagName = dic[@"buildVersion"];
+
+    SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+    req.message = message;
+    req.bText = false;
+    req.scene = WXSceneSession;
+    [WXApi sendReq:req completion:nil];
+}
+
+- (void)sendReqToWechat:(NSDictionary *)dic {
+    //网页分享对象
+    WXWebpageObject *webPageExt = [WXWebpageObject object];
+    
+    //小程序分享对象
+    WXMiniProgramObject *miniProgramExt = [WXMiniProgramObject object];
+    WXMiniProgramType miniProgramType = WXMiniProgramTypeRelease;
+    if ([dic[@"programType"] isEqual:@"test"]) {
+        miniProgramType = WXMiniProgramTypeTest;
+    }
+    else if ([dic[@"programType"]  isEqual:@"preview"]){
+        miniProgramType = WXMiniProgramTypePreview;
+    }
+    else if ([dic[@"programType"]  isEqual:@"release"]){
+        miniProgramType = WXMiniProgramTypeRelease;
+    }
+    
+    //按条件生成分享对象
+    NSObject *ext;
+    if ([dic[@"type"] isEqual:@"webPage"]) {
+        ext = webPageExt;
+    }
+    else if ([dic[@"type"] isEqual:@"miniProgram"]){
+        if (dic[@"pageUrl"] != NULL) {
+            miniProgramExt.webpageUrl = dic[@"pageUrl"];
+        }
+        if (dic[@"userName"] != NULL && ![dic[@"userName"]  isEqual: @""]) {
+            miniProgramExt.userName = dic[@"userName"];
+        }
+        if (dic[@"path"] != NULL && ![dic[@"path"]  isEqual: @""]) {
+            miniProgramExt.path = dic[@"path"];
+        }
+        if (dic[@"hdImageData"] != NULL && ![dic[@"hdImageData"]  isEqual: @""]) {
+            miniProgramExt.hdImageData = [dic[@"hdImageData"] dataUsingEncoding:NSUTF8StringEncoding];
+        }
+        if (dic[@"withShareTicket"] != NULL) {
+            miniProgramExt.withShareTicket = dic[@"withShareTicket"];
+        }
+        miniProgramExt.miniProgramType = miniProgramType;
+        ext = miniProgramExt;
+    }
+    
+    WXMediaMessage *message = [WXMediaMessage message];
+    message.title = dic[@"title"];
+    message.description = dic[@"description"];
+    message.mediaTagName = dic[@"mediaTagName"];
+    message.mediaObject = ext;
+    [message setThumbImage:[UIImage imageNamed:@"logo"]];
 
     SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
     req.message = message;

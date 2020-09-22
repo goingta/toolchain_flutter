@@ -249,6 +249,7 @@ class ListViewItem extends StatelessWidget {
 
   /// 构建新版本
   void _trigger(BuildContext context, String programType, String type) async {
+    // 找插件判断是否安装微信
     const platform = const MethodChannel('goingta.flutter.io/share');
     if (type == "open") {
       await platform.invokeMethod("gotoWechat", {
@@ -256,7 +257,18 @@ class ListViewItem extends StatelessWidget {
         "programType": programType
       });
     }
-
+    if (type == "share") {
+      await platform.invokeMethod("sendReqToWechat", {
+        "type": "miniProgram",
+        "title": programItemModel.name,
+        "description": programItemModel.desc,
+        "mediaTagName": programItemModel.name,
+        //小程序分享特有配置
+        "userName": (programItemModel as MiniProgramItemModel).appId,
+        "hdImageData": programItemModel.logo,
+        "programType": programType,
+      });
+    }
     Toast.show("触发成功！", context);
   }
 }
