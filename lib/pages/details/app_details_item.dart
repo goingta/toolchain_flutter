@@ -29,7 +29,7 @@ class AppDetailsItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "# 版本 ${pgyItemModel.buildVersion}(${pgyItemModel.buildBuildVersion}) 时间：${pgyItemModel.buildCreated}",
+            "版本：${pgyItemModel.buildVersion}(${pgyItemModel.buildVersionNo}) [${pgyItemModel.buildBuildVersion}]\n时间：${pgyItemModel.buildCreated}",
             style: TextStyle(
               fontSize: 16.0,
               fontWeight: FontWeight.w600,
