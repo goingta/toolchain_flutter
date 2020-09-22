@@ -35,7 +35,7 @@ class PGYNetwork {
           "_api_key": "01f1afe385c48954fd713ba5d533b62c",
           "appKey": Platform.isIOS
               ? "4f55bb2a4d7f22a959204032c2042204"
-              : "aad7f7999b29743c6820c113e92bdb5a",
+              : "5fab56fd81bf748f80ea5ed0cbe5448b",
         },
       );
       return PGYUpdateModel.fromJson(jsonMap["data"]);
