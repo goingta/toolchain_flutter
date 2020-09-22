@@ -8,7 +8,7 @@ import 'package:toolchain_flutter/pages/tab/tab_page.dart';
 import 'package:toolchain_flutter/router/nav_key.dart';
 
 class LoginPage extends StatefulWidget {
-  static const String id = "/login";
+  static const String id = "/login_page";
 
   @override
   _LoginState createState() => _LoginState();

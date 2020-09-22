@@ -6,10 +6,11 @@ import 'package:toolchain_flutter/model/user.dart';
 import 'package:toolchain_flutter/model/user_model.dart';
 import 'package:toolchain_flutter/notifier/version_update_change_notifier.dart';
 import 'package:toolchain_flutter/pages/login/login_page.dart';
+import 'package:toolchain_flutter/tools/version_check_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatefulWidget {
-  static const String id = "/profile";
+  static const String id = "/profile_page";
 
   _ProfileState createState() => _ProfileState();
 }
@@ -180,11 +181,14 @@ class _ProfileState extends State<ProfilePage> {
                               : SizedBox.shrink(),
                         ],
                       ),
-                      trailing: Text(
-                          "V$_version [$_buildNumber]${versionUpdateChangeNotifier.hasNewVersion ? "(点击可更新)" : ""}"),
+                      trailing: Text("V$_version [$_buildNumber]"),
                       onTap: () {
                         if (versionUpdateChangeNotifier.hasNewVersion) {
+                          // 跳转页面
                           launch(versionUpdateChangeNotifier.downloadURL);
+                        } else {
+                          // 检查更新
+                          VersionCheckUtil.checkUpdate(context, true);
                         }
                       },
                     );

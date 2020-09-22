@@ -1,16 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
+import 'package:flutter/services.dart';
 import 'package:toolchain_flutter/model/pgy_item_model.dart';
 import 'package:toolchain_flutter/model/program_type.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter/services.dart';
 
 class AppDetailsItem extends StatelessWidget {
   // 属性
   final PGYItemModel pgyItemModel;
+
   // 程序类型
   final ProgramType programType;
+
   // 蒲公英 _api_key
   final String pgyApiKey;
 
@@ -29,7 +32,7 @@ class AppDetailsItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "# 版本 ${pgyItemModel.buildVersion}(${pgyItemModel.buildBuildVersion}) 时间：${pgyItemModel.buildCreated}",
+            "版本：${pgyItemModel.buildVersion}(${pgyItemModel.buildVersionNo}) [${pgyItemModel.buildBuildVersion}]\n时间：${pgyItemModel.buildCreated}",
             style: TextStyle(
               fontSize: 16.0,
               fontWeight: FontWeight.w600,
@@ -40,7 +43,7 @@ class AppDetailsItem extends StatelessWidget {
           ),
           new Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
+            children: [
               new FlatButton(
                 onPressed: () {
                   share(context, pgyItemModel.toJson());
@@ -52,21 +55,29 @@ class AppDetailsItem extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
-                width: 10.0,
-              ),
-              new RaisedButton(
-                onPressed: () {
-                  install(context, pgyItemModel.buildKey);
-                },
-                child: new Text(
-                  "安装",
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                color: LightColor.primaryColor,
-              )
+              ((programType == ProgramType.IOS && !Platform.isIOS) ||
+                      (programType == ProgramType.ANDROID &&
+                          !Platform.isAndroid))
+                  ? SizedBox.shrink()
+                  : const SizedBox(
+                      width: 10.0,
+                    ),
+              ((programType == ProgramType.IOS && !Platform.isIOS) ||
+                      (programType == ProgramType.ANDROID &&
+                          !Platform.isAndroid))
+                  ? SizedBox.shrink()
+                  : RaisedButton(
+                      onPressed: () {
+                        install(context, pgyItemModel.buildKey);
+                      },
+                      child: new Text(
+                        "安装",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      color: LightColor.primaryColor,
+                    )
             ],
           ),
         ],
@@ -78,15 +89,8 @@ class AppDetailsItem extends StatelessWidget {
    * 安装
    */
   void install(BuildContext context, String buildKey) {
-    bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-    print("isIos = $isIOS, programType = $programType");
-    if ((programType == ProgramType.IOS && !isIOS) ||
-        (programType == ProgramType.ANDROID && isIOS)) {
-      Toast.show("当前系统与程序不匹配，无法安装", context);
-      return;
-    }
     String url = "";
-    if (isIOS) {
+    if (Platform.isIOS) {
       url =
           "itms-services://?action=download-manifest&url=https://www.pgyer.com/app/plist/$buildKey";
     } else {
