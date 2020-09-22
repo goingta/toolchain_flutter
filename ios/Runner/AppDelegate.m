@@ -124,7 +124,9 @@
     //按条件生成分享对象
     NSObject *ext;
     if ([dic[@"type"] isEqual:@"webPage"]) {
-        webPageExt.webpageUrl = @"http:www.baidu.com";
+        if (dic[@"pageUrl"] != NULL) {
+            webPageExt.webpageUrl = dic[@"pageUrl"];
+        }
         ext = webPageExt;
     }
     else if ([dic[@"type"] isEqual:@"miniProgram"]){
