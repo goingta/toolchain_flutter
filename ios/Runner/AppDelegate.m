@@ -130,9 +130,9 @@
         ext = webPageExt;
     }
     else if ([dic[@"type"] isEqual:@"miniProgram"]){
-        if (dic[@"pageUrl"] != NULL) {
-            miniProgramExt.webpageUrl = dic[@"pageUrl"];
-        }
+        
+        miniProgramExt.webpageUrl = dic[@"pageUrl"] != NULL ? dic[@"pageUrl"]:@"";
+        
         if (dic[@"userName"] != NULL && ![dic[@"userName"]  isEqual: @""]) {
             miniProgramExt.userName = dic[@"userName"];
         }
@@ -141,7 +141,6 @@
         }
         if (dic[@"hdImageData"] != NULL && ![dic[@"hdImageData"]  isEqual: @""]) {
             miniProgramExt.hdImageData =[[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:dic[@"hdImageData"]]];
-//            miniProgramExt.hdImageData =UIImagePNGRepresentation([UIImage imageNamed:@"shareLogo"]);
         }
         if (dic[@"withShareTicket"] != NULL) {
             miniProgramExt.withShareTicket = dic[@"withShareTicket"];
@@ -155,7 +154,7 @@
     message.description = dic[@"description"];
     message.mediaTagName = dic[@"mediaTagName"];
     message.mediaObject = ext;
-    [message setThumbImage:[UIImage imageNamed:@"logo"]];
+    [message setThumbImage:[UIImage imageNamed:@"shareLogo"]];
     
 
     SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
