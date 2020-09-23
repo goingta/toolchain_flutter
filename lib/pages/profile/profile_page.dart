@@ -6,6 +6,7 @@ import 'package:toolchain_flutter/model/user.dart';
 import 'package:toolchain_flutter/model/user_model.dart';
 import 'package:toolchain_flutter/notifier/version_update_change_notifier.dart';
 import 'package:toolchain_flutter/pages/login/login_page.dart';
+import 'package:toolchain_flutter/pages/webViewPage/webView_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -138,6 +139,26 @@ class _ProfileState extends State<ProfilePage> {
                   subtitle: Text(
                     _user.email == null ? '' : _user.email,
                   ),
+                ),
+                Divider(),
+                SizedBox(height: 10.0),
+                ListTile(
+                  title: Text(
+                    "意见反馈",
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new WebViewPage(
+                              title: "意见反馈",
+                              url: "https://support.qq.com/product/284036")),
+                    );
+                  },
                 ),
                 Divider(),
                 SizedBox(height: 10.0),
