@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:toolchain_flutter/model/app_item_model.dart';
 import 'package:toolchain_flutter/model/pgy_item_model.dart';
 import 'package:toolchain_flutter/model/program_type.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
@@ -11,19 +12,15 @@ class AppDetailsItem extends StatelessWidget {
   // 属性
   final PGYItemModel pgyItemModel;
 
-  // 程序类型
-  final ProgramType programType;
-
-  // 蒲公英 _api_key
-  final String pgyApiKey;
+  // 程序
+  final AppItemModel appItemModel;
 
   //构造函数
-  AppDetailsItem(
-      {Key key,
-      @required this.pgyItemModel,
-      @required this.programType,
-      @required this.pgyApiKey})
-      : super(key: key);
+  AppDetailsItem({
+    Key key,
+    @required this.pgyItemModel,
+    @required this.appItemModel,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +43,15 @@ class AppDetailsItem extends StatelessWidget {
             children: [
               new FlatButton(
                 onPressed: () {
-                  share(context, pgyItemModel.toJson());
+                  share(context, {
+                    "type": "webPage",
+                    "title":
+                        "${appItemModel.name} - ${appItemModel.programType.value}",
+                    "description":
+                        "${pgyItemModel.buildVersion}(${pgyItemModel.buildVersionNo}) [${pgyItemModel.buildBuildVersion}]",
+                    "mediaTagName": pgyItemModel.buildVersion,
+                    "pageUrl": "https://www.pgyer.com/${pgyItemModel.buildKey}",
+                  });
                 },
                 child: new Text(
                   "分享二维码",
@@ -55,15 +60,17 @@ class AppDetailsItem extends StatelessWidget {
                   ),
                 ),
               ),
-              ((programType == ProgramType.IOS && !Platform.isIOS) ||
-                      (programType == ProgramType.ANDROID &&
+              ((appItemModel.programType == ProgramType.IOS &&
+                          !Platform.isIOS) ||
+                      (appItemModel.programType == ProgramType.ANDROID &&
                           !Platform.isAndroid))
                   ? SizedBox.shrink()
                   : const SizedBox(
                       width: 10.0,
                     ),
-              ((programType == ProgramType.IOS && !Platform.isIOS) ||
-                      (programType == ProgramType.ANDROID &&
+              ((appItemModel.programType == ProgramType.IOS &&
+                          !Platform.isIOS) ||
+                      (appItemModel.programType == ProgramType.ANDROID &&
                           !Platform.isAndroid))
                   ? SizedBox.shrink()
                   : RaisedButton(
@@ -95,7 +102,7 @@ class AppDetailsItem extends StatelessWidget {
           "itms-services://?action=download-manifest&url=https://www.pgyer.com/app/plist/$buildKey";
     } else {
       url =
-          "https://www.pgyer.com/apiv2/app/install?_api_key=$pgyApiKey&buildKey=$buildKey";
+          "https://www.pgyer.com/apiv2/app/install?_api_key=${appItemModel.pgyApiKey}&buildKey=$buildKey";
     }
     launch(url);
   }
@@ -105,6 +112,6 @@ class AppDetailsItem extends StatelessWidget {
    */
   void share(BuildContext context, Map model) async {
     const platform = const MethodChannel('goingta.flutter.io/share');
-    await platform.invokeMethod("shareToWechat", model);
+    await platform.invokeMethod("sendReqToWechat", model);
   }
 }

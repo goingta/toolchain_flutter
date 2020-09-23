@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:toast/toast.dart';
 import 'package:toolchain_flutter/model/app_item_model.dart';
 import 'package:toolchain_flutter/model/h5_item_model.dart';
 import 'package:toolchain_flutter/model/mini_program_item_model.dart';
@@ -88,6 +87,9 @@ class ListViewItem extends StatelessWidget {
                           if (programItemModel.programType ==
                               ProgramType.MINI_PROGRAM) {
                             _smallProgramSelectionDialog(context, "share");
+                          } else if (programItemModel is H5ProgramItemModel) {
+                            _h5ProgramSelectionDialog(
+                                context, "share", programItemModel);
                           }
                         },
                       ),
@@ -103,6 +105,9 @@ class ListViewItem extends StatelessWidget {
                           if (programItemModel.programType ==
                               ProgramType.MINI_PROGRAM) {
                             _smallProgramSelectionDialog(context, "open");
+                          } else if (programItemModel is H5ProgramItemModel) {
+                            _h5ProgramSelectionDialog(
+                                context, "open", programItemModel);
                           }
                         },
                       ),
@@ -141,12 +146,88 @@ class ListViewItem extends StatelessWidget {
           "appItemModel": programItemModel,
         },
       );
-    } else if (programItemModel is H5ProgramItemModel) {
-      NavKey.navKey.currentState.pushNamed(WebViewPage.id, arguments: {
-        "title": "云诊室",
-        "url": "https://open.xingren.com/consult/assistant/index",
-      });
     }
+  }
+
+  /// H5分享打开选择 Dialog
+  void _h5ProgramSelectionDialog(
+    BuildContext context,
+    String type,
+    H5ProgramItemModel h5ProgramItemModel,
+  ) {
+    if (h5ProgramItemModel.envs.length <= 0) {
+      return;
+    }
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10.0,
+                ),
+                child: Text(
+                  "请选择${type == "open" ? "打开" : "分享"}环境",
+                  style: TextStyle(
+                    fontSize: 12.0,
+                    color: Theme.of(context).hintColor,
+                  ),
+                ),
+              ),
+              ListView.separated(
+                itemBuilder: (context, index) {
+                  H5Env h5Env = h5ProgramItemModel.envs[index];
+                  return InkWell(
+                    onTap: () {
+                      Navigator.pop(dialogContext);
+                      if (type == "open") {
+                        NavKey.navKey.currentState
+                            .pushNamed(WebViewPage.id, arguments: {
+                          "title": "${h5ProgramItemModel.name} - ${h5Env.name}",
+                          "url": h5Env.url,
+                        });
+                      } else if (type == "share") {
+                        _shareH5(h5Env);
+                      }
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10.0,
+                      ),
+                      child: Text(
+                        h5Env.name,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return Divider(
+                    height: 0.5,
+                  );
+                },
+                itemCount: h5ProgramItemModel.envs.length,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+              ),
+            ],
+          );
+        });
+  }
+
+  /// 分享 h5
+  Future<void> _shareH5(H5Env h5env) async {
+    await MethodChannel('goingta.flutter.io/share')
+        .invokeMethod("sendReqToWechat", {
+      "type": "webPage",
+      "title": "${programItemModel.name} - ${h5env.name}",
+      "description": programItemModel.desc,
+      "mediaTagName": programItemModel.name,
+      "pageUrl": h5env.url,
+    });
   }
 
   /// 显示版本分享打开选择 Dialog
@@ -252,11 +333,13 @@ class ListViewItem extends StatelessWidget {
         "description": programItemModel.desc,
         "mediaTagName": programItemModel.name,
         //小程序分享特有配置
+        "pageUrl": "https://www.xingren.com",
+        "path": "",
         "userName": (programItemModel as MiniProgramItemModel).appId,
+        "withShareTicket": false,
         "hdImageData": programItemModel.logo,
         "programType": programType,
       });
     }
-    Toast.show("触发成功！", context);
   }
 }

@@ -350,8 +350,7 @@ class _ListPageContainerState extends State<_ListPageContainer> {
     PGYItemModel pgyItemModel = _list[index];
     return new AppDetailsItem(
       pgyItemModel: pgyItemModel,
-      programType: this.widget.appItemModel.programType,
-      pgyApiKey: this.widget.appItemModel.pgyApiKey,
+      appItemModel: this.widget.appItemModel,
     );
   }
 }
