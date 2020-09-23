@@ -20,9 +20,9 @@ class LoginPage extends StatefulWidget {
 class _LoginState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController =
-      TextEditingController(text: "flutter@doctorwork.com");
+      TextEditingController(text: "");
   final _passwordController =
-      TextEditingController(text: "flutter@doctorwork.com");
+      TextEditingController(text: "");
 
   bool loading = false;
   String errorMessage = "";
