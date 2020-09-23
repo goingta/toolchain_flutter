@@ -120,7 +120,8 @@ class _ListPageHeader extends StatelessWidget {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext dialogContext) {
-          return Column(
+          return SafeArea(
+              child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
@@ -174,7 +175,7 @@ class _ListPageHeader extends StatelessWidget {
                 ),
               ),
             ],
-          );
+          ));
         });
   }
 }
@@ -403,7 +404,8 @@ class _ListPageContainerState extends State<_ListPageContainer> {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext dialogContext) {
-          return Column(
+          return SafeArea(
+              child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
@@ -495,7 +497,7 @@ class _ListPageContainerState extends State<_ListPageContainer> {
                 ),
               ),
             ],
-          );
+          ));
         });
   }
 

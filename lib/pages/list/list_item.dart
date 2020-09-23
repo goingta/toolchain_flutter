@@ -161,7 +161,8 @@ class ListViewItem extends StatelessWidget {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext dialogContext) {
-          return Column(
+          return SafeArea(
+              child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
@@ -214,7 +215,7 @@ class ListViewItem extends StatelessWidget {
                 physics: NeverScrollableScrollPhysics(),
               ),
             ],
-          );
+          ));
         });
   }
 
@@ -239,7 +240,8 @@ class ListViewItem extends StatelessWidget {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext dialogContext) {
-          return Column(
+          return SafeArea(
+              child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
@@ -312,7 +314,7 @@ class ListViewItem extends StatelessWidget {
                 ),
               ),
             ],
-          );
+          ));
         });
   }
 
