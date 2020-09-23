@@ -51,17 +51,28 @@ class HomePage extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            vertical: 40.0,
+            vertical: 60.0,
           ),
-          child: Text(
-            "欢迎使用工具链...",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white70,
-              fontSize: 30,
-              fontWeight: FontWeight.w500,
+          child: Column(children: [
+            Text(
+              "欢迎使用工具链",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 30,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
+            SizedBox(height: 10),
+            Text(
+              "广告位长期招租...",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 15,
+              ),
+            )
+          ]),
         ),
       ),
     );
