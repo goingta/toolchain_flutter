@@ -6,6 +6,8 @@ import 'package:toolchain_flutter/model/user.dart';
 import 'package:toolchain_flutter/model/user_model.dart';
 import 'package:toolchain_flutter/notifier/version_update_change_notifier.dart';
 import 'package:toolchain_flutter/pages/login/login_page.dart';
+import 'package:toolchain_flutter/pages/webview/web_view_page.dart';
+import 'package:toolchain_flutter/router/nav_key.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
 import 'package:toolchain_flutter/tools/version_check_util.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -152,6 +154,23 @@ class _ProfileState extends State<ProfilePage> {
                   subtitle: Text(
                     _user.email == null ? '' : _user.email,
                   ),
+                ),
+                Divider(),
+                SizedBox(height: 10.0),                ListTile(
+                  title: Text(
+                    "意见反馈",
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  onTap: () {
+                    NavKey.navKey.currentState
+                            .pushNamed(WebViewPage.id, arguments: {
+                          "title":  "意见反馈",
+                          "url": "https://support.qq.com/product/284036",
+                        });
+                  },
                 ),
                 Divider(),
                 SizedBox(height: 10.0),
