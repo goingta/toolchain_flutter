@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:package_info/package_info.dart';
-import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
-import 'package:toolchain_flutter/model/pgy_update_model.dart';
-import 'package:toolchain_flutter/network/pgyer_network.dart';
-import 'package:toolchain_flutter/notifier/version_update_change_notifier.dart';
+import 'package:toolchain_flutter/common/global.dart';
 import 'package:toolchain_flutter/pages/home/home_page.dart';
 import 'package:toolchain_flutter/pages/profile/profile_page.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
+import 'package:toolchain_flutter/tools/version_check_util.dart';
 
 class TabPage extends StatefulWidget {
-  static const String id = "/tab";
+  static const String id = "/tab_page";
+
   TabPage({Key key}) : super(key: key);
 
   @override
@@ -19,43 +17,18 @@ class TabPage extends StatefulWidget {
 
 class _TabPageState extends State<TabPage> {
   // Tab 当前选中的 index
-  int _currentTabindex;
+  int _currentTabIndex;
+
   // 所有的 tab 页面
   final List<Widget> _pages = [HomePage(), ProfilePage()];
 
   @override
   void initState() {
     super.initState();
-    _checkUpdate();
-    _currentTabindex = 0;
-  }
-
-  /// 检查更新
-  Future<void> _checkUpdate() async {
-    try {
-      PGYUpdateModel pgyUpdateModel = await PGYNetwork().checkUpdate();
-      if (pgyUpdateModel != null) {
-        final int serverVersion = int.parse(pgyUpdateModel.buildVersion
-            .split(".")
-            .reduce((value, element) => value + element));
-        // 判断版本号
-        final int currentVersion = int.parse((await PackageInfo.fromPlatform())
-            .version
-            .split(".")
-            .reduce((value, element) => value + element));
-        print(
-            "currentVersion = $currentVersion, serviceVersion = $serverVersion");
-        if (serverVersion > currentVersion) {
-          VersionUpdateChangeNotifier versionUpdateChangeNotifier =
-              Provider.of<VersionUpdateChangeNotifier>(context, listen: false);
-          versionUpdateChangeNotifier.downloadURL = pgyUpdateModel.downloadURL;
-          versionUpdateChangeNotifier.hasNewVersion = true;
-          Toast.show("有版本更新，请及时更新哟~", context);
-        }
-      }
-    } catch (e) {
-      print(e);
-    }
+    VersionCheckUtil.checkUpdate(context, false);
+    _currentTabIndex = 0;
+    Future.delayed(Duration(microseconds: 0)).then((value) =>
+        Toast.show("当前工具链环境：${Global.appEnv.value}", context, duration: 2));
   }
 
   BottomNavigationBarItem _bottomIcons(IconData icon) {
@@ -66,12 +39,12 @@ class _TabPageState extends State<TabPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(
-        index: _currentTabindex,
+        index: _currentTabIndex,
         children: _pages,
       ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: navigationTapped,
-        currentIndex: _currentTabindex,
+        currentIndex: _currentTabIndex,
         showSelectedLabels: false,
         showUnselectedLabels: false,
         selectedItemColor: LightColor.primaryColor,
@@ -87,7 +60,7 @@ class _TabPageState extends State<TabPage> {
 
   void navigationTapped(int index) {
     setState(() {
-      _currentTabindex = index;
+      _currentTabIndex = index;
     });
   }
 }

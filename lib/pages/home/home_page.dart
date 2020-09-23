@@ -3,16 +3,22 @@ import 'package:toolchain_flutter/model/program_type.dart';
 import 'package:toolchain_flutter/pages/home/home_item.dart';
 
 class HomePage extends StatelessWidget {
-  static const String id = "/home";
+  static const String id = "/home_page";
 
   /// - 服务菜单
   final List<HomeItemViewModel> serviceList = [
-    HomeItemViewModel(title: 'iOS', programType: ProgramType.IOS),
-    HomeItemViewModel(title: 'Android', programType: ProgramType.ANDROID),
-    HomeItemViewModel(title: 'H5', programType: ProgramType.H5),
-    HomeItemViewModel(title: '小程序', programType: ProgramType.MINI_PROGRAM),
-    HomeItemViewModel(title: 'Java', programType: ProgramType.JAVA),
-    HomeItemViewModel(title: 'Node', programType: ProgramType.NODE)
+    HomeItemViewModel(
+        title: ProgramType.IOS.value, programType: ProgramType.IOS),
+    HomeItemViewModel(
+        title: ProgramType.ANDROID.value, programType: ProgramType.ANDROID),
+    HomeItemViewModel(title: ProgramType.H5.value, programType: ProgramType.H5),
+    HomeItemViewModel(
+        title: ProgramType.MINI_PROGRAM.value,
+        programType: ProgramType.MINI_PROGRAM),
+    HomeItemViewModel(
+        title: ProgramType.SERVER.value, programType: ProgramType.SERVER),
+    HomeItemViewModel(
+        title: ProgramType.NODE.value, programType: ProgramType.NODE)
   ];
 
   HomePage({Key key}) : super(key: key);

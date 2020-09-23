@@ -1,13 +1,20 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-
 class WebViewPage extends StatefulWidget {
+  static const id = "/web_view_page";
+
   final String title;
   final String url;
-  //构造函数
-  WebViewPage({Key key, this.title, this.url}) : super(key: key);
+
+  // 构造函数
+  WebViewPage({Key key, Map arguments})
+      : this.title = arguments['title'],
+        this.url = arguments['url'],
+        super(key: key);
+
   @override
   _WebViewPageState createState() => _WebViewPageState();
 }
@@ -15,21 +22,18 @@ class WebViewPage extends StatefulWidget {
 class _WebViewPageState extends State<WebViewPage> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
+  WebViewController _webViewController;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(this.widget.title)
-        // This drop down menu demonstrates that Flutter widgets can be shown over the web view.
-      ),
-      // We're using a Builder here so we have a context that is below the Scaffold
-      // to allow calling Scaffold.of(context) so we can show a snackbar.
+      appBar: AppBar(title: Text(this.widget.title)),
       body: Builder(builder: (BuildContext context) {
         return WebView(
           initialUrl: this.widget.url,
           javascriptMode: JavascriptMode.unrestricted,
           onWebViewCreated: (WebViewController webViewController) {
+            _webViewController = webViewController;
             _controller.complete(webViewController);
           },
           // TODO(iskakaushik): Remove this when collection literals makes it to stable.
@@ -54,7 +58,7 @@ class _WebViewPageState extends State<WebViewPage> {
           gestureNavigationEnabled: true,
         );
       }),
-      floatingActionButton: favoriteButton(),
+      floatingActionButton: _refreshButton(),
     );
   }
 
@@ -68,16 +72,15 @@ class _WebViewPageState extends State<WebViewPage> {
         });
   }
 
-  Widget favoriteButton() {
+  Widget _refreshButton() {
     return FutureBuilder<WebViewController>(
         future: _controller.future,
         builder: (BuildContext context,
             AsyncSnapshot<WebViewController> controller) {
           if (controller.hasData) {
             return FloatingActionButton(
-              onPressed: () async {
-
-              },
+              onPressed: () async {},
+              foregroundColor: Colors.white,
               child: const Icon(Icons.refresh),
             );
           }

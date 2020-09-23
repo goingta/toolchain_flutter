@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:toolchain_flutter/model/program_type.dart';
 import 'package:toolchain_flutter/pages/list/list_page.dart';
+import 'package:toolchain_flutter/pages/list/xp_list_page.dart';
 import 'package:toolchain_flutter/router/nav_key.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
 
@@ -17,18 +18,28 @@ class HomeItem extends StatelessWidget {
       ProgramType.ANDROID: FontAwesome5Brands.android,
       ProgramType.H5: FontAwesome5Brands.html5,
       ProgramType.MINI_PROGRAM: FontAwesome5Brands.weixin,
-      ProgramType.JAVA: FontAwesome5Brands.java,
+      ProgramType.SERVER: FontAwesome5Brands.java,
       ProgramType.NODE: FontAwesome5Brands.node_js,
     };
 
     return InkWell(
       onTap: () {
-        NavKey.navKey.currentState.pushNamed(
-          ListPage.id,
-          arguments: {
-            'programType': this.data.programType,
-          },
-        );
+        if (data.programType == ProgramType.SERVER ||
+            data.programType == ProgramType.NODE) {
+          NavKey.navKey.currentState.pushNamed(
+            XPListPage.id,
+            arguments: {
+              'programType': this.data.programType,
+            },
+          );
+        } else {
+          NavKey.navKey.currentState.pushNamed(
+            ListPage.id,
+            arguments: {
+              'programType': this.data.programType,
+            },
+          );
+        }
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

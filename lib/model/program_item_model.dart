@@ -5,7 +5,7 @@ class ProgramItemModel {
   final String desc;
   final String owner;
   final String logo;
-  final ProgramType programType;
+  ProgramType programType;
 
   ProgramItemModel.fromJson(Map<String, dynamic> json)
       : name = json['name'],

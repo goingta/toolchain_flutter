@@ -20,15 +20,13 @@ dependencies:
   url_launcher: 5.5.1
   toast: 0.1.5
   provider:
-  json_serializable: 3.4.0 
   flutter_spinkit: 3.0.0 
-  webview_flutter: 0.3.22
+  webview_flutter: 0.3.23
   flutter_icons: 1.1.0
   fluwx_worker: #企业微信登录插件
     git:
       url: https://github.com/goingta/fluwx_worker
   shared_preferences: 0.5.10
-  adaptive_dialog: 0.7.5
   package_info: 0.4.3
 
 dev_dependencies:

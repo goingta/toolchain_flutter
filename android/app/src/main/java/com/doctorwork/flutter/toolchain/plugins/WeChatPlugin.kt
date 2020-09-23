@@ -9,17 +9,16 @@ import com.doctorwork.flutter.toolchain.R
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
+import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-import io.flutter.plugin.common.PluginRegistry
-import io.flutter.view.FlutterView
 import java.util.*
 
-class WeChatPlugin() : FlutterPlugin, MethodCallHandler {
+class WeChatPlugin : FlutterPlugin, MethodCallHandler {
 
     companion object {
         private const val TAG = "WeChatPlugin"
@@ -28,15 +27,9 @@ class WeChatPlugin() : FlutterPlugin, MethodCallHandler {
 
         private const val METHOD_CHANNEL_NAME = "goingta.flutter.io/share"
 
-        private const val APP_ID = "wx36017dd6944033f4";
+         const val APP_ID = "wx36017dd6944033f4"
 
-        private lateinit var context:Context;
-
-        fun registerWith(registrar: PluginRegistry.Registrar) {
-            val channel = MethodChannel(registrar.messenger(), METHOD_CHANNEL_NAME)
-            context = registrar.context()
-            channel.setMethodCallHandler(WeChatPlugin())
-        }
+        private lateinit var context: Context
     }
 
     override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
@@ -49,8 +42,8 @@ class WeChatPlugin() : FlutterPlugin, MethodCallHandler {
             "gotoWechat" -> {
                 gotoWechat(methodCall, result)
             }
-            "shareToWechat" -> {
-                shareToWechat(methodCall, result)
+            "sendReqToWechat" -> {
+                sendReqToWechat(methodCall, result)
             }
             else -> {
                 Toast.makeText(context, "方法" + methodCall.method + "没有实现！", Toast.LENGTH_SHORT).show()
@@ -58,46 +51,90 @@ class WeChatPlugin() : FlutterPlugin, MethodCallHandler {
         }
     }
 
-    private fun shareToWechat(methodCall: MethodCall, result: MethodChannel.Result) {
-        val argumentMap = methodCall.arguments as HashMap<String, String>
-        val api = WXAPIFactory.createWXAPI(context, APP_ID)
+    private fun sendReqToWechat(methodCall: MethodCall, result: MethodChannel.Result) {
+        val argumentMap = methodCall.arguments as HashMap<*, *>
 
-        val webpage = WXWebpageObject()
-        webpage.webpageUrl = String.format("https://www.pgyer.com/%s", argumentMap["buildKey"])
-        val message = WXMediaMessage(webpage)
-        message.title = String.format("蒲公英Android版本(%s:%s)", argumentMap["buildVersion"], argumentMap["buildBuildVersion"])
-        message.description = argumentMap.get("buildUpdateDescription")
-        message.setThumbImage(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher), THUMB_SIZE, THUMB_SIZE, true))
-        message.mediaTagName = argumentMap["buildVersion"];
+
+        val title = argumentMap["title"] as String
+        val description = argumentMap["description"] as String
+        val mediaTagName = argumentMap["mediaTagName"] as String
+        val pageUrl = argumentMap["pageUrl"] as String
+
+        val type = argumentMap["type"] as String
+
+        var wxObject: WXMediaMessage.IMediaObject? = null
+        if (type == "webPage") {
+            wxObject = WXWebpageObject()
+            wxObject.webpageUrl = pageUrl
+        } else if (type == "miniProgram") {
+            var miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE
+            val programType = argumentMap["programType"] as String
+
+            if (programType == "test") {
+                miniprogramType = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_TEST
+            } else if (programType == "preview") {
+                miniprogramType = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW
+            } else if (programType == "release") {
+                miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE
+            }
+
+            wxObject = WXMiniProgramObject()
+            wxObject.webpageUrl = pageUrl
+            wxObject.userName = argumentMap["userName"] as String
+            wxObject.path = argumentMap["path"] as String
+            wxObject.withShareTicket = argumentMap["withShareTicket"] as Boolean
+            wxObject.miniprogramType = miniprogramType
+        }
+
+        val wxMediaMessage = WXMediaMessage()
+        wxMediaMessage.title = title
+        wxMediaMessage.description = description
+        wxMediaMessage.mediaTagName = mediaTagName
+        wxMediaMessage.mediaObject = wxObject
+        wxMediaMessage.setThumbImage(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher), THUMB_SIZE, THUMB_SIZE, true))
 
         val req = SendMessageToWX.Req()
-        req.transaction = buildTransaction("webpage")
-        req.message = message
+        req.message = wxMediaMessage
         req.scene = SendMessageToWX.Req.WXSceneSession
-        api.sendReq(req)
-    }
-
-    private fun buildTransaction(type: String): String {
-        return type + System.currentTimeMillis()
+        WXAPIFactory.createWXAPI(context, APP_ID).sendReq(req)
+        result.success(null)
     }
 
     private fun gotoWechat(methodCall: MethodCall, result: MethodChannel.Result) {
-        Toast.makeText(context, "开始跳转小程序", Toast.LENGTH_SHORT).show()
-        val api = WXAPIFactory.createWXAPI(context, APP_ID)
-        //
-        val req = WXLaunchMiniProgram.Req()
-        // 填小程序原始id
-        req.userName = methodCall.arguments.toString()
-        // 可选打开 开发版，体验版和正式版
-        req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE
-        api.sendReq(req)
+        try {
+            val argumentMap = methodCall.arguments as HashMap<*, *>
+
+            var miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE
+            val programType = argumentMap["programType"] as String
+
+            if (programType == "test") {
+                miniprogramType = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_TEST
+            } else if (programType == "preview") {
+                miniprogramType = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW
+            } else if (programType == "release") {
+                miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE
+            }
+
+            val userName = argumentMap["appid"] as String
+
+            val req = WXLaunchMiniProgram.Req()
+            // 填小程序原始id
+            req.userName = userName
+            // 可选打开 开发版，体验版和正式版
+            req.miniprogramType = miniprogramType
+            WXAPIFactory.createWXAPI(context, APP_ID).sendReq(req)
+            result.success(null)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        result.error("-1", null, null)
     }
 
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         Log.d(TAG, "onAttachedToEngine")
         val channel = MethodChannel(binding.binaryMessenger, METHOD_CHANNEL_NAME)
         context = binding.applicationContext
-        channel.setMethodCallHandler(WeChatPlugin())
+        channel.setMethodCallHandler(this)
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {

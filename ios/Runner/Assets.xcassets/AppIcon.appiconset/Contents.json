@@ -1,62 +1,62 @@
 {
   "images" : [
     {
-      "size" : "20x20",
+      "filename" : "AppIcon_1024*1024iPhoneNotification_20pt@2x.png",
       "idiom" : "iphone",
-      "filename" : "1024iPhoneNotification_20pt@2x.png",
-      "scale" : "2x"
+      "scale" : "2x",
+      "size" : "20x20"
     },
     {
-      "size" : "20x20",
+      "filename" : "AppIcon_1024*1024iPhoneNotification_20pt@3x.png",
       "idiom" : "iphone",
-      "filename" : "1024iPhoneNotification_20pt@3x.png",
-      "scale" : "3x"
+      "scale" : "3x",
+      "size" : "20x20"
     },
     {
-      "size" : "29x29",
+      "filename" : "AppIcon_1024*1024iPhoneSpootlight5_29pt@2x.png",
       "idiom" : "iphone",
-      "filename" : "1024iPhoneSpootlight5_29pt@2x.png",
-      "scale" : "2x"
+      "scale" : "2x",
+      "size" : "29x29"
     },
     {
-      "size" : "29x29",
+      "filename" : "AppIcon_1024*1024iPhoneSpootlight5_29pt@3x.png",
       "idiom" : "iphone",
-      "filename" : "1024iPhoneSpootlight5_29pt@3x.png",
-      "scale" : "3x"
+      "scale" : "3x",
+      "size" : "29x29"
     },
     {
-      "size" : "40x40",
+      "filename" : "AppIcon_1024*1024iPhoneSpootlight7_40pt@2x.png",
       "idiom" : "iphone",
-      "filename" : "1024iPhoneSpootlight7_40pt@2x.png",
-      "scale" : "2x"
+      "scale" : "2x",
+      "size" : "40x40"
     },
     {
-      "size" : "40x40",
+      "filename" : "AppIcon_1024*1024iPhoneSpootlight7_40pt@3x.png",
       "idiom" : "iphone",
-      "filename" : "1024iPhoneSpootlight7_40pt@3x.png",
-      "scale" : "3x"
+      "scale" : "3x",
+      "size" : "40x40"
     },
     {
-      "size" : "60x60",
+      "filename" : "AppIcon_1024*1024iPhoneApp_60pt@2x.png",
       "idiom" : "iphone",
-      "filename" : "1024iPhoneApp_60pt@2x.png",
-      "scale" : "2x"
+      "scale" : "2x",
+      "size" : "60x60"
     },
     {
-      "size" : "60x60",
+      "filename" : "AppIcon_1024*1024iPhoneApp_60pt@3x.png",
       "idiom" : "iphone",
-      "filename" : "1024iPhoneApp_60pt@3x.png",
-      "scale" : "3x"
+      "scale" : "3x",
+      "size" : "60x60"
     },
     {
-      "size" : "1024x1024",
+      "filename" : "AppIcon_1024*1024.png",
       "idiom" : "ios-marketing",
-      "filename" : "1024store_1024pt.png",
-      "scale" : "1x"
+      "scale" : "1x",
+      "size" : "1024x1024"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }

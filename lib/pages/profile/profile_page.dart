@@ -6,11 +6,14 @@ import 'package:toolchain_flutter/model/user.dart';
 import 'package:toolchain_flutter/model/user_model.dart';
 import 'package:toolchain_flutter/notifier/version_update_change_notifier.dart';
 import 'package:toolchain_flutter/pages/login/login_page.dart';
-import 'package:toolchain_flutter/pages/webViewPage/webView_page.dart';
+import 'package:toolchain_flutter/pages/webview/web_view_page.dart';
+import 'package:toolchain_flutter/router/nav_key.dart';
+import 'package:toolchain_flutter/theme/light_color.dart';
+import 'package:toolchain_flutter/tools/version_check_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatefulWidget {
-  static const String id = "/profile";
+  static const String id = "/profile_page";
 
   _ProfileState createState() => _ProfileState();
 }
@@ -46,32 +49,44 @@ class _ProfileState extends State<ProfilePage> {
               ),
             )
           : ListView(
-              padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0),
-              children: <Widget>[
+              padding: EdgeInsets.fromLTRB(
+                10.0,
+                20.0,
+                10.0,
+                0,
+              ),
+              children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
+                  children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                      padding: EdgeInsets.only(
+                        left: 10.0,
+                        right: 10.0,
+                      ),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12.0),
+                        borderRadius: BorderRadius.circular(
+                          12.0,
+                        ),
                         child: Container(
+                          width: 100.0,
+                          height: 100.0,
+                          child: Image.network(
+                            _user.avatar == null ? '' : _user.avatar,
                             width: 100.0,
                             height: 100.0,
-                            child: Image.network(
-                                _user.avatar == null ? '' : _user.avatar,
-                                width: 100.0,
-                                height: 100.0,
-                                fit: BoxFit.cover)),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
+                        children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
+                            children: [
                               Text(
                                 _user.name == null ? '' : _user.name,
                                 style: TextStyle(
@@ -84,7 +99,7 @@ class _ProfileState extends State<ProfilePage> {
                           SizedBox(height: 5.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
+                            children: [
                               Text(
                                 _user.email == null ? '' : _user.email,
                                 style: TextStyle(
@@ -97,7 +112,7 @@ class _ProfileState extends State<ProfilePage> {
                           SizedBox(height: 20.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
+                            children: [
                               Text(
                                 _user.position == null ? '' : _user.position,
                                 style: TextStyle(
@@ -141,8 +156,7 @@ class _ProfileState extends State<ProfilePage> {
                   ),
                 ),
                 Divider(),
-                SizedBox(height: 10.0),
-                ListTile(
+                SizedBox(height: 10.0),                ListTile(
                   title: Text(
                     "意见反馈",
                     style: TextStyle(
@@ -151,13 +165,11 @@ class _ProfileState extends State<ProfilePage> {
                     ),
                   ),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => new WebViewPage(
-                              title: "意见反馈",
-                              url: "https://support.qq.com/product/284036")),
-                    );
+                    NavKey.navKey.currentState
+                            .pushNamed(WebViewPage.id, arguments: {
+                          "title":  "意见反馈",
+                          "url": "https://support.qq.com/product/284036",
+                        });
                   },
                 ),
                 Divider(),
@@ -201,11 +213,14 @@ class _ProfileState extends State<ProfilePage> {
                               : SizedBox.shrink(),
                         ],
                       ),
-                      trailing: Text(
-                          "V$_version [$_buildNumber]${versionUpdateChangeNotifier.hasNewVersion ? "(点击可更新)" : ""}"),
+                      trailing: Text("V$_version [$_buildNumber]"),
                       onTap: () {
                         if (versionUpdateChangeNotifier.hasNewVersion) {
+                          // 跳转页面
                           launch(versionUpdateChangeNotifier.downloadURL);
+                        } else {
+                          // 检查更新
+                          VersionCheckUtil.checkUpdate(context, true);
                         }
                       },
                     );
@@ -246,20 +261,26 @@ class _ProfileState extends State<ProfilePage> {
           title: Text('提示'),
           content: SingleChildScrollView(
             child: ListBody(
-              children: <Widget>[
+              children: [
                 Text('是否确认退出登录'),
               ],
             ),
           ),
-          actions: <Widget>[
+          actions: [
             FlatButton(
-              child: Text('取消'),
+              child: Text(
+                '取消',
+                style: TextStyle(color: LightColor.primaryColor),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             FlatButton(
-              child: Text('退出'),
+              child: Text(
+                '退出',
+                style: TextStyle(color: LightColor.primaryColor),
+              ),
               onPressed: () {
                 User.signOut();
                 Navigator.of(context).pop();

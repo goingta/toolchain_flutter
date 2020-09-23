@@ -1,4 +1,5 @@
 import 'package:toolchain_flutter/model/app_item_model.dart';
+import 'package:toolchain_flutter/model/h5_item_model.dart';
 import 'package:toolchain_flutter/model/mini_program_item_model.dart';
 import 'package:toolchain_flutter/model/program_item_model.dart';
 import 'package:toolchain_flutter/model/program_type.dart';
@@ -30,6 +31,8 @@ class YapiNetwork {
     } else if (programType == ProgramType.IOS.code ||
         programType == ProgramType.ANDROID.code) {
       return AppItemModel.fromJson(item);
+    } else if (programType == ProgramType.H5.code) {
+      return H5ProgramItemModel.fromJson(item);
     } else {
       return ProgramItemModel.fromJson(item);
     }
