@@ -107,7 +107,7 @@
 - (void)sendReqToWechat:(NSDictionary *)dic {
     //网页分享对象
     WXWebpageObject *webPageExt = [WXWebpageObject object];
-    
+
     //小程序分享对象
     WXMiniProgramObject *miniProgramExt = [WXMiniProgramObject object];
     WXMiniProgramType miniProgramType = WXMiniProgramTypeRelease;
@@ -120,7 +120,7 @@
     else if ([dic[@"programType"]  isEqual:@"release"]){
         miniProgramType = WXMiniProgramTypeRelease;
     }
-    
+
     //按条件生成分享对象
     NSObject *ext;
     if ([dic[@"type"] isEqual:@"webPage"]) {
@@ -130,9 +130,9 @@
         ext = webPageExt;
     }
     else if ([dic[@"type"] isEqual:@"miniProgram"]){
-        
+
         miniProgramExt.webpageUrl = dic[@"pageUrl"] != NULL ? dic[@"pageUrl"]:@"";
-        
+
         if (dic[@"userName"] != NULL && ![dic[@"userName"]  isEqual: @""]) {
             miniProgramExt.userName = dic[@"userName"];
         }
@@ -148,14 +148,14 @@
         miniProgramExt.miniProgramType = miniProgramType;
         ext = miniProgramExt;
     }
-    
+
     WXMediaMessage *message = [WXMediaMessage message];
     message.title = dic[@"title"];
     message.description = dic[@"description"];
     message.mediaTagName = dic[@"mediaTagName"];
     message.mediaObject = ext;
     [message setThumbImage:[UIImage imageNamed:@"shareLogo"]];
-    
+
 
     SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
     req.message = message;
