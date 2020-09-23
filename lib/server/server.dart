@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:toolchain_flutter/common/global.dart';
 
 class Server<T> {
   String baseUrl;
@@ -31,23 +30,6 @@ class Server<T> {
       ));
     }
     return _dio;
-  }
-
-  Server() {
-    switch (Global.env) {
-      case "dev":
-        baseUrl = 'http://toolchain.developer.doctorwork.com/';
-        break;
-      case "qa":
-        baseUrl = 'http://toolchain.qa.doctorwork.com/';
-        break;
-      case "pre":
-        baseUrl = 'http://toolchain.pre.doctorwork.com/';
-        break;
-      case "prd":
-        baseUrl = 'http://toolchain.doctorwork.com/';
-        break;
-    }
   }
 
   /// 不直接调用，可以子类复写

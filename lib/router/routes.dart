@@ -8,6 +8,7 @@ import 'package:toolchain_flutter/pages/login/login_page.dart';
 import 'package:toolchain_flutter/pages/profile/profile_page.dart';
 import 'package:toolchain_flutter/pages/splash/splash_page.dart';
 import 'package:toolchain_flutter/pages/tab/tab_page.dart';
+import 'package:toolchain_flutter/pages/webview/web_view_page.dart';
 
 class Routes {
   static final _routes = {
@@ -22,6 +23,7 @@ class Routes {
         AppDetailsPage(arguments: arguments),
     XPDetailsPage.id: (context, {arguments}) =>
         XPDetailsPage(arguments: arguments),
+    WebViewPage.id: (context, {arguments}) => WebViewPage(arguments: arguments),
   };
 
   // ignore: top_level_function_literal_block

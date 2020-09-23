@@ -19,7 +19,7 @@ import io.flutter.plugin.common.PluginRegistry
 import io.flutter.view.FlutterView
 import java.util.*
 
-class WeChatPlugin() : FlutterPlugin, MethodCallHandler {
+class WeChatPlugin : FlutterPlugin, MethodCallHandler {
 
     companion object {
         private const val TAG = "WeChatPlugin"
@@ -28,7 +28,7 @@ class WeChatPlugin() : FlutterPlugin, MethodCallHandler {
 
         private const val METHOD_CHANNEL_NAME = "goingta.flutter.io/share"
 
-        private const val APP_ID = "wx36017dd6944033f4";
+        private const val APP_ID = "wx36017dd6944033f4"
 
         private lateinit var context:Context;
 

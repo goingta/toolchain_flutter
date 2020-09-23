@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:toolchain_flutter/common/app_env.dart';
 import 'package:toolchain_flutter/common/global.dart';
 import 'package:toolchain_flutter/model/user.dart';
 import 'package:toolchain_flutter/model/user_model.dart';
@@ -6,19 +7,14 @@ import 'package:toolchain_flutter/server/json_server.dart';
 
 class XPServer extends JsonServer {
   XPServer() {
-    switch (Global.env) {
-      case "dev":
-        baseUrl = 'http://xpportal.xingrengo.com/';
-        break;
-      case "qa":
-        baseUrl = '';
-        break;
-      case "pre":
-        baseUrl = '';
-        break;
-      case "prd":
-        baseUrl = '';
-        break;
+    if (Global.appEnv == AppEnv.DEV) {
+      baseUrl = 'https://xpportal.xingrengo.com/';
+    } else if (Global.appEnv == AppEnv.TEST) {
+      baseUrl = '';
+    } else if (Global.appEnv == AppEnv.STAGING) {
+      baseUrl = '';
+    } else {
+      baseUrl = '';
     }
   }
 

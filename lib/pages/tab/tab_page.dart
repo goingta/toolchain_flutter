@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
+import 'package:toolchain_flutter/common/global.dart';
 import 'package:toolchain_flutter/pages/home/home_page.dart';
 import 'package:toolchain_flutter/pages/profile/profile_page.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
@@ -25,6 +27,8 @@ class _TabPageState extends State<TabPage> {
     super.initState();
     VersionCheckUtil.checkUpdate(context, false);
     _currentTabIndex = 0;
+    Future.delayed(Duration(microseconds: 0)).then((value) =>
+        Toast.show("当前工具链环境：${Global.appEnv.value}", context, duration: 2));
   }
 
   BottomNavigationBarItem _bottomIcons(IconData icon) {

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:toolchain_flutter/model/app_item_model.dart';
+import 'package:toolchain_flutter/model/h5_item_model.dart';
 import 'package:toolchain_flutter/model/mini_program_item_model.dart';
 import 'package:toolchain_flutter/model/program_item_model.dart';
 import 'package:toolchain_flutter/model/program_type.dart';
 import 'package:toolchain_flutter/pages/details/app_details_page.dart';
+import 'package:toolchain_flutter/pages/webview/web_view_page.dart';
 import 'package:toolchain_flutter/router/nav_key.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
 
@@ -128,35 +130,11 @@ class ListViewItem extends StatelessWidget {
           "appItemModel": programItemModel,
         },
       );
+    } else if (programItemModel is H5ProgramItemModel) {
+      NavKey.navKey.currentState.pushNamed(WebViewPage.id, arguments: {
+        "title": "云诊室",
+        "url": "https://open.xingren.com/consult/assistant/index",
+      });
     }
-    // else if (programItemModel is H5ProgramItemModel) {
-    //   Navigator.push(
-    //     context,
-    //     new MaterialPageRoute(
-    //       builder: (context) => new WebViewPage(
-    //           title: "云诊室",
-    //           url: "https://open.xingren.com/consult/assistant/index"),
-    //     ),
-    //   );
-    // }
-
-    // const platform = const MethodChannel('goingta.flutter.io/share');
-    // await platform.invokeMethod("gotoWechat", model.programName);
-    // Navigator.pushNamed(context, DetailsPage.id,arguments: {"title":model.name, "model": model});
-    // if (model.type == "h5") {
-    //   Navigator.push(
-    //     context,
-    //     new MaterialPageRoute(
-    //         builder: (context) => new WebViewPage(
-    //             title: "云诊室",
-    //             url: "https://open.xingren.com/consult/assistant/index")),
-    //   );
-    // } else if (model.type == "ios") {
-    //   Navigator.pushNamed(context, DetailsPage.id,
-    //       arguments: {"title": model.name, "model": model});
-    // } else {
-    //   const platform = const MethodChannel('goingta.flutter.io/share');
-    //   await platform.invokeMethod("gotoWechat", "gh_ace42616fd18");
-    // }
   }
 }
