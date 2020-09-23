@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:toast/toast.dart';
 import 'package:toolchain_flutter/model/app_item_model.dart';
 import 'package:toolchain_flutter/model/h5_item_model.dart';
 import 'package:toolchain_flutter/model/mini_program_item_model.dart';
@@ -82,7 +83,13 @@ class ListViewItem extends StatelessWidget {
                             color: LightColor.primaryColor,
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          //此处判断调用H5，小程序Sheet
+                          if (programItemModel.programType ==
+                              ProgramType.MINI_PROGRAM) {
+                            _smallProgramSelectionDialog(context, "share");
+                          }
+                        },
                       ),
                       FlatButton(
                         child: Text(
@@ -92,7 +99,11 @@ class ListViewItem extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          launchURL(context, programItemModel);
+                          //此处判断调用H5，小程序Sheet
+                          if (programItemModel.programType ==
+                              ProgramType.MINI_PROGRAM) {
+                            _smallProgramSelectionDialog(context, "open");
+                          }
                         },
                       ),
                     ],
@@ -136,5 +147,116 @@ class ListViewItem extends StatelessWidget {
         "url": "https://open.xingren.com/consult/assistant/index",
       });
     }
+  }
+
+  /// 显示版本分享打开选择 Dialog
+  void _smallProgramSelectionDialog(
+    BuildContext context,
+    String type,
+  ) {
+    Map dic = {"share": "分享", "open": "打开"};
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10.0,
+                ),
+                child: Text(
+                  "小程序三个版本应用场景不同请自行选择${dic[type]}版本",
+                  style: TextStyle(
+                    fontSize: 12.0,
+                    color: Theme.of(context).hintColor,
+                  ),
+                ),
+              ),
+              Divider(
+                height: 0.5,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pop(dialogContext);
+                  _trigger(context, "test", type);
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                  ),
+                  child: Text(
+                    "研发版",
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              Divider(
+                height: 0.5,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pop(dialogContext);
+                  _trigger(context, "preview", type);
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                  ),
+                  child: Text(
+                    "体验版",
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              Divider(
+                height: 0.5,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pop(dialogContext);
+                  _trigger(context, "release", type);
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                  ),
+                  child: Text(
+                    "线上版",
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+  /// 构建新版本
+  void _trigger(BuildContext context, String programType, String type) async {
+    // 找插件判断是否安装微信
+    const platform = const MethodChannel('goingta.flutter.io/share');
+    if (type == "open") {
+      await platform.invokeMethod("gotoWechat", {
+        "appid": (programItemModel as MiniProgramItemModel).appId,
+        "programType": programType
+      });
+    }
+    if (type == "share") {
+      await platform.invokeMethod("sendReqToWechat", {
+        "type": "miniProgram",
+        "title": programItemModel.name,
+        "description": programItemModel.desc,
+        "mediaTagName": programItemModel.name,
+        //小程序分享特有配置
+        "userName": (programItemModel as MiniProgramItemModel).appId,
+        "hdImageData": programItemModel.logo,
+        "programType": programType,
+      });
+    }
+    Toast.show("触发成功！", context);
   }
 }
