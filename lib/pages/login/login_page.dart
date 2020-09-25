@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluwx_worker/fluwx_worker.dart' as fluwxWorker;
@@ -19,10 +21,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController =
-      TextEditingController(text: "");
-  final _passwordController =
-      TextEditingController(text: "");
+  final _emailController = TextEditingController(text: "");
+  final _passwordController = TextEditingController(text: "");
 
   bool loading = false;
   String errorMessage = "";
@@ -315,7 +315,7 @@ class _SelfEnvSelectDialogWidgetState
     sharedPreferences.setInt(
         Global.SHARED_PREFERENCES_KEY_CURRENT_APP_ENV, _selfEnvGroupValue);
     Global.appEnv = AppEnv.valueOf(_selfEnvGroupValue) ?? AppEnv.PROD;
-    Toast.show("环境已切换，请手动杀掉应用，重新打开", context, duration: 3);
+    exit(0);
   }
 
   void _selfEnvValueChanged(value) {
