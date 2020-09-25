@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toolchain_flutter/pages/debug/debug_page.dart';
 import 'package:toolchain_flutter/pages/details/app_details_page.dart';
 import 'package:toolchain_flutter/pages/details/xp_details_page.dart';
 import 'package:toolchain_flutter/pages/home/home_page.dart';
@@ -24,6 +25,7 @@ class Routes {
     XPDetailsPage.id: (context, {arguments}) =>
         XPDetailsPage(arguments: arguments),
     WebViewPage.id: (context, {arguments}) => WebViewPage(arguments: arguments),
+    DebugPage.id: (context) => DebugPage(),
   };
 
   // ignore: top_level_function_literal_block

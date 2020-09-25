@@ -3,14 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluwx_worker/fluwx_worker.dart' as fluwxWorker;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
-import 'package:toolchain_flutter/common/app_env.dart';
 import 'package:toolchain_flutter/common/global.dart';
 import 'package:toolchain_flutter/model/user.dart';
 import 'package:toolchain_flutter/pages/tab/tab_page.dart';
 import 'package:toolchain_flutter/router/nav_key.dart';
-import 'package:toolchain_flutter/theme/light_color.dart';
 
 class LoginPage extends StatefulWidget {
   static const String id = "/login_page";
@@ -149,7 +146,7 @@ class _LoginState extends State<LoginPage> {
                       children: <Widget>[
                         GestureDetector(
                           onLongPress: () {
-                            _changeServer();
+                            Navigator.pushNamed(context, "/debug");
                           },
                           child: Text(
                             "企鹅杏仁工具链",
@@ -227,101 +224,6 @@ class _LoginState extends State<LoginPage> {
             ),
     );
   }
-
-  /// 切换环境
-  void _changeServer() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return _SelfEnvSelectDialogWidget();
-      },
-    );
-  }
 }
 
-/// 切换环境的 Dialog
-class _SelfEnvSelectDialogWidget extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return _SelfEnvSelectDialogWidgetState();
-  }
-}
 
-class _SelfEnvSelectDialogWidgetState
-    extends State<_SelfEnvSelectDialogWidget> {
-  int _selfEnvGroupValue = Global.appEnv.code;
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text('切换环境'),
-      content: SingleChildScrollView(
-        child: ListBody(
-          children: [
-            RadioListTile(
-              title: Text(AppEnv.DEV.value),
-              groupValue: _selfEnvGroupValue,
-              value: AppEnv.DEV.code,
-              onChanged: _selfEnvValueChanged,
-            ),
-            RadioListTile(
-              title: Text(AppEnv.TEST.value),
-              groupValue: _selfEnvGroupValue,
-              value: AppEnv.TEST.code,
-              onChanged: _selfEnvValueChanged,
-            ),
-            RadioListTile(
-              title: Text(AppEnv.STAGING.value),
-              groupValue: _selfEnvGroupValue,
-              value: AppEnv.STAGING.code,
-              onChanged: _selfEnvValueChanged,
-            ),
-            RadioListTile(
-              title: Text(AppEnv.PROD.value),
-              groupValue: _selfEnvGroupValue,
-              value: AppEnv.PROD.code,
-              onChanged: _selfEnvValueChanged,
-            ),
-          ],
-        ),
-      ),
-      actions: [
-        FlatButton(
-          child: Text(
-            '取消',
-            style: TextStyle(color: LightColor.primaryColor),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        FlatButton(
-          child: Text(
-            '确定',
-            style: TextStyle(color: LightColor.primaryColor),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-            _setEnv();
-          },
-        )
-      ],
-    );
-  }
-
-  /// 设置环境
-  Future<void> _setEnv() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setInt(
-        Global.SHARED_PREFERENCES_KEY_CURRENT_APP_ENV, _selfEnvGroupValue);
-    Global.appEnv = AppEnv.valueOf(_selfEnvGroupValue) ?? AppEnv.PROD;
-    exit(0);
-  }
-
-  void _selfEnvValueChanged(value) {
-    _selfEnvGroupValue = value;
-    if (mounted) {
-      setState(() {});
-    }
-  }
-}
