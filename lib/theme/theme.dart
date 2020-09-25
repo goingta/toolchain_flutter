@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
 
 class AppTheme {
+  static double spacing = 15.0;
+  static double padding = 15.0;
+  static double borderRadius = 8.0;
+
   const AppTheme();
   static ThemeData lightTheme = ThemeData(
     primaryColor: LightColor.primaryColor,

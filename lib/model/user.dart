@@ -6,6 +6,7 @@ import 'package:toolchain_flutter/tools/utils.dart';
 
 abstract class User {
   static String preUserInfo = "PreUserInfo";
+  static UserModel currentUser;
 
   static Future<bool> signIn(String email, String password) async {
     String userInfo =
@@ -34,13 +35,30 @@ abstract class User {
   }
 
   static Future<UserModel> getCurrentUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userInfo = prefs.getString(preUserInfo);
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String userInfo = prefs.getString(preUserInfo);
       UserModel user = new UserModel.fromJson(Utils.stringToJson(userInfo));
       return user;
     } catch (e) {
       print(e);
+      return null;
+    }
+  }
+
+  static Future<UserModel> loadUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userInfo = prefs.getString(preUserInfo);
+    if (userInfo != null) {
+      try {
+        UserModel user = new UserModel.fromJson(Utils.stringToJson(userInfo));
+        User.currentUser = user;
+        return user;
+      } catch (e) {
+        print(e);
+        return null;
+      }
+    } else {
       return null;
     }
   }

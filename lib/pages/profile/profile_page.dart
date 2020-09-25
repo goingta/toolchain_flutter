@@ -156,7 +156,8 @@ class _ProfileState extends State<ProfilePage> {
                   ),
                 ),
                 Divider(),
-                SizedBox(height: 10.0),                ListTile(
+                SizedBox(height: 10.0),
+                ListTile(
                   title: Text(
                     "意见反馈",
                     style: TextStyle(
@@ -166,10 +167,24 @@ class _ProfileState extends State<ProfilePage> {
                   ),
                   onTap: () {
                     NavKey.navKey.currentState
-                            .pushNamed(WebViewPage.id, arguments: {
-                          "title":  "意见反馈",
-                          "url": "https://support.qq.com/product/284036",
-                        });
+                        .pushNamed(WebViewPage.id, arguments: {
+                      "title": "意见反馈",
+                      "url": "https://support.qq.com/product/284036",
+                    });
+                  },
+                ),
+                Divider(),
+                SizedBox(height: 10.0),
+                ListTile(
+                  title: Text(
+                    "调试菜单",
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, "/debug");
                   },
                 ),
                 Divider(),
