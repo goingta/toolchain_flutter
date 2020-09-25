@@ -357,27 +357,27 @@ class _ListPageContainerState extends State<_ListPageContainer> {
           Text(
             '${xpBuildItem.comment}',
           ),
-          SizedBox(
-            width: 10,
-          ),
-          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            RaisedButton(
-              onPressed: xpBuildItem.status == XPBuildStatus.SUCCESS
-                  ? () {
-                      _showSelectionDialog(xpBuildItem);
-                    }
-                  : null,
-              child: new Text(
-                "发布",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              color: xpBuildItem.status == XPBuildStatus.SUCCESS
-                  ? LightColor.primaryColor
-                  : LightColor.lightGrey,
-            ),
-          ]),
+          // SizedBox(
+          //   width: 10,
+          // ),
+          // Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+          //   RaisedButton(
+          //     onPressed: xpBuildItem.status == XPBuildStatus.SUCCESS
+          //         ? () {
+          //             _showSelectionDialog(xpBuildItem);
+          //           }
+          //         : null,
+          //     child: new Text(
+          //       "发布",
+          //       style: TextStyle(
+          //         color: Colors.white,
+          //       ),
+          //     ),
+          //     color: xpBuildItem.status == XPBuildStatus.SUCCESS
+          //         ? LightColor.primaryColor
+          //         : LightColor.lightGrey,
+          //   ),
+          // ]),
         ],
       ),
     );

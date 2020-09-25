@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluwx_worker/fluwx_worker.dart' as fluwxWorker;
@@ -16,10 +18,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController =
-      TextEditingController(text: "");
-  final _passwordController =
-      TextEditingController(text: "");
+  final _emailController = TextEditingController(text: "");
+  final _passwordController = TextEditingController(text: "");
 
   bool loading = false;
   String errorMessage = "";
