@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toolchain_flutter/model/user_model.dart';
 import 'package:toolchain_flutter/network/user_network.dart';
@@ -23,7 +24,7 @@ abstract class User {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String userInfoString = Utils.jsonToString(userModel.toJson());
       prefs.setString(preUserInfo, userInfoString);
-    } on Exception catch (e) {
+    } catch (e) {
       return Future.error(e);
     }
   }
