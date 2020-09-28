@@ -32,6 +32,10 @@ class Server<T> {
     return _dio;
   }
 
+  setHeader(Map<String, dynamic> headers){
+    return headers;
+  }
+
   /// 不直接调用，可以子类复写
   @protected
   Future<T> request(String requestMethod, String path,
