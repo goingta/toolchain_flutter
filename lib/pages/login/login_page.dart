@@ -31,6 +31,15 @@ class _LoginState extends State<LoginPage> {
     _setFluwxCallback();
   }
 
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the widget tree.
+    // This also removes the _printLatestValue listener.
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   // 跳转到登录成功首页
   void pushToTabPage() {
     NavKey.navKey.currentState.pushReplacementNamed(TabPage.id);
@@ -86,35 +95,36 @@ class _LoginState extends State<LoginPage> {
       try {
         setState(() {
           loading = true;
+          _email = _emailController.text;
+          _password = _passwordController.text;
         });
 
-        final result = await User.signIn(_email, _password);
-        if (result) {
-          this.pushToTabPage();
-        }
+        await User.signIn(_email, _password);
+        this.pushToTabPage();
       } catch (e) {
         setState(() {
           loading = false;
-          switch (e.code) {
-            case "ERROR_INVALID_EMAIL":
-              errorMessage = "你的邮箱地址格式不正确";
-              break;
-            case "ERROR_WRONG_PASSWORD":
-              errorMessage = "密码错误";
-              break;
-            case "ERROR_USER_NOT_FOUND":
-              errorMessage = "未查找到对应用户";
-              break;
-            case "ERROR_USER_DISABLED":
-              errorMessage = "User with this email has been disabled.";
-              break;
-            case "ERROR_TOO_MANY_REQUESTS":
-              errorMessage = "Too many requests. Try again later.";
-              break;
-            default:
-              errorMessage = "登录失败，请联系管理员";
-          }
+          // switch (e.code) {
+          //   case "ERROR_INVALID_EMAIL":
+          //     errorMessage = "你的邮箱地址格式不正确";
+          //     break;
+          //   case "ERROR_WRONG_PASSWORD":
+          //     errorMessage = "密码错误";
+          //     break;
+          //   case "ERROR_USER_NOT_FOUND":
+          //     errorMessage = "未查找到对应用户";
+          //     break;
+          //   case "ERROR_USER_DISABLED":
+          //     errorMessage = "User with this email has been disabled.";
+          //     break;
+          //   case "ERROR_TOO_MANY_REQUESTS":
+          //     errorMessage = "Too many requests. Try again later.";
+          //     break;
+          //   default:
+          //     errorMessage = "登录失败，请联系管理员";
+          // }
         });
+        Toast.show(e.toString(), context);
       }
     }
   }
@@ -165,13 +175,13 @@ class _LoginState extends State<LoginPage> {
                                 keyboardType: TextInputType.emailAddress,
                                 textInputAction: TextInputAction.next,
                                 controller: _emailController,
-                                validator: (value) => validateEmail(value),
+                                // validator: (value) => validateEmail(value),
                                 onFieldSubmitted: (v) {
                                   FocusScope.of(context).nextFocus();
                                   this._email = v;
                                 },
                                 decoration: InputDecoration(
-                                  labelText: "邮箱",
+                                  labelText: "账号",
                                   prefixIcon: Icon(Icons.email),
                                 ),
                               ),

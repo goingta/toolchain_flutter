@@ -9,12 +9,17 @@ abstract class User {
   static String preUserInfo = "PreUserInfo";
   static UserModel currentUser;
 
-  static Future<bool> signIn(String email, String password) async {
-    String userInfo =
-        "{\"name\":\"企鹅杏仁\",\"avatar\":\"https://avatar-qiniu.doctorwork.com/o_1drv9787c1qr1668kgf1rkopfp.jpeg\",\"email\":\"flutter@doctorwork.com\",\"position\":\"万科高新大厦\",\"userId\":\"flutter_user_id\"}";
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(preUserInfo, userInfo);
-    return true;
+  static Future<void> signIn(String email, String password) async {
+    try {
+      UserNetwork network = UserNetwork();
+      final UserModel userModel = await network.loginWith(email, password);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String userInfoString = Utils.jsonToString(userModel.toJson());
+      prefs.setString(preUserInfo, userInfoString);
+    } catch (e) {
+      return Future.error(e);
+    }
+
   }
 
   static Future<void> fluwxWorkerSignIn(code) async {
