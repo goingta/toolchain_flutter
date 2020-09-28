@@ -9,6 +9,8 @@ import 'package:toolchain_flutter/pages/details/app_details_page.dart';
 import 'package:toolchain_flutter/pages/webview/web_view_page.dart';
 import 'package:toolchain_flutter/router/nav_key.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
+import 'package:fluwx/fluwx.dart' as Fluwx;
+import 'package:toast/toast.dart';
 
 class ListViewItem extends StatelessWidget {
   // 程序描述对象
@@ -320,6 +322,12 @@ class ListViewItem extends StatelessWidget {
 
   /// 构建新版本
   void _trigger(BuildContext context, String programType, String type) async {
+    if (Fluwx.isWeChatInstalled != null) {
+    } else {
+      Toast.show("未安装微信！", context);
+    }
+
+    return;
     // 找插件判断是否安装微信
     const platform = const MethodChannel('goingta.flutter.io/share');
     if (type == "open") {
