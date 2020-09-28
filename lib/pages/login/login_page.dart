@@ -88,7 +88,7 @@ class _LoginState extends State<LoginPage> {
           loading = true;
         });
 
-        final result = await User.signIn("xxx", "xx");
+        final result = await User.signIn(_email, _password);
         if (result) {
           this.pushToTabPage();
         }
