@@ -8,7 +8,7 @@
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // 微信注册
-    [WXApi registerApp:@"wx36017dd6944033f4" universalLink:@"https://yisheng.aihaisi.com/toolchain/"];
+//    [WXApi registerApp:@"wx36017dd6944033f4" universalLink:@"https://yisheng.aihaisi.com/toolchain/"];
     //企业微信注册 使用的是dev
     [WWKApi registerApp:@"wwauth41abef44dc00e8c4000015" corpId:@"ww41abef44dc00e8c4" agentId:@"1000015"];
     FlutterViewController* controller = (FlutterViewController*)self.window.rootViewController;
