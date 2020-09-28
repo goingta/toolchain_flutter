@@ -10,11 +10,11 @@ class XPServer extends JsonServer {
     if (Global.appEnv == AppEnv.DEV) {
       baseUrl = 'https://xpportal.xingrengo.com/';
     } else if (Global.appEnv == AppEnv.TEST) {
-      baseUrl = '';
+      baseUrl = 'https://xpportal.xingrengo.com/';
     } else if (Global.appEnv == AppEnv.STAGING) {
-      baseUrl = '';
+      baseUrl = 'https://xpportal.xingrengo.com/';
     } else {
-      baseUrl = '';
+      baseUrl = 'https://xpportal.xrxr.xyz/';
     }
   }
 

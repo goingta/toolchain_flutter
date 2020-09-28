@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluwx_worker/fluwx_worker.dart' as fluwxWorker;
@@ -47,7 +45,7 @@ class _LoginState extends State<LoginPage> {
         try {
           await User.fluwxWorkerSignIn(data.code);
           this.pushToTabPage();
-        } on Exception catch (e) {
+        } catch (e) {
           Toast.show(e.toString(), context);
         }
       } else {
@@ -225,5 +223,3 @@ class _LoginState extends State<LoginPage> {
     );
   }
 }
-
-
