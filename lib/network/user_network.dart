@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:toolchain_flutter/model/user_model.dart';
 import 'package:toolchain_flutter/server/sphinx_server.dart';
 import 'package:toolchain_flutter/server/user_server.dart';
@@ -24,7 +26,10 @@ class UserNetwork {
         "v2/auth/fm",
         data: {"name": name,"password":password},
       );
-      return UserModel.fromJson(jsonMap["data"]);
+      Map<String,dynamic> data = jsonMap["data"];
+      final userMap = await _sphinxServer.get("login/wx",queryParameters: {"token":data["token"]});
+
+      return UserModel.fromJson(userMap["data"]);
     } catch (e) {
       return Future.error(e);
     }
