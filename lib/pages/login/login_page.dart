@@ -55,10 +55,10 @@ class _LoginState extends State<LoginPage> {
           await User.fluwxWorkerSignIn(data.code);
           this.pushToTabPage();
         } catch (e) {
-          Toast.show(e.toString(), context);
+          Toast.show(e.toString(), context, duration: 3);
         }
       } else {
-        Toast.show("授权失败", context);
+        Toast.show("授权失败", context, duration: 3);
       }
       if (mounted) {
         setState(() {});
@@ -124,7 +124,7 @@ class _LoginState extends State<LoginPage> {
           //     errorMessage = "登录失败，请联系管理员";
           // }
         });
-        Toast.show(e.toString(), context);
+        Toast.show(e.toString(), context, duration: 3);
       }
     }
   }
