@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:toast/toast.dart';
 import 'package:toolchain_flutter/model/program_type.dart';
+import 'package:toolchain_flutter/model/user.dart';
 import 'package:toolchain_flutter/model/xp_program_item_model.dart';
 import 'package:toolchain_flutter/model/xp_program_type.dart';
 import 'package:toolchain_flutter/network/xp_network.dart';
 import 'package:toolchain_flutter/pages/list/xp_list_item.dart';
+import 'package:toolchain_flutter/pages/login/login_page.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
 
 class XPListPage extends StatefulWidget {
@@ -46,7 +48,13 @@ class _XPListPageState extends State<XPListPage> {
       xpProgramItemModels.sort((a, b) => a.name.compareTo(b.name));
       _list.addAll(xpProgramItemModels);
     } catch (e) {
-      Toast.show(e.toString(), context);
+      //token失效
+      if (e.response.statusCode == 403) {
+        User.signOut();
+        Navigator.pushReplacementNamed(context, LoginPage.id);
+      } else {
+        Toast.show(e.toString(), context);
+      }
     }
     if (mounted) {
       setState(() {
