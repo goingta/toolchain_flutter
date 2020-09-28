@@ -1,5 +1,6 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:toast/toast.dart';
 import 'package:toolchain_flutter/model/xp_build_item.dart';
 import 'package:toolchain_flutter/model/xp_env.dart';
@@ -49,8 +50,6 @@ class _ListPageHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 120,
-        padding: EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 0.0),
         decoration: new BoxDecoration(
           color: Colors.white,
           boxShadow: <BoxShadow>[
@@ -61,56 +60,72 @@ class _ListPageHeader extends StatelessWidget {
             )
           ],
         ),
-        child: Row(
-          children: <Widget>[
-            new ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Image.asset(
-                "assets/images/list_default_logo.png",
-                width: 80.0,
-                height: 80.0,
-                fit: BoxFit.cover,
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.fromLTRB(
+                10.0,
+                10.0,
+                10.0,
+                10.0,
+              ),
+              child: Row(
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.asset(
+                      "assets/images/list_default_logo.png",
+                      width: 80.0,
+                      height: 80.0,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          xpProgramItemModel.name,
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                        Text(
+                          "中文名：" + xpProgramItemModel.chineseName,
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
+                        Text(
+                          "开发语言：" + xpProgramItemModel.language,
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(
-                  xpProgramItemModel.name,
-                  style: TextStyle(
-                    fontSize: 18,
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0,
+                    vertical: 5.0,
                   ),
-                ),
-                Text(
-                  "中文名：" + xpProgramItemModel.chineseName,
-                  style: TextStyle(
-                    fontSize: 12,
-                  ),
-                ),
-                Text(
-                  "开发语言：" + xpProgramItemModel.language,
-                  style: TextStyle(
-                    fontSize: 12,
-                  ),
-                ),
-              ],
-            ),
-            Expanded(
-              child: new Container(
-                child: Container(
-                  width: 90.0,
-                  height: 30,
                   child: new Text("历史构建"),
                   alignment: Alignment.center,
                   color: Colors.grey[200],
                 ),
-                alignment: Alignment.bottomRight,
-              ),
-            )
+              ],
+            ),
           ],
         ));
   }
@@ -193,11 +208,18 @@ class _ListPageContainerState extends State<_ListPageContainer> {
   // 数据源
   List<XPBuildItem> _list = [];
 
-  bool _offState = false;
-
   void initState() {
     super.initState();
-    this._loadBuildHistory();
+    _startPolling();
+  }
+
+  Future<void> _startPolling() async {
+    bool isFirst = true;
+    while (mounted) {
+      await this._loadBuildHistory();
+      await Future.delayed(Duration(seconds: isFirst ? 2 : 5));
+      isFirst = false;
+    }
   }
 
   @override
@@ -216,67 +238,44 @@ class _ListPageContainerState extends State<_ListPageContainer> {
           ),
         ),
         Flexible(
-          child: Stack(children: [
-            RefreshIndicator(
-              onRefresh: _refresh,
-              child: _offState && _list.length == 0
-                  ? ListView(
-                      children: [
-                        Center(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              SizedBox(height: 20),
-                              Image(
-                                  image: AssetImage(
-                                'assets/graphics/not-found.png',
-                              )),
-                              Text(
-                                "暂无数据，下拉刷新",
-                                style: TextStyle(
-                                  color: LightColor.primaryColor,
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    )
-                  : ListView.separated(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10.0,
-                        horizontal: 10.0,
-                      ),
-                      itemBuilder: (context, index) {
-                        return _getItem(index);
-                      },
-                      separatorBuilder: (context, index) {
-                        return Divider(
-                          color: Colors.grey,
-                        );
-                      },
-                      itemCount: _list.length,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                    ),
-            ),
-            Offstage(
-              offstage: _offState,
-              child: Center(
-                child: SpinKitDoubleBounce(
-                  color: Theme.of(context).primaryColor,
-                  size: 50.0,
+          child: _list.length == 0
+              ? Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(height: 20),
+                      Image(
+                          image: AssetImage(
+                        'assets/graphics/not-found.png',
+                      )),
+                      Text(
+                        "暂无数据",
+                        style: TextStyle(
+                          color: LightColor.primaryColor,
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              : ListView.separated(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 10.0,
+                  ),
+                  itemBuilder: (context, index) {
+                    return _getItem(index);
+                  },
+                  separatorBuilder: (context, index) {
+                    return Divider(
+                      color: Colors.grey,
+                    );
+                  },
+                  itemCount: _list.length,
+                  physics: const AlwaysScrollableScrollPhysics(),
                 ),
-              ),
-            ),
-          ]),
         ),
       ],
     );
-  }
-
-  Future<Null> _refresh() async {
-    _list.clear();
-    _loadBuildHistory();
   }
 
   Future<void> _loadBuildHistory() async {
@@ -284,11 +283,11 @@ class _ListPageContainerState extends State<_ListPageContainer> {
       XPNetwork xpPortalNetwork = XPNetwork();
       final List<XPBuildItem> xpBuildItems =
           await xpPortalNetwork.getBuildHistory(widget.xpProgramItemModel.id);
+      _list.clear();
       _list.addAll(xpBuildItems);
     } catch (e) {
       Toast.show(e.toString(), context);
     }
-    _offState = true;
     if (mounted) {
       setState(() {});
     }
