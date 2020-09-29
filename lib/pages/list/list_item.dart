@@ -10,6 +10,7 @@ import 'package:toolchain_flutter/pages/webview/web_view_page.dart';
 import 'package:toolchain_flutter/router/nav_key.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
 import 'package:fluwx/fluwx.dart' as Fluwx;
+import 'package:fluwx/fluwx.dart';
 import 'package:toast/toast.dart';
 
 class ListViewItem extends StatelessWidget {
@@ -264,7 +265,7 @@ class ListViewItem extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Navigator.pop(dialogContext);
-                  _trigger(context, "test", type);
+                  _trigger(context, WXMiniProgramType.TEST, type);
                 },
                 child: Container(
                   width: double.infinity,
@@ -283,7 +284,7 @@ class ListViewItem extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Navigator.pop(dialogContext);
-                  _trigger(context, "preview", type);
+                  _trigger(context, WXMiniProgramType.PREVIEW, type);
                 },
                 child: Container(
                   width: double.infinity,
@@ -302,7 +303,7 @@ class ListViewItem extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Navigator.pop(dialogContext);
-                  _trigger(context, "release", type);
+                  _trigger(context, WXMiniProgramType.RELEASE, type);
                 },
                 child: Container(
                   width: double.infinity,
@@ -321,35 +322,32 @@ class ListViewItem extends StatelessWidget {
   }
 
   /// 构建新版本
-  void _trigger(BuildContext context, String programType, String type) async {
-    if (Fluwx.isWeChatInstalled != null) {
-    } else {
+  void _trigger(
+      BuildContext context, WXMiniProgramType programType, String type) async {
+    var result = await Fluwx.isWeChatInstalled;
+    if (!result) {
       Toast.show("未安装微信！", context);
+      return;
     }
-
-    return;
-    // 找插件判断是否安装微信
-    const platform = const MethodChannel('goingta.flutter.io/share');
     if (type == "open") {
-      await platform.invokeMethod("gotoWechat", {
-        "appid": (programItemModel as MiniProgramItemModel).appId,
-        "programType": programType
-      });
+      await Fluwx.launchWeChatMiniProgram(
+          username: (programItemModel as MiniProgramItemModel).appId,
+          miniProgramType: programType);
     }
     if (type == "share") {
-      await platform.invokeMethod("sendReqToWechat", {
-        "type": "miniProgram",
-        "title": programItemModel.name,
-        "description": programItemModel.desc,
-        "mediaTagName": programItemModel.name,
-        //小程序分享特有配置
-        "pageUrl": "https://www.xingren.com",
-        "path": "",
-        "userName": (programItemModel as MiniProgramItemModel).appId,
-        "withShareTicket": false,
-        "hdImageData": programItemModel.logo,
-        "programType": programType,
-      });
+      var model = WeChatShareMiniProgramModel(
+          webPageUrl: "https://www.xingren.com",
+          miniProgramType: programType,
+          userName: (programItemModel as MiniProgramItemModel).appId,
+          title: programItemModel.name,
+          description: programItemModel.desc,
+          mediaTagName: programItemModel.name,
+          hdImagePath: WeChatImage.network(programItemModel.logo),
+          thumbnail: WeChatImage.asset("assets/images/share_logo.png"));
+      var shareResult = await Fluwx.shareToWeChat(model);
+      if (!shareResult) {
+        Toast.show("分享失败！", context);
+      }
     }
   }
 }
