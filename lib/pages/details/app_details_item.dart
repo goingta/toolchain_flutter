@@ -116,7 +116,7 @@ class AppDetailsItem extends StatelessWidget {
     }
     var model = WeChatShareWebPageModel(
         "https://www.pgyer.com/${pgyItemModel.buildKey}",
-        thumbnail: WeChatImage.asset("assets/images/share_logo.png"),
+        thumbnail: WeChatImage.asset("assets/images/logo.png"),
         title: "${appItemModel.name} - ${appItemModel.programType.value}",
         description:
             "${pgyItemModel.buildVersion}(${pgyItemModel.buildVersionNo}) [${pgyItemModel.buildBuildVersion}]",
