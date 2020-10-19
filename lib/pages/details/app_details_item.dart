@@ -7,6 +7,9 @@ import 'package:toolchain_flutter/model/pgy_item_model.dart';
 import 'package:toolchain_flutter/model/program_type.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:fluwx/fluwx.dart' as Fluwx;
+import 'package:fluwx/fluwx.dart';
+import 'package:toast/toast.dart';
 
 class AppDetailsItem extends StatelessWidget {
   // 属性
@@ -43,15 +46,7 @@ class AppDetailsItem extends StatelessWidget {
             children: [
               new FlatButton(
                 onPressed: () {
-                  share(context, {
-                    "type": "webPage",
-                    "title":
-                        "${appItemModel.name} - ${appItemModel.programType.value}",
-                    "description":
-                        "${pgyItemModel.buildVersion}(${pgyItemModel.buildVersionNo}) [${pgyItemModel.buildBuildVersion}]",
-                    "mediaTagName": pgyItemModel.buildVersion,
-                    "pageUrl": "https://www.pgyer.com/${pgyItemModel.buildKey}",
-                  });
+                  this.shareUrl(context);
                 },
                 child: new Text(
                   "分享二维码",
@@ -110,8 +105,25 @@ class AppDetailsItem extends StatelessWidget {
   /*
    *  分享
    */
-  void share(BuildContext context, Map model) async {
-    const platform = const MethodChannel('goingta.flutter.io/share');
-    await platform.invokeMethod("sendReqToWechat", model);
+
+  void shareUrl(
+    BuildContext context,
+  ) async {
+    var result = await Fluwx.isWeChatInstalled;
+    if (!result) {
+      Toast.show("未安装微信！", context);
+      return;
+    }
+    var model = WeChatShareWebPageModel(
+        "https://www.pgyer.com/${pgyItemModel.buildKey}",
+        thumbnail: WeChatImage.asset("assets/images/logo.png"),
+        title: "${appItemModel.name} - ${appItemModel.programType.value}",
+        description:
+            "${pgyItemModel.buildVersion}(${pgyItemModel.buildVersionNo}) [${pgyItemModel.buildBuildVersion}]",
+        mediaTagName: pgyItemModel.buildVersion);
+    var shareResult = await Fluwx.shareToWeChat(model);
+    if (!shareResult) {
+      Toast.show("分享失败！", context);
+    }
   }
 }
