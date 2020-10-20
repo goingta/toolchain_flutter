@@ -53,13 +53,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
     </application>
 </manifest>
