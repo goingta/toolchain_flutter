@@ -99,7 +99,7 @@ class _LoginState extends State<LoginPage> {
           _password = _passwordController.text;
         });
 
-        // await User.signIn(_email, _password);
+        await User.signIn(_email, _password);
         this.pushToTabPage();
       } catch (e) {
         setState(() {
