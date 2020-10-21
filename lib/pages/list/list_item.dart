@@ -6,6 +6,7 @@ import 'package:toolchain_flutter/model/mini_program_item_model.dart';
 import 'package:toolchain_flutter/model/program_item_model.dart';
 import 'package:toolchain_flutter/model/program_type.dart';
 import 'package:toolchain_flutter/pages/details/app_details_page.dart';
+import 'package:toolchain_flutter/pages/details/mini_details_page.dart';
 import 'package:toolchain_flutter/pages/webview/web_view_page.dart';
 import 'package:toolchain_flutter/router/nav_key.dart';
 import 'package:toolchain_flutter/theme/light_color.dart';
@@ -119,12 +120,9 @@ class ListViewItem extends StatelessWidget {
                 : SizedBox.shrink(),
           ],
         ),
-        onTap: (programItemModel.programType == ProgramType.MINI_PROGRAM ||
-                programItemModel.programType == ProgramType.H5)
-            ? null
-            : () {
-                launchURL(context, programItemModel);
-              },
+        onTap: () {
+          launchURL(context, programItemModel);
+        },
       ),
       decoration: BoxDecoration(
         border: Border(
@@ -144,6 +142,13 @@ class ListViewItem extends StatelessWidget {
         AppDetailsPage.id,
         arguments: {
           "appItemModel": programItemModel,
+        },
+      );
+    } else if (programItemModel is MiniProgramItemModel) {
+      NavKey.navKey.currentState.pushNamed(
+        MiniDetailsPage.id,
+        arguments: {
+          "miniItemModel": programItemModel,
         },
       );
     }

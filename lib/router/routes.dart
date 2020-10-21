@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toolchain_flutter/pages/debug/debug_page.dart';
 import 'package:toolchain_flutter/pages/details/app_details_page.dart';
+import 'package:toolchain_flutter/pages/details/mini_details_page.dart';
 import 'package:toolchain_flutter/pages/details/xp_details_page.dart';
 import 'package:toolchain_flutter/pages/home/home_page.dart';
 import 'package:toolchain_flutter/pages/list/list_page.dart';
@@ -24,6 +25,8 @@ class Routes {
         AppDetailsPage(arguments: arguments),
     XPDetailsPage.id: (context, {arguments}) =>
         XPDetailsPage(arguments: arguments),
+    MiniDetailsPage.id: (context, {arguments}) =>
+        MiniDetailsPage(arguments: arguments),
     WebViewPage.id: (context, {arguments}) => WebViewPage(arguments: arguments),
     DebugPage.id: (context) => DebugPage(),
   };

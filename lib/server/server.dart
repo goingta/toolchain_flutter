@@ -32,7 +32,7 @@ class Server<T> {
     return _dio;
   }
 
-  setHeader(Map<String, dynamic> headers){
+  setHeader(Map<String, dynamic> headers) {
     return headers;
   }
 

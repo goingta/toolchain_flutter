@@ -19,4 +19,19 @@ class JenkinsNetwork {
       return Future.error(e);
     }
   }
+
+  Future<void> jenkinsBuildParameter(String jenkinsProjectName,
+      String jenkinsToken, Map<String, String> parameter) async {
+    try {
+      await _jenkinsServer.get(
+        "job/$jenkinsProjectName/buildWithParameters?token=$jenkinsToken",
+        queryParameters: parameter,
+        headers: {
+          "Authorization": "Basic ZGV2OmRvY3Rvcndvcms=",
+        },
+      );
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
 }
