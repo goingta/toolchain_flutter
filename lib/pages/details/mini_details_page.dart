@@ -301,7 +301,7 @@ class _ListPageHeader extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Navigator.pop(dialogContext);
-                  _build(context, "origin/rc");
+                  _build(context, "develop");
                 },
                 child: Container(
                   width: double.infinity,
@@ -309,7 +309,7 @@ class _ListPageHeader extends StatelessWidget {
                     vertical: 10.0,
                   ),
                   child: Text(
-                    "预发",
+                    "开发版",
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -320,7 +320,7 @@ class _ListPageHeader extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Navigator.pop(dialogContext);
-                  _build(context, "origin/master");
+                  _build(context, "experience");
                 },
                 child: Container(
                   width: double.infinity,
@@ -328,7 +328,7 @@ class _ListPageHeader extends StatelessWidget {
                     vertical: 10.0,
                   ),
                   child: Text(
-                    "线上",
+                    "体验版",
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -339,13 +339,26 @@ class _ListPageHeader extends StatelessWidget {
   }
 
   /// 构建新版本
-  void _build(BuildContext context, String branchName) async {
+  void _build(BuildContext context, String environment) async {
     JenkinsNetwork network = new JenkinsNetwork();
+    if (miniItemModel.jenkinsProjectName == "" ||
+        miniItemModel.jenkinsProjectName == null) {
+      Toast.show("触发失败，jenkins未配置该项目", context);
+      return;
+    }
+    var parameter = new Map<String, String>();
+    if (environment == "develop") {
+      parameter["branch"] = "develop";
+      parameter["WEAPP_ACTION"] = "upload";
+      parameter["BuildEnv"] = "dev";
+    } else if (environment == "experience") {
+      parameter["branch"] = "master";
+      parameter["WEAPP_ACTION"] = "preview";
+      parameter["BuildEnv"] = "qa";
+    }
     try {
-      await network.jenkinsBuildParameter(
-          "weapp-cool-health",
-          "weapp-cool-health-token",
-          {"branch": "develop", "WEAPP_ACTION": "preview", "BuildEnv": "dev"});
+      await network.jenkinsBuildParameter(miniItemModel.jenkinsProjectName,
+          miniItemModel.jenkinsToken, parameter);
       Toast.show("触发成功！", context);
     } on Exception catch (e) {
       Toast.show(e.toString(), context);
