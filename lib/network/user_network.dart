@@ -23,13 +23,10 @@ class UserNetwork {
   Future<UserModel> loginWith(String name,String password) async {
     try {
       final Map<String, dynamic> jsonMap = await _sphinxServer.post(
-        "v2/auth/fm",
-        data: {"name": name,"password":password},
+        "api/code/login/token",
+        queryParameters: {"username": name,"password":password}
       );
-      Map<String,dynamic> data = jsonMap["data"];
-      final userMap = await _sphinxServer.get("login/wx",queryParameters: {"token":data["token"]});
-
-      return UserModel.fromJson(userMap["data"]);
+      return UserModel.fromJson(jsonMap["data"]);
     } catch (e) {
       return Future.error(e);
     }

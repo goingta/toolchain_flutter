@@ -5,7 +5,7 @@ import 'package:toolchain_flutter/server/json_server.dart';
 class SphinxServer extends JsonServer {
   SphinxServer() {
     if (Global.appEnv == AppEnv.DEV) {
-      baseUrl = 'https://sphinx.aihaisi.com/';
+      baseUrl = 'https://sphinx.xingrengo.com/';
     } else if (Global.appEnv == AppEnv.TEST) {
       baseUrl = 'https://sphinx.aihaisi.com/';
     } else if (Global.appEnv == AppEnv.STAGING) {
