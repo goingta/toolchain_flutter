@@ -32,7 +32,7 @@ android {
 
     lintOptions {
         disable 'InvalidPackage'
-        abortOnError false
+        checkReleaseBuilds false
     }
 
     defaultConfig {
@@ -61,24 +61,24 @@ android {
 
     buildTypes {
         debug {
-            // 禁用多个 APK 生成
-            splits.abi.enable = false
-            splits.density.enable = false
             signingConfig signingConfigs.debug
             minifyEnabled false
             useProguard false
             debuggable true
+            ndk {
+                abiFilters 'x86', 'arm64-v8a'
+            }
         }
-
         release {
             signingConfig signingConfigs.release
-            // 开启混淆
             minifyEnabled true
             useProguard true
             zipAlignEnabled true
-            // 去除无用资源
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            ndk {
+                abiFilters 'armeabi-v7a'
+            }
         }
     }
 }
@@ -88,5 +88,4 @@ flutter {
 }
 
 dependencies {
-    implementation "com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.4.3"
 }
