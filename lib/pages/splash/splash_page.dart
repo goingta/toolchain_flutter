@@ -20,9 +20,7 @@ class SplashPage extends StatelessWidget {
               schema: Global.schema,
               corpId: Global.corpId,
               agentId: Global.agentId)
-          .then((value) => User.getCurrentUser())
-          .then((user) => NavKey.navKey.currentState
-              .pushReplacementNamed(user == null ? LoginPage.id : TabPage.id));
+          .then((value) => User.getCurrentUser());
     });
   }
 

@@ -15,10 +15,6 @@ class HomePage extends StatelessWidget {
     HomeItemViewModel(
         title: ProgramType.MINI_PROGRAM.value,
         programType: ProgramType.MINI_PROGRAM),
-    HomeItemViewModel(
-        title: ProgramType.SERVER.value, programType: ProgramType.SERVER),
-    HomeItemViewModel(
-        title: ProgramType.NODE.value, programType: ProgramType.NODE)
   ];
 
   HomePage({Key key}) : super(key: key);
